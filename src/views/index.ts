@@ -1,12 +1,14 @@
-import { api } from "@hboictcloud/api";
 import "../hicConfig";
-import { PersonQueryResult } from "../models/Person";
+import { Person } from "../models/Person";
 
 async function configureApi(): Promise<void> {
     try {
-        const result: PersonQueryResult[] =
-        await api.queryDatabase("SELECT idUser, name, email, password FROM user") as PersonQueryResult[];
-        console.log(result);
+        const removingPerson: string = "JohnDoe";
+        await Person.removePerson(removingPerson);
+        const person: Person = new Person("JohnDoe", "hallo@gmail.com", "1234");
+        await person.setPerson();
+        const persons: Person[] = await Person.getAll();
+        console.log(persons);
     }
     catch (reason) {
         console.error(reason);
