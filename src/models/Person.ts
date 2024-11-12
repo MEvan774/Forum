@@ -5,17 +5,22 @@ export type PersonQueryResult = {
     name: string;
     email: string;
     password: string;
+    createdAt: string;
 };
 
 export class Person {
     private _name: string;
     private _email: string;
     private _password: string;
+    private _dateAdded?: string;
+    private _dateUpdated?: string;
 
-    public constructor(name: string, email: string, password: string) {
+    public constructor(name: string, email: string, password: string, dateAdded?: string, dateUpdated?: string) {
         this._name = name;
         this._email = email;
         this._password = password;
+        this._dateAdded = dateAdded;
+        this._dateUpdated = dateUpdated;
     }
 
     public async setPerson(): Promise<void> {
@@ -52,6 +57,7 @@ export class Person {
             await api.queryDatabase(`SELECT email FROM user WHERE LOWER(email) = '${emailInput.toLowerCase()}'`) as PersonQueryResult[];
             if (emails.length > 0) {
                 emailExists = true;
+                console.log(emails);
             }
             return emailExists;
         }
@@ -59,5 +65,33 @@ export class Person {
             console.error(reason);
             throw new Error(`Failed to check if email exists: ${reason}`);
         }
+    }
+
+    public static async sendEmail(inputName: string, email: string): Promise<void> {
+        try {
+            const result: string = await api.sendEmail({
+                from: {
+                    name: "HBO-ICT.Cloud",
+                    address: "you@hbo-ict.cloud",
+                },
+                to: [
+                    {
+                        name: inputName,
+                        address: email,
+                    },
+                ],
+                subject: "Je account is geregristreerd op Code Exchange!",
+                html: `&lt;h1&gt;Hello ${inputName}!&lt/h1&gt;&ltp&gt;Je kan nu gebruik maken van Code Exchange&lt/p&gt;`,
+            });
+
+            console.log(result);
+        }
+        catch (reason) {
+            console.log(reason);
+        }
+    }
+
+    public get createdAt(): string {
+        return this._dateAdded?.toLocaleString() ?? "";
     }
 }

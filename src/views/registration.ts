@@ -15,6 +15,7 @@ registrationButton.addEventListener("click", async event => {
     if (validInputs) {
         const person: Person = new Person(userName.value, email.value, password.value);
         void person.setPerson();
+        void Person.sendEmail(userName.value, email.value);
     }
 });
 
@@ -36,8 +37,7 @@ function clearErrorMessage(input: HTMLInputElement): void {
 
 // checkt of email klopt en geeft een boolean terug
 function validEmail(email: string): boolean {
-    const emailRegex: RegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    ;
+    const emailRegex: RegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return emailRegex.test(email);
 }
 
