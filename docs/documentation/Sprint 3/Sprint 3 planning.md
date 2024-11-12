@@ -34,4 +34,4 @@ Wij hebben een inschatting gemaakt van hoeveel tijd we nodig gaan hebben voor de
 
 We hebben de User Stories 1A, 1B en 2B verlengt tot en met donderdag 14 november. Dat hebben we gedaan omdat
 we iets meer tijd denken nodig te hebben om iets meer kennis op te doen en omdat de deadline voor user story 
-1A en B uiterlijk Maandag 17 november is.
+1A en B uiterlijk Maandag 18 november is.

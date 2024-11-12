@@ -28,9 +28,14 @@ export class Person {
 
     public static async getAll(): Promise<Person[]> {
         const persons: Person[] = [];
-        const result: PersonQueryResult[] = await api.queryDatabase("SELECT idUser, name, email, password FROM user") as PersonQueryResult[];
-        for (const row of result) {
-            persons.push(new Person(row.name, row.email, row.password));
+        try {
+            const result: PersonQueryResult[] = await api.queryDatabase("SELECT idUser, name, email, password FROM user") as PersonQueryResult[];
+            for (const row of result) {
+                persons.push(new Person(row.name, row.email, row.password));
+            }
+        }
+        catch (reason) {
+            console.error(reason);
         }
         return persons;
     }
