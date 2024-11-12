@@ -19,7 +19,12 @@ export class Person {
     }
 
     public async setPerson(): Promise<void> {
-        await api.queryDatabase(`INSERT INTO user (name, email, password) VALUES ('${this._name}', '${this._email}', '${this._password}')`);
+        try {
+            await api.queryDatabase(`INSERT INTO user (name, email, password) VALUES ('${this._name}', '${this._email}', '${this._password}')`);
+        }
+        catch (reason) {
+            console.error(reason);
+        }
     }
 
     public static async removePerson(removingPerson: string): Promise<void> {
@@ -38,5 +43,21 @@ export class Person {
             console.error(reason);
         }
         return persons;
+    }
+
+    public static async checkIfEmailExists(emailInput: string): Promise<boolean> {
+        try {
+            let emailExists: boolean = false;
+            const emails: PersonQueryResult[] =
+            await api.queryDatabase(`SELECT email FROM user WHERE LOWER(email) = '${emailInput.toLowerCase()}'`) as PersonQueryResult[];
+            if (emails.length > 0) {
+                emailExists = true;
+            }
+            return emailExists;
+        }
+        catch (reason) {
+            console.error(reason);
+            throw new Error(`Failed to check if email exists: ${reason}`);
+        }
     }
 }
