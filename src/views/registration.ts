@@ -16,6 +16,7 @@ registrationButton.addEventListener("click", async event => {
         const person: Person = new Person(userName.value, email.value, password.value);
         void person.setPerson();
         void Person.sendEmail(userName.value, email.value);
+        Person.setCurrentlyLoggedInPerson(userName.value);
     }
 });
 
@@ -50,7 +51,14 @@ async function validateInputs(userName: HTMLInputElement, email: HTMLInputElemen
         valid = false;
     }
     else {
-        clearErrorMessage(userName);
+        const userNameExists: boolean = await Person.checkIfUsernameExists(userName.value);
+        if (userNameExists) {
+            setErrorMessage(userName, "Username is already in use.");
+            valid = false;
+        }
+        else {
+            clearErrorMessage(userName);
+        }
     }
     if (email.value === "") {
         setErrorMessage(email, "Please enter an email address.");

@@ -1,26 +1,32 @@
 import { api } from "@hboictcloud/api";
+import { session } from "@hboictcloud/api";
+import { LoggedIn } from "./LoggedIn";
 
 export type PersonQueryResult = {
-    idUser: number;
     name: string;
     email: string;
     password: string;
-    createdAt: string;
+    createdAt: Date;
+    updatedAt: string | null;
 };
 
 export class Person {
     private _name: string;
     private _email: string;
     private _password: string;
-    private _dateAdded?: string;
+    private _dateAdded?: Date;
     private _dateUpdated?: string;
 
-    public constructor(name: string, email: string, password: string, dateAdded?: string, dateUpdated?: string) {
+    public constructor(name: string, email: string, password: string, dateAdded?: Date, dateUpdated?: string) {
         this._name = name;
         this._email = email;
         this._password = password;
         this._dateAdded = dateAdded;
         this._dateUpdated = dateUpdated;
+    }
+
+    public static setCurrentlyLoggedInPerson(userName: string): void {
+        session.set("LoggedIn", ({ isLoggedIn: true, userName: userName } as LoggedIn));
     }
 
     public async setPerson(): Promise<void> {
@@ -36,13 +42,17 @@ export class Person {
         await api.queryDatabase(`DELETE FROM user WHERE name = '${removingPerson}'`);
     }
 
-    public static async getAll(): Promise<Person[]> {
-        const persons: Person[] = [];
+    public static async getAll(): Promise<PersonQueryResult[]> {
+        let persons: PersonQueryResult[] = [];
         try {
-            const result: PersonQueryResult[] = await api.queryDatabase("SELECT idUser, name, email, password FROM user") as PersonQueryResult[];
-            for (const row of result) {
-                persons.push(new Person(row.name, row.email, row.password));
-            }
+            persons = await api.queryDatabase("SELECT name, email, password, created_at, updated_at FROM user") as PersonQueryResult[];
+            persons = persons.map((person: PersonQueryResult) => ({
+                name: person.name,
+                email: person.email,
+                password: person.password,
+                createdAt: new Date(person.createdAt),
+                updatedAt: person.updatedAt,
+            }));
         }
         catch (reason) {
             console.error(reason);
@@ -67,6 +77,23 @@ export class Person {
         }
     }
 
+    public static async checkIfUsernameExists(nameInput: string): Promise<boolean> {
+        try {
+            let usernameExists: boolean = false;
+            const usernames: PersonQueryResult[] =
+            await api.queryDatabase(`SELECT name FROM user WHERE LOWER(name) = '${nameInput.toLowerCase()}'`) as PersonQueryResult[];
+            if (usernames.length > 0) {
+                usernameExists = true;
+                console.log(usernames);
+            }
+            return usernameExists;
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error(`Failed to check if username exists: ${error}`);
+        }
+    }
+
     public static async sendEmail(inputName: string, email: string): Promise<void> {
         try {
             const result: string = await api.sendEmail({
@@ -81,17 +108,12 @@ export class Person {
                     },
                 ],
                 subject: "Je account is geregristreerd op Code Exchange!",
-                html: `&lt;h1&gt;Hello ${inputName}!&lt/h1&gt;&ltp&gt;Je kan nu gebruik maken van Code Exchange&lt/p&gt;`,
+                html: `<h1>Hallo ${inputName}!</h1><hr><p>Je kan nu gebruik maken van Code Exchange</p>`,
             });
-
             console.log(result);
         }
         catch (reason) {
             console.log(reason);
         }
-    }
-
-    public get createdAt(): string {
-        return this._dateAdded?.toLocaleString() ?? "";
     }
 }

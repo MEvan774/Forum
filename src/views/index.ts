@@ -1,5 +1,5 @@
 import "../hicConfig";
-import { Person } from "../models/Person";
+import { Person, PersonQueryResult } from "../models/Person";
 
 async function configureApi(): Promise<void> {
     try {
@@ -7,8 +7,12 @@ async function configureApi(): Promise<void> {
         await Person.removePerson(removingPerson);
         const person: Person = new Person("JohnDoe", "hallo@gmail.com", "1234");
         await person.setPerson();
-        const persons: Person[] = await Person.getAll();
+        const persons: PersonQueryResult[] = await Person.getAll();
         console.log(persons);
+        JSON.stringify(persons);
+        persons.forEach((person: PersonQueryResult) => {
+            console.log(person);
+        });
     }
     catch (reason) {
         console.error(reason);
