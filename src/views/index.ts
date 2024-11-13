@@ -1,22 +1,60 @@
 import "../hicConfig";
-import { User, UserQueryResult } from "../models/User";
+import { session } from "@hboictcloud/api";
+import { LoggedIn } from "../models/LoggedIn";
 
-async function configureApi(): Promise<void> {
+/**
+ * kijkt of er een gebruiker is ingelogd
+ * leest uit session of het waar is
+ * als het waar is wordt de logout button toegevoegd
+ * als het niet waar is worden de login en registratie buttons toegevoegd
+ */
+function checkIfUserLoggedIn(): void {
+    const navigationContainer: HTMLDivElement = document.querySelector(".nav-links")!;
+
     try {
-        const removingPerson: string = "JohnDoe";
-        await User.removePerson(removingPerson);
-        const user: User = new User("JohnDoe", "hallo@gmail.com", "1234");
-        await user.setUser();
-        const users: UserQueryResult[] = await User.getAll();
-        console.log(users);
-        JSON.stringify(users);
-        users.forEach((user: UserQueryResult) => {
-            console.log(user);
-        });
+        const loggedIn: LoggedIn = session.get("LoggedIn") as LoggedIn;
+        if (loggedIn.isLoggedIn) {
+            console.log(`User ${loggedIn.userName} is logged in.`);
+            addLogoutButton(navigationContainer);
+        }
+        else {
+            console.log("No user is logged in.");
+            addLoginAndRegisterButtons(navigationContainer);
+        }
     }
-    catch (reason) {
-        console.error(reason);
+    catch {
+        addLoginAndRegisterButtons(navigationContainer);
     }
 }
 
-void configureApi();
+/**
+ * voegt de logout button toe aan de navigatie
+ * als logout button wordt geklikt wordt de session verwijderd en de pagina herladen
+ */
+function addLogoutButton(navigationContainer: HTMLDivElement): void {
+    const logoutButton: HTMLAnchorElement = document.createElement("a");
+    logoutButton.textContent = "Log uit";
+    logoutButton.addEventListener("click", () => {
+        session.remove("LoggedIn");
+        window.location.reload();
+    });
+    navigationContainer.appendChild(logoutButton);
+}
+
+/**
+ * voegt de login en registratie buttons toe aan de navigatie
+ */
+function addLoginAndRegisterButtons(navigationContainer: HTMLDivElement): void {
+    const loginButton: HTMLAnchorElement = document.createElement("a");
+    loginButton.href = "/login.html";
+    loginButton.textContent = "Log in";
+
+    const registerButton: HTMLAnchorElement = document.createElement("a");
+    registerButton.href = "/registration.html";
+    registerButton.textContent = "Registreren";
+
+    navigationContainer.appendChild(loginButton);
+    navigationContainer.appendChild(registerButton);
+}
+
+checkIfUserLoggedIn();

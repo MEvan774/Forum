@@ -17,6 +17,7 @@ registrationButton.addEventListener("click", async event => {
         void user.setUser();
         void User.sendEmail(userName.value, email.value);
         User.setCurrentlyLoggedInUser(userName.value);
+        window.location.href = "/index.html";
     }
 });
 

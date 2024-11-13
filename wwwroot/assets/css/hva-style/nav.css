@@ -32,6 +32,7 @@
     background-color: var(--accent-color);
     border-radius: 0.25rem;
     transition: background-color 0.3s ease;
+    cursor: pointer;
 }
 
 /* Hover effect for navbar buttons */
