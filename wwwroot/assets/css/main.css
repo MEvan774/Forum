@@ -9,6 +9,7 @@
 @import url("./hva-style/question.css");
 @import url("./hva-style/sidebar.css");
 @import url("./hva-style/table.css");
+@import url("./hva-style/logout.css");
 
 * {
     box-sizing: border-box;
