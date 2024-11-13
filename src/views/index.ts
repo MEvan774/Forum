@@ -1,17 +1,17 @@
 import "../hicConfig";
-import { Person, PersonQueryResult } from "../models/Person";
+import { User, UserQueryResult } from "../models/User";
 
 async function configureApi(): Promise<void> {
     try {
         const removingPerson: string = "JohnDoe";
-        await Person.removePerson(removingPerson);
-        const person: Person = new Person("JohnDoe", "hallo@gmail.com", "1234");
-        await person.setPerson();
-        const persons: PersonQueryResult[] = await Person.getAll();
-        console.log(persons);
-        JSON.stringify(persons);
-        persons.forEach((person: PersonQueryResult) => {
-            console.log(person);
+        await User.removePerson(removingPerson);
+        const user: User = new User("JohnDoe", "hallo@gmail.com", "1234");
+        await user.setUser();
+        const users: UserQueryResult[] = await User.getAll();
+        console.log(users);
+        JSON.stringify(users);
+        users.forEach((user: UserQueryResult) => {
+            console.log(user);
         });
     }
     catch (reason) {

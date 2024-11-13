@@ -1,5 +1,5 @@
 import "../hicConfig";
-import { Person } from "../models/Person";
+import { User } from "../models/User";
 
 const registrationButton: HTMLButtonElement = document.querySelector("#registration-button")!;
 
@@ -13,10 +13,10 @@ registrationButton.addEventListener("click", async event => {
 
     const validInputs: boolean = await validateInputs(userName, email, password);
     if (validInputs) {
-        const person: Person = new Person(userName.value, email.value, password.value);
-        void person.setPerson();
-        void Person.sendEmail(userName.value, email.value);
-        Person.setCurrentlyLoggedInPerson(userName.value);
+        const user: User = new User(userName.value, email.value, password.value);
+        void user.setUser();
+        void User.sendEmail(userName.value, email.value);
+        User.setCurrentlyLoggedInUser(userName.value);
     }
 });
 
@@ -51,7 +51,7 @@ async function validateInputs(userName: HTMLInputElement, email: HTMLInputElemen
         valid = false;
     }
     else {
-        const userNameExists: boolean = await Person.checkIfUsernameExists(userName.value);
+        const userNameExists: boolean = await User.checkIfUsernameExists(userName.value);
         if (userNameExists) {
             setErrorMessage(userName, "Username is already in use.");
             valid = false;
@@ -69,7 +69,7 @@ async function validateInputs(userName: HTMLInputElement, email: HTMLInputElemen
         valid = false;
     }
     else {
-        const emailExists: boolean = await Person.checkIfEmailExists(email.value);
+        const emailExists: boolean = await User.checkIfEmailExists(email.value);
         if (emailExists) {
             setErrorMessage(email, "Email address is already in use.");
             valid = false;
