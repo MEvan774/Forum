@@ -1,6 +1,7 @@
 import { api } from "@hboictcloud/api";
 import { session } from "@hboictcloud/api";
 import { LoggedIn } from "./LoggedIn";
+import { promises } from "dns";
 
 export type UserQueryResult = {
     name: string;
@@ -14,11 +15,15 @@ export class User {
     private _name: string;
     private _email: string;
     private _password: string;
+    private _dateAdded?: Date;
+    private _dateUpdated?: string;
 
-    public constructor(name: string, email: string, password: string) {
+    public constructor(name: string, email: string, password: string, dateAdded?: Date, dateUpdated?: string) {
         this._name = name;
         this._email = email;
         this._password = password;
+        this._dateAdded = dateAdded;
+        this._dateUpdated = dateUpdated;
     }
 
     public static setCurrentlyLoggedInUser(userName: string): void {
@@ -56,10 +61,6 @@ export class User {
         return persons;
     }
 
-    /*
-    * kijkt of email al bestaat in de database
-    * kan gebruikt worden bij zowel de regristratie als de inlog
-    **/
     public static async checkIfEmailExists(emailInput: string): Promise<boolean> {
         try {
             let emailExists: boolean = false;
@@ -67,6 +68,7 @@ export class User {
             await api.queryDatabase(`SELECT email FROM user WHERE LOWER(email) = '${emailInput.toLowerCase()}'`) as string[];
             if (emails.length > 0) {
                 emailExists = true;
+                console.log(emails);
             }
             return emailExists;
         }
@@ -76,32 +78,6 @@ export class User {
         }
     }
 
-    // geeft error message als input niet klopt
-    public static setErrorMessage(input: HTMLInputElement, message: string): void {
-        const errorMessage: HTMLDivElement = input.parentElement as HTMLDivElement;
-        const errorText: HTMLParagraphElement = errorMessage.querySelector(".form-error")!;
-
-        errorText.innerText = message;
-    }
-
-    // haalt error weg input klopt
-    public static clearErrorMessage(input: HTMLInputElement): void {
-        const errorMessage: HTMLDivElement = input.parentElement as HTMLDivElement;
-        const errorText: HTMLParagraphElement = errorMessage.querySelector(".form-error")!;
-
-        errorText.innerText = "";
-    }
-
-    // checkt of email klopt en geeft een boolean terug
-    public static validEmail(email: string): boolean {
-        const emailRegex: RegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return emailRegex.test(email);
-    }
-
-    /*
-    * kijkt of gebruikersnaam al bestaat in de database
-    * kan gebruikt worden bij zowel de regristratie als de inlog
-    **/
     public static async checkIfUsernameExists(nameInput: string): Promise<boolean> {
         try {
             let usernameExists: boolean = false;
@@ -109,6 +85,7 @@ export class User {
             await api.queryDatabase(`SELECT name FROM user WHERE LOWER(name) = '${nameInput.toLowerCase()}'`) as string[];
             if (usernames.length > 0) {
                 usernameExists = true;
+                console.log(usernames);
             }
             return usernameExists;
         }
@@ -135,6 +112,25 @@ export class User {
                 html: `<h1>Hallo ${inputName}!</h1><hr><p>Je kan nu gebruik maken van Code Exchange</p>`,
             });
             console.log(result);
+        }
+        catch (reason) {
+            console.log(reason);
+        }
+    }
+
+    public async checkPasswordMatch(inputPassword: string, inputType: string, nameInput: string): Promise <boolean> {
+        try {
+            let passwordMatch: boolean = false;
+            const password: string =
+            await api.queryDatabase(`SELECT password FROM user WHERE LOWER(${inputType}) = '${nameInput.toLowerCase()}'`) as string;
+            if (inputPassword === password) {
+                passwordMatch = true;
+            }
+            else {
+                passwordMatch = false;
+            }
+
+            return passwordMatch;
         }
         catch (reason) {
             console.log(reason);
