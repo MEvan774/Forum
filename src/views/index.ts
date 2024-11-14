@@ -66,6 +66,4 @@ function addLoginAndRegisterButtons(navigationContainer: HTMLDivElement): void {
     navigationContainer.appendChild(loginButton);
     navigationContainer.appendChild(registerButton);
 }
-
-session.set("LoggedIn", { isLoggedIn: true, userName: "Koen" });
 checkIfUserLoggedIn();
