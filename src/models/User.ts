@@ -1,7 +1,6 @@
 import { api } from "@hboictcloud/api";
 import { session } from "@hboictcloud/api";
 import { LoggedIn } from "./LoggedIn";
-import { promises } from "dns";
 
 export type UserQueryResult = {
     name: string;
@@ -61,6 +60,28 @@ export class User {
         return persons;
     }
 
+    // geeft error message als input niet klopt
+    public static setErrorMessage(input: HTMLInputElement, message: string): void {
+        const errorMessage: HTMLDivElement = input.parentElement as HTMLDivElement;
+        const errorText: HTMLParagraphElement = errorMessage.querySelector(".form-error")!;
+
+        errorText.innerText = message;
+    }
+
+    // haalt error weg input klopt
+    public static clearErrorMessage(input: HTMLInputElement): void {
+        const errorMessage: HTMLDivElement = input.parentElement as HTMLDivElement;
+        const errorText: HTMLParagraphElement = errorMessage.querySelector(".form-error")!;
+
+        errorText.innerText = "";
+    }
+
+    // checkt of email klopt en geeft een boolean terug
+    public static validEmail(email: string): boolean {
+        const emailRegex: RegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return emailRegex.test(email);
+    }
+
     public static async checkIfEmailExists(emailInput: string): Promise<boolean> {
         try {
             let emailExists: boolean = false;
@@ -118,7 +139,7 @@ export class User {
         }
     }
 
-    public async checkPasswordMatch(inputPassword: string, inputType: string, nameInput: string): Promise <boolean> {
+    public static async checkPasswordMatch(inputPassword: string, inputType: string, nameInput: string): Promise<boolean | undefined> {
         try {
             let passwordMatch: boolean = false;
             const password: string =
