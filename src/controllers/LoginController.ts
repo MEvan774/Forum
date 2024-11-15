@@ -18,11 +18,10 @@ export class LoginController extends Controller {
         const password: HTMLInputElement = document.querySelector("#password-input") as HTMLInputElement;
         const emailExists: boolean | undefined = await User.checkIfEmailExists(username.value);
         const userNameExists: boolean | undefined = await User.checkIfUsernameExists(username.value);
-        console.log(userNameExists);
         if (emailExists) {
-            const passwordMatches: boolean | undefined =
-            void User.checkPasswordMatch(password.value, "email", username.value);
-            if (passwordMatches!) {
+            const passwordMatches: boolean =
+            await User.checkPasswordMatch(password.value, "email", username.value);
+            if (passwordMatches) {
                 User.clearErrorMessage(username);
                 User.clearErrorMessage(password);
                 User.setCurrentlyLoggedInUser(username.value);
@@ -33,9 +32,9 @@ export class LoginController extends Controller {
             }
         }
         else if (userNameExists) {
-            const passwordMatches: boolean | undefined =
-            void User.checkPasswordMatch(password.value, "name", username.value);
-            if (passwordMatches!) {
+            const passwordMatches: boolean =
+            await User.checkPasswordMatch(password.value, "name", username.value);
+            if (passwordMatches) {
                 User.clearErrorMessage(username);
                 User.setCurrentlyLoggedInUser(username.value);
             }

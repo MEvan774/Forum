@@ -10,6 +10,10 @@ export type UserQueryResult = {
     updatedAt: string | null;
 };
 
+export type PasswordQueryResult = {
+    password: string;
+};
+
 export class User {
     private _name: string;
     private _email: string;
@@ -139,22 +143,29 @@ export class User {
         }
     }
 
-    public static async checkPasswordMatch(inputPassword: string, inputType: string, nameInput: string): Promise<boolean | undefined> {
-        try {
-            let passwordMatch: boolean = false;
-            const password: string =
-            await api.queryDatabase(`SELECT password FROM user WHERE LOWER(${inputType}) = '${nameInput.toLowerCase()}'`) as string;
-            if (inputPassword === password) {
-                passwordMatch = true;
-            }
-            else {
-                passwordMatch = false;
-            }
+    public static async checkPasswordMatch(inputPassword: string, inputType: string, nameInput: string): Promise<boolean> {
+        let passwordMatch: boolean = false;
 
-            return passwordMatch;
+        try {
+            const passwordResult: PasswordQueryResult[] =
+            await api.queryDatabase(`SELECT password FROM user WHERE LOWER(${inputType}) = '${nameInput.toLowerCase()}'`) as PasswordQueryResult[];
+
+            for (const password of passwordResult) {
+                console.log(password.password);
+                if (inputPassword === password.password) {
+                    passwordMatch = true;
+                    console.log("Password matches!");
+                }
+                else {
+                    passwordMatch = false;
+                }
+
+                return passwordMatch;
+            }
         }
         catch (reason) {
             console.log(reason);
         }
+        return passwordMatch;
     }
 }
