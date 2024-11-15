@@ -35,3 +35,10 @@ Wij hebben een inschatting gemaakt van hoeveel tijd we nodig gaan hebben voor de
 We hebben de User Stories 1A, 1B en 2B verlengt tot en met donderdag 14 november. Dat hebben we gedaan omdat
 we iets meer tijd denken nodig te hebben om iets meer kennis op te doen en omdat de deadline voor user story 
 1A en B uiterlijk Maandag 18 november is.
+
+## Vrijdag 15 november
+
+Op dit moment is Koen klaar met user story 1A en 2B en hebben we samen met Simon voor het TMC proces 
+elkaars gemaakte user stories gepresenteerd zodat we hier feedback op kunnen geven.
+
+Aanpassing planning 
