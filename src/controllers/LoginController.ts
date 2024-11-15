@@ -8,18 +8,18 @@ export class LoginController extends Controller {
 
     public render(): void {
         this.view.addEventListener("click", () => {
-            this.loginUser();
+            void this.loginUser();
         });
     }
 
-    private loginUser(): void {
+    private async loginUser(): Promise<void> {
         console.log("Form submitted.");
         const username: HTMLInputElement = document.querySelector("#username-email-input") as HTMLInputElement;
         const password: HTMLInputElement = document.querySelector("#password-input") as HTMLInputElement;
-
-        const emailExists: boolean | undefined = void User.checkIfEmailExists(username.value);
-        const userNameExists: boolean | undefined = void User.checkIfUsernameExists(username.value);
-        if (emailExists!) {
+        const emailExists: boolean | undefined = await User.checkIfEmailExists(username.value);
+        const userNameExists: boolean | undefined = await User.checkIfUsernameExists(username.value);
+        console.log(userNameExists);
+        if (emailExists) {
             const passwordMatches: boolean | undefined =
             void User.checkPasswordMatch(password.value, "email", username.value);
             if (passwordMatches!) {
@@ -32,7 +32,7 @@ export class LoginController extends Controller {
                 User.setErrorMessage(password, "The username or password is incorrect!");
             }
         }
-        else if (userNameExists!) {
+        else if (userNameExists) {
             const passwordMatches: boolean | undefined =
             void User.checkPasswordMatch(password.value, "name", username.value);
             if (passwordMatches!) {
@@ -43,6 +43,10 @@ export class LoginController extends Controller {
                 User.setErrorMessage(username, "The username or password is incorrect!");
                 User.setErrorMessage(password, "The username or password is incorrect!");
             }
+        }
+        else {
+            User.setErrorMessage(username, "The username or password is incorrect!");
+            User.setErrorMessage(password, "The username or password is incorrect!");
         }
     }
 }

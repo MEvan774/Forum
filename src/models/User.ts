@@ -100,20 +100,20 @@ export class User {
     }
 
     public static async checkIfUsernameExists(nameInput: string): Promise<boolean> {
+        let usernameExists: boolean = false;
         try {
-            let usernameExists: boolean = false;
             const usernames: string[] =
             await api.queryDatabase(`SELECT name FROM user WHERE LOWER(name) = '${nameInput.toLowerCase()}'`) as string[];
             if (usernames.length > 0) {
                 usernameExists = true;
-                console.log(usernames);
+                return usernameExists;
             }
-            return usernameExists;
         }
         catch (error) {
             console.error(error);
             throw new Error(`Failed to check if username exists: ${error}`);
         }
+        return usernameExists;
     }
 
     public static async sendEmail(inputName: string, email: string): Promise<void> {
