@@ -38,6 +38,7 @@ export class LoginController extends Controller {
             if (passwordMatches!) {
                 User.clearErrorMessage(username);
                 User.setCurrentlyLoggedInUser(username.value);
+                console.log(`Logged in ${username.value}`);
             }
             else {
                 User.setErrorMessage(username, "The username or password is incorrect!");
