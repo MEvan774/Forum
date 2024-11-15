@@ -23,20 +23,25 @@ export class LoginController extends Controller {
             const passwordMatches: boolean | undefined =
             void User.checkPasswordMatch(password.value, "email", username.value);
             if (passwordMatches!) {
+                User.clearErrorMessage(username);
+                User.clearErrorMessage(password);
                 User.setCurrentlyLoggedInUser(username.value);
             }
             else {
                 User.setErrorMessage(username, "The username or password is incorrect!");
+                User.setErrorMessage(password, "The username or password is incorrect!");
             }
         }
         else if (userNameExists!) {
             const passwordMatches: boolean | undefined =
             void User.checkPasswordMatch(password.value, "name", username.value);
             if (passwordMatches!) {
+                User.clearErrorMessage(username);
                 User.setCurrentlyLoggedInUser(username.value);
             }
             else {
                 User.setErrorMessage(username, "The username or password is incorrect!");
+                User.setErrorMessage(password, "The username or password is incorrect!");
             }
         }
     }
