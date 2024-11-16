@@ -80,3 +80,4 @@ INSERT INTO `pb2sef2425_boomootoocii31_live`.`question` (`idQuestion`, `titel`, 
 
 COMMIT;
 
+ALTER TABLE pb2sef2425_boomootoocii31_live.question RENAME COLUMN titel TO title;
