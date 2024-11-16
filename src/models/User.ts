@@ -14,6 +14,10 @@ export type PasswordQueryResult = {
     password: string;
 };
 
+export type Username = {
+    userName: string;
+};
+
 export class User {
     private _name: string;
     private _email: string;
@@ -167,5 +171,20 @@ export class User {
             console.log(reason);
         }
         return passwordMatch;
+    }
+
+    public static async getUser(idInput: number): Promise<string> {
+        try {
+            const user: Username[] = await api.queryDatabase(`SELECT userName FROM user WHERE idUser = ${idInput}`) as Username[];
+            return user[0].userName;
+        }
+        catch (reason) {
+            console.error(reason);
+        }
+        return "";
+    }
+
+    public get name(): string {
+        return this._name;
     }
 }

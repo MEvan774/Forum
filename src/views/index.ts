@@ -1,6 +1,7 @@
 import "../hicConfig";
 import { session } from "@hboictcloud/api";
 import { LoggedIn } from "../models/LoggedIn";
+import { HomeController } from "../controllers/HomeController";
 
 /**
  * kijkt of er een gebruiker is ingelogd
@@ -67,3 +68,6 @@ function addLoginAndRegisterButtons(navigationContainer: HTMLDivElement): void {
     navigationContainer.appendChild(registerButton);
 }
 checkIfUserLoggedIn();
+const view: HTMLElement = document.querySelector(".questions-container")!;
+const controller: HomeController = new HomeController(view);
+controller.render();
