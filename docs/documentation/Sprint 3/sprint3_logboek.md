@@ -34,3 +34,11 @@ Hier hebben wij feedback over ontvangen en in een scorion formulier gezet en opg
 
 Na de les hebben wij samen met Simon onze user stories aan elkaar gepresenteerd en feedback gegeven aan elkaar
 volgens TMC.
+
+## Zaterdag 16 Nov
+
+-Koen en Sjoerd:
+
+Vandaag hebben wij alvast de planning gemaakt voor sprint 4, te zien in de excel die gelinkt staat op deze pagina.
+Daarnaast gaan wij dit weekend ook nog User story 2A nog afmaken.
+User story 2A wordt o.a. ook gebruikt om Sjoerd MySQL te laten leren om slim een table aan te maken.
