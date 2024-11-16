@@ -42,3 +42,5 @@ Op dit moment is Koen klaar met user story 1A en 2B en hebben we samen met Simon
 elkaars gemaakte user stories gepresenteerd zodat we hier feedback op kunnen geven.
 
 Aanpassing planning 
+
+## Verdeling user stories
