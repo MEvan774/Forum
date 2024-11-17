@@ -47,7 +47,7 @@ export class User {
     }
 
     public static async removePerson(removingPerson: string): Promise<void> {
-        await api.queryDatabase(`DELETE FROM user WHERE name = '${removingPerson}'`);
+        await api.queryDatabase(`DELETE FROM user WHERE userName = '${removingPerson}'`);
     }
 
     public static async getAll(): Promise<UserQueryResult[]> {
