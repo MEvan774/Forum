@@ -42,10 +42,18 @@ export class HomeController extends Controller {
 
             const userName: string = await User.getUser(question.idUser);
 
+            const formattedDate: string = question.createdAt.toLocaleString("nl-NL", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+            });
+
             questionContainer.appendChild(title);
             questionContainer.appendChild(description);
             questionContainer.innerHTML += "<div class='extra-info-container'><p id='user-name'>" + userName +
-            "</p><p id='created-at'>" + question.createdAt.toLocaleString() + "</p></div>";
+            "</p><p id='created-at'>" + formattedDate + "</p></div>";
             this.view.appendChild(questionContainer);
         }
     }
