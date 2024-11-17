@@ -33,7 +33,7 @@ export class LoginController extends Controller {
         }
         else if (userNameExists) {
             const passwordMatches: boolean =
-            await User.checkPasswordMatch(password.value, "name", username.value);
+            await User.checkPasswordMatch(password.value, "userName", username.value);
             if (passwordMatches) {
                 User.clearErrorMessage(username);
                 User.setCurrentlyLoggedInUser(username.value);

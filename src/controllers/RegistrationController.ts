@@ -75,6 +75,9 @@ export class RegisterController extends Controller {
         if (validRegistrationInput) {
             const user: User = new User(userName.value, email.value, password.value);
             void user.setUser();
+            void User.sendEmail(userName.value, email.value);
+            User.setCurrentlyLoggedInUser(userName.value);
+            window.location.href = "/index.html";
         }
     }
 }

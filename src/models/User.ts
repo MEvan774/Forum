@@ -39,7 +39,7 @@ export class User {
 
     public async setUser(): Promise<void> {
         try {
-            await api.queryDatabase(`INSERT INTO user (name, email, password) VALUES ('${this._name}', '${this._email}', '${this._password}')`);
+            await api.queryDatabase(`INSERT INTO user (userName, email, password) VALUES ('${this._name}', '${this._email}', '${this._password}')`);
         }
         catch (reason) {
             console.error(reason);
@@ -111,7 +111,7 @@ export class User {
         let usernameExists: boolean = false;
         try {
             const usernames: string[] =
-            await api.queryDatabase(`SELECT name FROM user WHERE LOWER(name) = '${nameInput.toLowerCase()}'`) as string[];
+            await api.queryDatabase(`SELECT userName FROM user WHERE LOWER(userName) = '${nameInput.toLowerCase()}'`) as string[];
             if (usernames.length > 0) {
                 usernameExists = true;
                 return usernameExists;
