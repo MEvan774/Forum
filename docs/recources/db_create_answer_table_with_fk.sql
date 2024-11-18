@@ -51,7 +51,7 @@ ENGINE = InnoDB;
 -- Table `pb2sef2425_boomootoocii31_live`.`answer`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `pb2sef2425_boomootoocii31_live`.`answer` (
-  `idAnswer` INT NOT NULL AUTO_INCREMENT,
+  `idAnswer` INT(11) NOT NULL AUTO_INCREMENT,
   `description` VARCHAR(300) NOT NULL,
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `idQuestion` INT(11) NOT NULL,
