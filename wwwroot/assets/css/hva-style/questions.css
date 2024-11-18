@@ -9,7 +9,7 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     transition: box-shadow 0.2s ease;
-    height: 180px;
+    height: 205px;
 }
 
 .question-container h2 {
@@ -47,4 +47,14 @@
 
 .question-director:hover .question-container {
     box-shadow: 0 0 10px rgba(7, 66, 87, 0.5);
+}
+
+#has-answer {
+    font-weight: bold;
+    font-size: 0.8em;
+}
+
+#no-answer {
+    color: rgb(148, 148, 148);
+    font-size: 0.8em;
 }
