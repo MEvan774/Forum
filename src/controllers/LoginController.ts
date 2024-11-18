@@ -38,6 +38,7 @@ export class LoginController extends Controller {
                 User.clearErrorMessage(username);
                 User.setCurrentlyLoggedInUser(username.value);
                 console.log(`Logged in ${username.value}`);
+                window.location.href = "/index.html";
             }
             else {
                 User.setErrorMessage(username, "The username or password is incorrect!");
