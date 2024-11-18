@@ -30,7 +30,7 @@ export class Question {
         try {
             const allQuestions: Question[] = [];
             const questionsResult: QuestionQueryResult[] = await
-            api.queryDatabase("SELECT idQuestion AS id, title, description, createdAt, idUser FROM question ORDER BY createdAt DESC") as QuestionQueryResult[];
+            api.queryDatabase("SELECT idQuestion AS id, title, description, created_at AS createdAt, idUser FROM question ORDER BY createdAt DESC") as QuestionQueryResult[];
             for (const question of questionsResult) {
                 question.createdAt = new Date(question.createdAt);
                 allQuestions.push(new Question(question.id, question.title, question.description, question.createdAt, question.idUser));
