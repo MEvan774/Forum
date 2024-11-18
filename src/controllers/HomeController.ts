@@ -1,6 +1,7 @@
 import { Controller } from "./Controller";
 import { Question } from "../models/Question";
 import { User } from "../models/User";
+import { Answer } from "../models/Answer";
 
 export class HomeController extends Controller {
     public constructor(view: HTMLElement) {
@@ -22,7 +23,9 @@ export class HomeController extends Controller {
 
     /**
      * functie weergeeft de vragen op de home pagina
-     * de user wordt opgehaald met het idUser uit de question tabel
+     * de user wordt opgehaald uit de getUser functie van de User model met de foreign key idUser van de vraag
+     * de hoeveelheid antwoorden wordt opgehaald uit de amountOfAnswers functie van de Answer model...
+     * met de IdQuestion van de vraag
      */
     private async displayQuestions(questions: Question[]): Promise<void> {
         for (const question of questions) {
@@ -42,8 +45,15 @@ export class HomeController extends Controller {
             description.textContent = question.description;
             description.classList.add("description");
 
-            const extraInfo: HTMLDivElement = document.createElement("div");
-            extraInfo.classList.add("extra-info-container");
+            const amountOfAnswers: number = await Answer.amountOfAnswers(question.id);
+            const amountOfAnswersParagraph: HTMLParagraphElement = document.createElement("p");
+            amountOfAnswersParagraph.textContent = `Antwoorden: ${amountOfAnswers}`;
+            if (amountOfAnswers > 0) {
+                amountOfAnswersParagraph.id = "has-answer";
+            }
+            else {
+                amountOfAnswersParagraph.id = "no-answer";
+            }
 
             const userName: string = await User.getUser(question.idUser);
 
@@ -57,6 +67,7 @@ export class HomeController extends Controller {
 
             questionContainer.appendChild(title);
             questionContainer.appendChild(description);
+            questionContainer.appendChild(amountOfAnswersParagraph);
             questionContainer.innerHTML += "<div class='extra-info-container'><p id='user-name'>" + userName +
             "</p><p id='created-at'>" + formattedDate + "</p></div>";
             this.view.appendChild(questionAnchor);
