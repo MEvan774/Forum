@@ -93,13 +93,11 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `pb2sef2425_boomootoocii31_live`;
-INSERT INTO `pb2sef2425_boomootoocii31_live`.`question` (`idQuestion`, `titel`, `description`, `created_at`, `idUser`) VALUES (1, 'Hoe gebruik ik mysql', 'ik weet niet hoe dat moet', DEFAULT, 2);
-INSERT INTO `pb2sef2425_boomootoocii31_live`.`question` (`idQuestion`, `titel`, `description`, `created_at`, `idUser`) VALUES (2, 'Wat is ESLint?', 'Ik weet niet wat eslint is', DEFAULT, 3);
-INSERT INTO `pb2sef2425_boomootoocii31_live`.`question` (`idQuestion`, `titel`, `description`, `created_at`, `idUser`) VALUES (3, 'Waar donwload ik vscode?', 'Ik weet niet waar ik vscode donwload', DEFAULT, 2);
+INSERT INTO `pb2sef2425_boomootoocii31_live`.`question` (`idQuestion`, `title`, `description`, `created_at`, `idUser`) VALUES (1, 'Hoe gebruik ik mysql', 'ik weet niet hoe dat moet', DEFAULT, 2);
+INSERT INTO `pb2sef2425_boomootoocii31_live`.`question` (`idQuestion`, `title`, `description`, `created_at`, `idUser`) VALUES (2, 'Wat is ESLint?', 'Ik weet niet wat eslint is', DEFAULT, 3);
+INSERT INTO `pb2sef2425_boomootoocii31_live`.`question` (`idQuestion`, `title`, `description`, `created_at`, `idUser`) VALUES (3, 'Waar donwload ik vscode?', 'Ik weet niet waar ik vscode donwload', DEFAULT, 2);
 
 COMMIT;
-
-ALTER TABLE pb2sef2425_boomootoocii31_live.question RENAME COLUMN titel TO title;
 
 -- -----------------------------------------------------
 -- Data for table `pb2sef2425_boomootoocii31_live`.`answer`
