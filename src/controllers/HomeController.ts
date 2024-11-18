@@ -26,6 +26,11 @@ export class HomeController extends Controller {
      */
     private async displayQuestions(questions: Question[]): Promise<void> {
         for (const question of questions) {
+            const questionAnchor: HTMLAnchorElement = document.createElement("a");
+            questionAnchor.classList.add("question-director");
+            questionAnchor.addEventListener("click", () => {
+                window.location.href = `/question.html?id=${question.id}`;
+            });
             const questionContainer: HTMLDivElement = document.createElement("div");
             questionContainer.classList.add("question-container");
             questionContainer.id = `question-${question.id}`;
@@ -54,7 +59,8 @@ export class HomeController extends Controller {
             questionContainer.appendChild(description);
             questionContainer.innerHTML += "<div class='extra-info-container'><p id='user-name'>" + userName +
             "</p><p id='created-at'>" + formattedDate + "</p></div>";
-            this.view.appendChild(questionContainer);
+            this.view.appendChild(questionAnchor);
+            questionAnchor.appendChild(questionContainer);
         }
     }
 }
