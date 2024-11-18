@@ -77,6 +77,31 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- -----------------------------------------------------
+-- Data for table `pb2sef2425_boomootoocii31_live`.`user`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `pb2sef2425_boomootoocii31_live`;
+INSERT INTO `pb2sef2425_boomootoocii31_live`.`user` (`idUser`, `userName`, `email`, `password`, `created_at`, `updated_at`) VALUES (1, 'Koen', 'koenfuchs20@gmail.com', 'borbrdw', DEFAULT, NULL);
+INSERT INTO `pb2sef2425_boomootoocii31_live`.`user` (`idUser`, `userName`, `email`, `password`, `created_at`, `updated_at`) VALUES (2, 'Simon', 'asdd@gmail.com', '343fdff', DEFAULT, NULL);
+INSERT INTO `pb2sef2425_boomootoocii31_live`.`user` (`idUser`, `userName`, `email`, `password`, `created_at`, `updated_at`) VALUES (3, 'Sjoerd', 'ewrwf@ghmail.com', '23424sads', DEFAULT, NULL);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `pb2sef2425_boomootoocii31_live`.`question`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `pb2sef2425_boomootoocii31_live`;
+INSERT INTO `pb2sef2425_boomootoocii31_live`.`question` (`idQuestion`, `titel`, `description`, `created_at`, `idUser`) VALUES (1, 'Hoe gebruik ik mysql', 'ik weet niet hoe dat moet', DEFAULT, 2);
+INSERT INTO `pb2sef2425_boomootoocii31_live`.`question` (`idQuestion`, `titel`, `description`, `created_at`, `idUser`) VALUES (2, 'Wat is ESLint?', 'Ik weet niet wat eslint is', DEFAULT, 3);
+INSERT INTO `pb2sef2425_boomootoocii31_live`.`question` (`idQuestion`, `titel`, `description`, `created_at`, `idUser`) VALUES (3, 'Waar donwload ik vscode?', 'Ik weet niet waar ik vscode donwload', DEFAULT, 2);
+
+COMMIT;
+
+ALTER TABLE pb2sef2425_boomootoocii31_live.question RENAME COLUMN titel TO title;
+
+-- -----------------------------------------------------
 -- Data for table `pb2sef2425_boomootoocii31_live`.`answer`
 -- -----------------------------------------------------
 START TRANSACTION;
@@ -86,4 +111,3 @@ INSERT INTO `pb2sef2425_boomootoocii31_live`.`answer` (`idAnswer`, `description`
 INSERT INTO `pb2sef2425_boomootoocii31_live`.`answer` (`idAnswer`, `description`, `created_at`, `idQuestion`, `idUser`) VALUES (3, 'Moet je maar aan iemand anders vragen.', DEFAULT, 2, 2);
 
 COMMIT;
-
