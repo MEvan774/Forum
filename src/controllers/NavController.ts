@@ -8,7 +8,46 @@ export class NavController extends Controller {
     }
 
     public render(): void {
+        this.createNavigationLogo();
+        this.createNavigationLinks();
         this.checkIfLoggedIn();
+    }
+
+    /**
+     * maakt logo aan in navigatie
+     */
+    private createNavigationLogo(): void {
+        const navLogoContainer: HTMLDivElement = document.createElement("div");
+        navLogoContainer.classList.add("logo");
+        this.view.appendChild(navLogoContainer);
+    }
+
+    /**
+     * maakt de navigatie links aan
+     */
+    private createNavigationLinks(): void {
+        const navigationLinksContainer: HTMLDivElement = document.createElement("div");
+        navigationLinksContainer.classList.add("nav-links");
+
+        const homeLink: HTMLAnchorElement = document.createElement("a");
+        homeLink.href = "/index.html";
+        homeLink.innerText = "Home";
+
+        const demoLink: HTMLAnchorElement = document.createElement("a");
+        demoLink.href = "/demo.html";
+        demoLink.innerText = "Demo";
+
+        const hboIctCloudLink: HTMLAnchorElement = document.createElement("a");
+        hboIctCloudLink.href = "/hboictcloud.html";
+        hboIctCloudLink.innerText = "HBO-ICT.Cloud";
+
+        this.view.appendChild(navigationLinksContainer);
+        navigationLinksContainer.appendChild(homeLink);
+        navigationLinksContainer.appendChild(demoLink);
+        navigationLinksContainer.appendChild(hboIctCloudLink);
+
+        const currentUrl: string = window.location.pathname;
+        console.log(currentUrl);
     }
 
     /**
@@ -55,7 +94,8 @@ export class NavController extends Controller {
                 document.body.classList.remove("show-logout", "show-overlay");
             });
         });
-        navigationContainer.appendChild(logoutButton);
+        navigationContainer.children[1].appendChild(logoutButton);
+        this.addActivePage();
     }
 
     /**
@@ -70,7 +110,20 @@ export class NavController extends Controller {
         registerButton.href = "/registration.html";
         registerButton.textContent = "Registreren";
 
-        navigationContainer.appendChild(loginButton);
-        navigationContainer.appendChild(registerButton);
+        navigationContainer.children[1].appendChild(loginButton);
+        navigationContainer.children[1].appendChild(registerButton);
+        this.addActivePage();
+    }
+
+    private addActivePage(): void {
+        const currentUrl: string = window.location.pathname;
+        console.log(currentUrl);
+
+        const navLinks: NodeListOf<HTMLAnchorElement> = document.querySelectorAll(".nav-links a");
+        navLinks.forEach((link: HTMLAnchorElement) => {
+            if (link.href.includes(currentUrl)) {
+                link.classList.add("active");
+            }
+        });
     }
 }
