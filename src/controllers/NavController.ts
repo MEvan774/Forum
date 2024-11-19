@@ -18,6 +18,7 @@ export class NavController extends Controller {
      */
     private createNavigationLogo(): void {
         const navLogoContainer: HTMLDivElement = document.createElement("div");
+        navLogoContainer.innerText = "Code Exchange";
         navLogoContainer.classList.add("logo");
         this.view.appendChild(navLogoContainer);
     }
@@ -45,9 +46,6 @@ export class NavController extends Controller {
         navigationLinksContainer.appendChild(homeLink);
         navigationLinksContainer.appendChild(demoLink);
         navigationLinksContainer.appendChild(hboIctCloudLink);
-
-        const currentUrl: string = window.location.pathname;
-        console.log(currentUrl);
     }
 
     /**
@@ -60,7 +58,6 @@ export class NavController extends Controller {
         try {
             const loggedIn: LoggedIn = session.get("LoggedIn") as LoggedIn;
             if (loggedIn.isLoggedIn) {
-                console.log(`User ${loggedIn.userName} is logged in.`);
                 this.addLogoutButton(this.view);
             }
             else {
@@ -79,6 +76,7 @@ export class NavController extends Controller {
      * als de gebruiker op de confirmatie knop klikt wordt de gebruiker uitgelogd
      */
     private addLogoutButton(navigationContainer: HTMLElement): void {
+        this.addConfirmLogout();
         const logoutButton: HTMLAnchorElement = document.createElement("a");
         logoutButton.textContent = "Log uit";
         logoutButton.addEventListener("click", () => {
@@ -96,6 +94,21 @@ export class NavController extends Controller {
         });
         navigationContainer.children[1].appendChild(logoutButton);
         this.addActivePage();
+    }
+
+    private addConfirmLogout(): void {
+        const addOverlay: HTMLDivElement = document.createElement("div");
+        addOverlay.id = "overlay";
+        document.body.appendChild(addOverlay);
+
+        const addConfirmLogoutContainer: HTMLElement = document.createElement("section");
+        addConfirmLogoutContainer.id = "logout-container";
+        addConfirmLogoutContainer.innerHTML = `
+        <button class="cancel-logout-button">&times;</button>
+        <h2>Weet je zeker dat je wil uitloggen?</h2>
+        <button id="logout">Uitloggen</button>
+        `;
+        document.body.appendChild(addConfirmLogoutContainer);
     }
 
     /**
@@ -117,7 +130,6 @@ export class NavController extends Controller {
 
     private addActivePage(): void {
         const currentUrl: string = window.location.pathname;
-        console.log(currentUrl);
 
         const navLinks: NodeListOf<HTMLAnchorElement> = document.querySelectorAll(".nav-links a");
         navLinks.forEach((link: HTMLAnchorElement) => {

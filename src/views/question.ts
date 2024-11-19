@@ -2,7 +2,7 @@ import "../hicConfig";
 import { QuestionController } from "../controllers/QuestionController";
 import { NavController } from "../controllers/NavController";
 
-const navView: HTMLElement = document.querySelector(".nav-links")!;
+const navView: HTMLElement = document.querySelector(".navbar")!;
 const navController: NavController = new NavController(navView);
 navController.render();
 
