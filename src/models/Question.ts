@@ -50,6 +50,28 @@ export class Question {
         }
     }
 
+    /**
+     * Haalt een vraag op uit de database gebasseerd op zijn ID
+     * @param idQuestion ID van de vraag
+     * @returns Het opgehaald vraag object
+     */
+    public static async getQuestionById(idQuestion: number): Promise<Question> {
+        const question: Question[] = [];
+        try {
+            const questionsResult: QuestionQueryResult[] = await
+            api.queryDatabase(`SELECT idQuestion AS id, title, description, created_at AS createdAt, idUser FROM question WHERE idQuestion = ${idQuestion}`) as QuestionQueryResult[];
+            for (const question of questionsResult) {
+                question.createdAt = new Date(question.createdAt);
+                questionsResult.push(new Question(question.id, question.title, question.description, question.createdAt, question.idUser));
+            }
+            return question[0];
+        }
+        catch (reason) {
+            console.error(reason);
+        }
+        return question[0];
+    }
+
     public get id(): number {
         return this._id;
     }
