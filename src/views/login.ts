@@ -1,10 +1,11 @@
 import "../hicConfig";
 import { LoginController } from "../controllers/LoginController";
+import { NavController } from "../controllers/NavController";
 
-function renderLoginController(): void {
-    const view: HTMLButtonElement = document.querySelector("#login-user-button") as HTMLButtonElement;
-    const controller: LoginController = new LoginController(view);
-    controller.render();
-}
+const navView: HTMLElement = document.querySelector("nav")!;
+const navController: NavController = new NavController(navView);
+navController.render();
 
-renderLoginController();
+const view: HTMLButtonElement = document.querySelector("#login-user-button") as HTMLButtonElement;
+const controller: LoginController = new LoginController(view);
+controller.render();
