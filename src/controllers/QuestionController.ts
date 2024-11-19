@@ -23,6 +23,10 @@ export class QuestionController extends Controller {
         this.displayQuestion(question);
     }
 
+    /**
+     * Displays the Question on the page with the data retrieved from the db.
+     * @param question Question returned by the function above
+     */
     private displayQuestion(question: Question): void {
         const questionDetail: Question = question;
 
