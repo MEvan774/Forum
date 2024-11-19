@@ -1,14 +1,27 @@
 import { api } from "@hboictcloud/api";
+import { describe } from "node:test";
 
 type AnswersAmountQueryResult = {
     amount: number;
+    description: string;
+    createdAt: Date;
+    idQuestion: number;
+    idUser: number;
 };
 
 export class Answer {
     private _id: number;
+    private _description: string;
+    private _createdAt: Date;
+    private _idQuestion: number;
+    private _idUser: number;
 
-    public constructor(id: number) {
+    public constructor(id: number, description: string, createdAt: Date, idQuestion: number, idUser: number) {
         this._id = id;
+        this._description = description;
+        this._createdAt = createdAt;
+        this._idQuestion = idQuestion;
+        this._idUser = idUser;
     };
 
     /**
