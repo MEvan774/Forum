@@ -2,6 +2,7 @@ import { api } from "@hboictcloud/api";
 import { describe } from "node:test";
 
 type AnswersAmountQueryResult = {
+    id: number;
     amount: number;
     description: string;
     createdAt: Date;
@@ -38,7 +39,40 @@ export class Answer {
         }
     }
 
+    public static async getAllAnswersOfQuestion(): Promise<Answer[]> {
+        try {
+            const allQuestions: Answer[] = [];
+            const answerResults: AnswersAmountQueryResult[] = await
+            api.queryDatabase("SELECT idQuestion AS id, title, description, created_at AS createdAt, idUser FROM question ORDER BY createdAt DESC") as AnswersAmountQueryResult[];
+            for (const answer of answerResults) {
+                answer.createdAt = new Date(answer.createdAt);
+                allQuestions.push(new Answer(answer.amount, answer.description, answer.createdAt, answer.idQuestion, answer.idUser));
+            }
+            return allQuestions;
+        }
+        catch (reason) {
+            console.error(reason);
+            return [];
+        }
+    }
+
     public get id(): number {
         return this._id;
+    }
+
+    public get description(): string {
+        return this._description;
+    }
+
+    public get createdAt(): Date {
+        return this._createdAt;
+    }
+
+    public get idQuestion(): number {
+        return this._idQuestion;
+    }
+
+    public get idUser(): number {
+        return this._idUser;
     }
 }
