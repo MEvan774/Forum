@@ -63,8 +63,10 @@ export class HomeController extends Controller {
             questionContainer.appendChild(title);
             questionContainer.appendChild(description);
             questionContainer.appendChild(amountOfAnswersParagraph);
-            questionContainer.innerHTML += "<div class='extra-info-container'><p id='user-name'>" + question.userName +
-            "</p><p id='created-at'>" + formattedDate + "</p></div>";
+            questionContainer.innerHTML += `
+            <div class='extra-info-container'><p id='user-name'>${question.userName}</p>
+            <p id='created-at'>${formattedDate}</p></div>
+            `;
             this.view.appendChild(questionAnchor);
             questionAnchor.appendChild(questionContainer);
         }
