@@ -1,7 +1,5 @@
 import { Controller } from "./Controller";
 import { Question } from "../models/Question";
-import { User } from "../models/User";
-import { Answer } from "../models/Answer";
 
 export class HomeController extends Controller {
     public constructor(view: HTMLElement) {
@@ -18,7 +16,7 @@ export class HomeController extends Controller {
     private async retrieveQuestions(): Promise<void> {
         const questionsResult: Question[] = await Question.getAll();
         console.log(questionsResult);
-        void this.displayQuestions(questionsResult);
+        this.displayQuestions(questionsResult);
     }
 
     /**
@@ -27,7 +25,7 @@ export class HomeController extends Controller {
      * de hoeveelheid antwoorden wordt opgehaald uit de amountOfAnswers functie van de Answer model...
      * met de IdQuestion van de vraag
      */
-    private async displayQuestions(questions: Question[]): Promise<void> {
+    private displayQuestions(questions: Question[]): void {
         for (const question of questions) {
             const questionAnchor: HTMLAnchorElement = document.createElement("a");
             questionAnchor.classList.add("question-director");
@@ -45,17 +43,14 @@ export class HomeController extends Controller {
             description.textContent = question.description;
             description.classList.add("description");
 
-            const amountOfAnswers: number = await Answer.amountOfAnswers(question.id);
             const amountOfAnswersParagraph: HTMLParagraphElement = document.createElement("p");
-            amountOfAnswersParagraph.textContent = `Antwoorden: ${amountOfAnswers}`;
-            if (amountOfAnswers > 0) {
+            amountOfAnswersParagraph.textContent = `Antwoorden: ${question.amount}`;
+            if (question.amount > 0) {
                 amountOfAnswersParagraph.id = "has-answer";
             }
             else {
                 amountOfAnswersParagraph.id = "no-answer";
             }
-
-            const userName: string = await User.getUser(question.idUser);
 
             const formattedDate: string = question.createdAt.toLocaleString("nl-NL", {
                 year: "numeric",
@@ -68,7 +63,7 @@ export class HomeController extends Controller {
             questionContainer.appendChild(title);
             questionContainer.appendChild(description);
             questionContainer.appendChild(amountOfAnswersParagraph);
-            questionContainer.innerHTML += "<div class='extra-info-container'><p id='user-name'>" + userName +
+            questionContainer.innerHTML += "<div class='extra-info-container'><p id='user-name'>" + question.userName +
             "</p><p id='created-at'>" + formattedDate + "</p></div>";
             this.view.appendChild(questionAnchor);
             questionAnchor.appendChild(questionContainer);
