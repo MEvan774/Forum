@@ -9,11 +9,11 @@ export class QuestionController extends Controller {
     }
 
     public render(): void {
-        void this.returnQuestion();
+        // void this.returnQuestion();
     }
-
+/*
     private async returnQuestion(): Promise<void> {
-        
+
     }
 
     private async retrieveAnswers(idQuestion: number): Promise<void> {
@@ -21,4 +21,5 @@ export class QuestionController extends Controller {
         console.log(questionsResult);
         void this.displayQuestions(questionsResult);
     }
+        */
 }
