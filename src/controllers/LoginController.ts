@@ -1,6 +1,9 @@
 import { Controller } from "../controllers/Controller";
 import { User } from "../models/User";
 
+/**
+ * Represents the controller object for login function
+ */
 export class LoginController extends Controller {
     public constructor(view: HTMLElement) {
         super(view);
@@ -11,6 +14,11 @@ export class LoginController extends Controller {
             void this.loginUser();
         });
     }
+
+    /**
+     * Compares input values from user with values in the db and logs them in if they match.
+     * Displays an error if either the email/username doesn't exist, or the password doesn't match.
+     */
 
     private async loginUser(): Promise<void> {
         console.log("Form submitted.");
