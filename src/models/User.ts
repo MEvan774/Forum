@@ -173,17 +173,6 @@ export class User {
         return passwordMatch;
     }
 
-    public static async getUser(idInput: number): Promise<string> {
-        try {
-            const user: Username[] = await api.queryDatabase(`SELECT userName FROM user WHERE idUser = ${idInput}`) as Username[];
-            return user[0].userName;
-        }
-        catch (reason) {
-            console.error(reason);
-        }
-        return "";
-    }
-
     public get name(): string {
         return this._name;
     }
