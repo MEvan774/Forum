@@ -1,6 +1,7 @@
 import { Controller } from "./Controller";
 import { Question } from "../models/Question";
 import { Answer } from "../models/Answer";
+import { api, localization, url } from "@hboictcloud/api";
 
 export class QuestionController extends Controller {
     public constructor(view: HTMLElement) {
@@ -15,8 +16,7 @@ export class QuestionController extends Controller {
      * Functie haalt de vraag op uit de db gebasseerd op de "idQuestion" in de URL
      */
     private async returnQuestion(): Promise<void> {
-        const pageUrl: string = window.location.href;
-        const idQuestion: number = Number(pageUrl.substring(18));
+        const idQuestion: number = url.getFromQueryString("id", 0) as number;
         console.log(`Question ID: ${idQuestion.valueOf()}`);
         const question: Question = await Question.getQuestionById(idQuestion);
         console.log(question);
