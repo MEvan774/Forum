@@ -2,7 +2,7 @@ import "../hicConfig";
 import { LoginController } from "../controllers/LoginController";
 import { NavController } from "../controllers/NavController";
 
-const navView: HTMLElement = document.querySelector("nav")!;
+const navView: HTMLElement = document.querySelector(".navbar")!;
 const navController: NavController = new NavController(navView);
 navController.render();
 

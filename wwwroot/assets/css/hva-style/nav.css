@@ -17,10 +17,11 @@
 }
 
 .navbar .nav-links {
+    width: 100%;
+    align-items: center;
     display: flex;
     gap: 1rem;
-    margin-right: auto;
-    margin-left: 10%;
+    justify-content: flex-end;
 }
 
 /* Styling the navbar items as buttons */

@@ -18,7 +18,8 @@ export class Question {
     private _userName?: string;
     private _amount?: number;
 
-    public constructor(id: number, title: string, description: string, createdAt: Date, idUser: number, userName?: string, amount?: number) {
+    public constructor(id: number, title: string, description: string, createdAt: Date, idUser: number,
+        userName?: string, amount?: number) {
         this._id = id;
         this._title = title;
         this._description = description;
@@ -30,17 +31,22 @@ export class Question {
 
     /**
      * Haalt alle informatie van de vragen op uit de database
-     * geeft een array met alle vragen terug
+     * @returns Promise met een array van Question objecten
      */
     public static async getAll(): Promise<Question[]> {
         try {
             const allQuestions: Question[] = [];
             const questionsResult: QuestionQueryResult[] = await
-            api.queryDatabase("SELECT question.idQuestion AS id, question.title, question.description, question.created_at AS createdAt, question.idUser, user.userName, COUNT(answer.idAnswer) AS amount FROM (question INNER JOIN user ON question.idUser = user.idUser) LEFT JOIN answer ON question.idQuestion = answer.idQuestion GROUP BY question.title, question.description, question.created_at, user.userName") as QuestionQueryResult[];
+            api.queryDatabase(`SELECT question.idQuestion AS id, question.title, question.description, 
+                question.created_at AS createdAt, question.idUser, user.userName, COUNT(answer.idAnswer) 
+                AS amount FROM (question INNER JOIN user ON question.idUser = user.idUser) LEFT JOIN answer 
+                ON question.idQuestion = answer.idQuestion GROUP BY question.title, question.description, 
+                question.created_at, user.userName`) as QuestionQueryResult[];
             console.log(questionsResult);
             for (const question of questionsResult) {
                 question.createdAt = new Date(question.createdAt);
-                allQuestions.push(new Question(question.id, question.title, question.description, question.createdAt, question.idUser, question.userName, question.amount));
+                allQuestions.push(new Question(question.id, question.title, question.description,
+                    question.createdAt, question.idUser, question.userName, question.amount));
             }
             return allQuestions;
         }
@@ -59,10 +65,12 @@ export class Question {
         const question: Question[] = [];
         try {
             const questionsResult: QuestionQueryResult[] = await
-            api.queryDatabase(`SELECT idQuestion AS id, title, description, created_at AS createdAt, idUser FROM question WHERE idQuestion = ${idQuestion}`) as QuestionQueryResult[];
+            api.queryDatabase(`SELECT idQuestion AS id, title, description, created_at AS createdAt, 
+                idUser FROM question WHERE idQuestion = ${idQuestion}`) as QuestionQueryResult[];
             for (const question of questionsResult) {
                 question.createdAt = new Date(question.createdAt);
-                questionsResult.push(new Question(question.id, question.title, question.description, question.createdAt, question.idUser));
+                questionsResult.push(new Question(question.id, question.title, question.description,
+                    question.createdAt, question.idUser));
             }
             return question[0];
         }
