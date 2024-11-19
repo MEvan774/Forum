@@ -34,18 +34,8 @@ export class NavController extends Controller {
         homeLink.href = "/index.html";
         homeLink.innerText = "Home";
 
-        const demoLink: HTMLAnchorElement = document.createElement("a");
-        demoLink.href = "/demo.html";
-        demoLink.innerText = "Demo";
-
-        const hboIctCloudLink: HTMLAnchorElement = document.createElement("a");
-        hboIctCloudLink.href = "/hboictcloud.html";
-        hboIctCloudLink.innerText = "HBO-ICT.Cloud";
-
         this.view.appendChild(navigationLinksContainer);
         navigationLinksContainer.appendChild(homeLink);
-        navigationLinksContainer.appendChild(demoLink);
-        navigationLinksContainer.appendChild(hboIctCloudLink);
     }
 
     /**
