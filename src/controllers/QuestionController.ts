@@ -62,6 +62,8 @@ export class QuestionController extends Controller {
             questionContainer.appendChild(amountOfAnswersParagraph);
             questionContainer.innerHTML += "<div class='extra-info-container'><p id='user-name'>" + question.userName +
             "</p><p id='created-at'>" + formattedDate + "</p></div>";
+
+            this.view.appendChild(questionContainer);
         }
     }
 }
