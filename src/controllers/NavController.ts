@@ -20,6 +20,10 @@ export class NavController extends Controller {
         const navLogoContainer: HTMLDivElement = document.createElement("div");
         navLogoContainer.innerText = "Code Exchange";
         navLogoContainer.classList.add("logo");
+        const navLogoImage: HTMLImageElement = document.createElement("img");
+        navLogoImage.src = "./assets/img/code-exchange-logo.png";
+        navLogoImage.alt = "Code Exchange Logo";
+        navLogoContainer.appendChild(navLogoImage);
         this.view.appendChild(navLogoContainer);
     }
 
