@@ -11,9 +11,19 @@
 
 /* Center-align the logo and nav-links */
 .navbar .logo {
+    gap: 1rem;
+    display: flex;
+    align-items: center;
     font-weight: bold;
+    width: 100%;
     font-size: 2rem;
     color: var(--white);
+}
+
+.logo img {
+    width: 50px;
+    height: auto;
+    border-radius: 50%;
 }
 
 .navbar .nav-links {
