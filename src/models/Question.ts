@@ -1,4 +1,5 @@
 import { api } from "@hboictcloud/api";
+import { create } from "domain";
 type QuestionQueryResult = {
     id: number;
     title: string;
@@ -68,9 +69,9 @@ export class Question {
             api.queryDatabase(`SELECT idQuestion AS id, title, description, created_at AS createdAt, 
                 idUser FROM question WHERE idQuestion = ${idQuestion}`) as QuestionQueryResult[];
             for (const question of questionsResult) {
-                question.createdAt = new Date(question.createdAt);
+                const createdAt: Date = new Date(question.createdAt);
                 questionsResult.push(new Question(question.id, question.title, question.description,
-                    question.createdAt, question.idUser));
+                    createdAt, question.idUser));
             }
             return question[0];
         }

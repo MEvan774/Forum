@@ -1,7 +1,7 @@
 import { Controller } from "./Controller";
 import { Question } from "../models/Question";
-import { Answer } from "../models/Answer";
-import { api, localization, url } from "@hboictcloud/api";
+// import { Answer } from "../models/Answer";
+import { url } from "@hboictcloud/api";
 
 export class QuestionController extends Controller {
     public constructor(view: HTMLElement) {
@@ -9,6 +9,7 @@ export class QuestionController extends Controller {
     }
 
     public render(): void {
+        console.log("Loading question...");
         void this.returnQuestion();
     }
 
