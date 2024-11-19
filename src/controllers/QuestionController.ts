@@ -19,7 +19,7 @@ export class QuestionController extends Controller {
     private async returnQuestion(): Promise<void> {
         const idQuestion: number = url.getFromQueryString("id", 0) as number;
         console.log(`Question ID: ${idQuestion.valueOf()}`);
-        const question: Question = await Question.getQuestionById(idQuestion);
+        const question: Question[] = await Question.getQuestionById(idQuestion);
         console.log(question);
         this.displayQuestion(question);
     }
@@ -28,40 +28,40 @@ export class QuestionController extends Controller {
      * Displays the Question on the page with the data retrieved from the db.
      * @param question Question returned by the function above
      */
-    private displayQuestion(question: Question): void {
-        const questionDetail: Question = question;
+    private displayQuestion(questions: Question[]): void {
+        for (const question of questions) {
+            const questionContainer: HTMLDivElement = document.createElement("div");
+            questionContainer.classList.add(".question-detail-container");
 
-        const questionContainer: HTMLDivElement = document.createElement("div");
-        questionContainer.classList.add(".question-detail-container");
+            const questionTitleElement: HTMLHeadingElement = document.createElement("h2");
+            questionTitleElement.classList.add(".question-title");
+            questionTitleElement.textContent = question.title;
 
-        const questionTitleElement: HTMLHeadingElement = document.createElement("h2");
-        questionTitleElement.classList.add(".question-title");
-        questionTitleElement.textContent = questionDetail.title;
+            const questionBodyElement: HTMLParagraphElement = document.createElement("p");
+            questionBodyElement.classList.add(".question-body");
+            questionBodyElement.textContent = question.description;
 
-        const questionBodyElement: HTMLParagraphElement = document.createElement("p");
-        questionBodyElement.classList.add(".question-body");
-        questionBodyElement.textContent = questionDetail.description;
+            const amountOfAnswersParagraph: HTMLParagraphElement = document.createElement("p");
+            amountOfAnswersParagraph.textContent = `Antwoorden: ${question.amount}`;
+            if (question.amount > 0) {
+                amountOfAnswersParagraph.id = "has-answer";
+            }
+            else {
+                amountOfAnswersParagraph.id = "no-answer";
+            }
+            const formattedDate: string = question.createdAt.toLocaleString("nl-NL", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+            });
 
-        const amountOfAnswersParagraph: HTMLParagraphElement = document.createElement("p");
-        amountOfAnswersParagraph.textContent = `Antwoorden: ${questionDetail.amount}`;
-        if (questionDetail.amount > 0) {
-            amountOfAnswersParagraph.id = "has-answer";
+            questionContainer.appendChild(questionTitleElement);
+            questionContainer.appendChild(questionBodyElement);
+            questionContainer.appendChild(amountOfAnswersParagraph);
+            questionContainer.innerHTML += "<div class='extra-info-container'><p id='user-name'>" + question.userName +
+            "</p><p id='created-at'>" + formattedDate + "</p></div>";
         }
-        else {
-            amountOfAnswersParagraph.id = "no-answer";
-        }
-        const formattedDate: string = question.createdAt.toLocaleString("nl-NL", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-        });
-
-        questionContainer.appendChild(questionTitleElement);
-        questionContainer.appendChild(questionBodyElement);
-        questionContainer.appendChild(amountOfAnswersParagraph);
-        questionContainer.innerHTML += "<div class='extra-info-container'><p id='user-name'>" + questionDetail.userName +
-        "</p><p id='created-at'>" + formattedDate + "</p></div>";
     }
 }

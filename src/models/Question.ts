@@ -62,23 +62,26 @@ export class Question {
      * @param idQuestion ID van de vraag
      * @returns Het opgehaald vraag object
      */
-    public static async getQuestionById(idQuestion: number): Promise<Question> {
-        const question: Question[] = [];
+    public static async getQuestionById(idQuestion: number): Promise<Question[]> {
         try {
+            const questionTarget: Question[] = [];
             const questionsResult: QuestionQueryResult[] = await
-            api.queryDatabase(`SELECT idQuestion AS id, title, description, created_at AS createdAt, 
-                idUser FROM question WHERE idQuestion = ${idQuestion}`) as QuestionQueryResult[];
+            api.queryDatabase(`SELECT question.idQuestion AS id, question.title, question.description, 
+                question.created_at AS createdAt, question.idUser, user.userName, COUNT(answer.idAnswer) 
+                AS amount FROM (question INNER JOIN user ON question.idUser = user.idUser) LEFT JOIN answer 
+                ON question.idQuestion = answer.idQuestion GROUP BY question.title, question.description, 
+                question.created_at, user.userName HAVING question.idQuestion = ${idQuestion}`) as QuestionQueryResult[];
             for (const question of questionsResult) {
-                const createdAt: Date = new Date(question.createdAt);
-                questionsResult.push(new Question(question.id, question.title, question.description,
-                    createdAt, question.idUser));
+                question.createdAt = new Date(question.createdAt);
+                questionTarget.push(new Question(question.id, question.title, question.description,
+                    question.createdAt, question.idUser, question.userName, question.amount));
             }
-            return question[0];
+            return questionTarget;
         }
         catch (reason) {
             console.error(reason);
         }
-        return question[0];
+        return [];
     }
 
     public get id(): number {
