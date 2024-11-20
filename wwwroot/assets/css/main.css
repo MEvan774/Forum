@@ -11,6 +11,7 @@
 @import url("./hva-style/logout.css");
 @import url("./hva-style/questions.css");
 @import url("./hva-style/home-intro.css");
+@import url("./hva-style/footer.css");
 
 * {
     box-sizing: border-box;
@@ -19,6 +20,7 @@
 body {
     font-size: 1.2em;
     color: var(--white);
+    min-height: 100vh;
 }
 
 h1 {
