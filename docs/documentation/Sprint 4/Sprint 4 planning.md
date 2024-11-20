@@ -33,3 +33,12 @@ In dit document staat de taak verdeling per user story en die
 - User Story 3D: Sjoerd en Milan
 - User Story 4A en 4B: Koen
 
+
+## Updates User Stories
+
+### Woensdag 20 november
+
+**Koen:**
+
+Vandaag heb ik User Story 2E afgemaakt. Deze hoef ik nu alleen nog te verifiëren en dat ga ik doen door middel van een TMC-methode.
+Nu ik klaar ben met 2E betekent dat dat ik donderdag verder ga met user story 3B en ik dit aanpas in de planning
