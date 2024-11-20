@@ -30,6 +30,7 @@ export class QuestionController extends Controller {
      */
     private displayQuestion(questions: Question[]): void {
         for (const question of questions) {
+            const maincontainer: HTMLDivElement = document.querySelector(".question")!;
             const questionContainer: HTMLDivElement = document.createElement("div");
             questionContainer.classList.add(".question-detail-container");
 
@@ -62,8 +63,8 @@ export class QuestionController extends Controller {
             questionContainer.appendChild(amountOfAnswersParagraph);
             questionContainer.innerHTML += "<div class='extra-info-container'><p id='user-name'>" + question.userName +
             "</p><p id='created-at'>" + formattedDate + "</p></div>";
-
-            this.view.appendChild(questionContainer);
+            maincontainer.appendChild(questionContainer);
+            this.view.appendChild(maincontainer);
         }
     }
 }

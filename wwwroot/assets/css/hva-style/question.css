@@ -40,3 +40,16 @@
     border-radius: 0.25rem;
     font-size: 0.8rem;
 }
+
+.question-detail-container .question-body .question {
+    margin: 0 0 20px 0;
+    color: var(--white);
+    overflow: hidden;
+    width: 500px;
+    height: 50px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    line-height: 1.2;
+}
