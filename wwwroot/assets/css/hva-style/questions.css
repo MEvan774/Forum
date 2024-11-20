@@ -29,6 +29,7 @@
     color: var(--white);
     overflow: hidden;
     width: 500px;
+    height: 50px;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
@@ -55,10 +56,12 @@
     font-weight: bold;
     color: var(--light-gray);
     font-size: 0.8em;
+    margin: 0;
 }
 
 #no-answer {
     color: rgb(163, 163, 163);
     font-size: 0.8em;
+    margin: 0;
 }
 

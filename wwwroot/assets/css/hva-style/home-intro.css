@@ -9,6 +9,8 @@
     font-size: 4.5rem;
     width: 800px;
     line-height: 70px;
+    background-color: rgba(127, 127, 127, 0.292);
+    border-radius: 20px;
 }
 
 .home-intro-container .intro-description {
