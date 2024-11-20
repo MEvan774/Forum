@@ -72,6 +72,15 @@ form button[type="submit"] {
     transition: background-color 0.3s ease;
 }
 
+form button[type="submit"]:hover {
+    background-color: var(--hover-color);
+}
+
+form button[type="submit"]:active {
+    opacity: 0.8;
+}
+
+
 form .form-error {
     color: rgb(237, 87, 87);
     font-size: 1rem;
