@@ -10,14 +10,14 @@
     padding: 5px 10px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    transition: box-shadow 0.2s ease;
+    transition: all 0.2s ease;
     height: 205px;
 }
 
 .question-container h2 {
     margin: 10px 0 15px 0;
     color: var(--primary-color);
-    
+    transition: color 0.2s ease;
 }
 
 .question-director:hover h2 {
@@ -50,6 +50,7 @@
 
 .question-director:hover .question-container {
     box-shadow: 0 0 10px rgba(31, 65, 187, 0.5);
+    background-color: #484e5f;
 }
 
 #has-answer {
