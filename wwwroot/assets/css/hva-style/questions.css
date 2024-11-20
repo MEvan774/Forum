@@ -4,27 +4,28 @@
 }
 
 .question-container {
+    background-color: var(--gray);
     margin-bottom: 20px;
     padding: 5px 10px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     transition: box-shadow 0.2s ease;
     height: 205px;
 }
 
 .question-container h2 {
     margin: 10px 0 15px 0;
-    color: var(--link-color)
+    color: var(--primary-color);
     
 }
 
 .question-director:hover h2 {
-    color: var(--link-hover-color);
+    color: var(--hover-color);
 }
 
 .question-container .description {
     margin: 0 0 20px 0;
-    color: rgb(148, 148, 148);
+    color: var(--white);
     overflow: hidden;
     width: 500px;
     display: -webkit-box;
@@ -46,15 +47,17 @@
 }
 
 .question-director:hover .question-container {
-    box-shadow: 0 0 10px rgba(7, 66, 87, 0.5);
+    box-shadow: 0 0 10px rgba(31, 65, 187, 0.5);
 }
 
 #has-answer {
     font-weight: bold;
+    color: var(--light-gray);
     font-size: 0.8em;
 }
 
 #no-answer {
-    color: rgb(148, 148, 148);
+    color: rgb(163, 163, 163);
     font-size: 0.8em;
 }
+

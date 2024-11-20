@@ -10,6 +10,7 @@
     color: var(--white);
     font-family: "Source Sans 3", sans-serif;
     gap: 3rem;
+    position: relative;
 }
 
 /* Center-align the logo and nav-links */
@@ -98,15 +99,6 @@
 /* Hover effect for navbar buttons */
 .navbar .nav-links .normal-link:hover {
     background-color: var(--secondary-color);
-}
-
-.gradient-line {
-    background: rgb(41,91,194);
-background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    height: 4px;
-    border: none;
-    width: 100%;
-    margin: 0;
 }
 
 /* Responsive navbar */
