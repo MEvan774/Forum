@@ -11,6 +11,7 @@ export class NavController extends Controller {
         this.createNavigationLogo();
         this.createNavigationLinks();
         this.checkIfLoggedIn();
+        this.createNavigationLine();
     }
 
     /**
@@ -18,12 +19,11 @@ export class NavController extends Controller {
      */
     private createNavigationLogo(): void {
         const navLogoContainer: HTMLDivElement = document.createElement("div");
-        navLogoContainer.innerText = "Code Exchange";
         navLogoContainer.classList.add("logo");
-        const navLogoImage: HTMLImageElement = document.createElement("img");
-        navLogoImage.src = "./assets/img/code-exchange-logo.png";
-        navLogoImage.alt = "Code Exchange Logo";
-        navLogoContainer.appendChild(navLogoImage);
+        navLogoContainer.innerHTML = `
+        <h1>Code Exchange</h1>
+        <img src="./assets/img/code-exchange-logo.png" alt="Code Exchange Logo">
+        `;
         this.view.appendChild(navLogoContainer);
     }
 
@@ -36,6 +36,7 @@ export class NavController extends Controller {
 
         const homeLink: HTMLAnchorElement = document.createElement("a");
         homeLink.href = "/index.html";
+        homeLink.classList.add("page-link");
         homeLink.innerText = "Home";
 
         this.view.appendChild(navigationLinksContainer);
@@ -52,10 +53,10 @@ export class NavController extends Controller {
         try {
             const loggedIn: LoggedIn = session.get("LoggedIn") as LoggedIn;
             if (loggedIn.isLoggedIn) {
+                this.addLoggedInUserDisplay();
                 this.addLogoutButton(this.view);
             }
             else {
-                console.log("No user is logged in.");
                 this.addLoginAndRegisterButtons(this.view);
             }
         }
@@ -73,6 +74,7 @@ export class NavController extends Controller {
         this.addConfirmLogout();
         const logoutButton: HTMLAnchorElement = document.createElement("a");
         logoutButton.textContent = "Log uit";
+        logoutButton.classList.add("normal-link");
         logoutButton.addEventListener("click", () => {
             document.body.classList.add("show-logout", "show-overlay");
             const confirmButton: HTMLButtonElement = document.getElementById("logout") as HTMLButtonElement;
@@ -105,16 +107,32 @@ export class NavController extends Controller {
         document.body.appendChild(addConfirmLogoutContainer);
     }
 
+    private addLoggedInUserDisplay(): void {
+        const navigationLinksContainer: HTMLDivElement = document.querySelector(".nav-links")!;
+        const userProfileLink: HTMLAnchorElement = document.createElement("a");
+        userProfileLink.href = "/profile.html";
+        userProfileLink.classList.add("user-profile-link");
+
+        const loggedInObject: LoggedIn = session.get("LoggedIn") as LoggedIn;
+        userProfileLink.innerHTML = `
+        <p>${loggedInObject.userName}</p>
+        <img src="./assets/img/default-profile-picture.png" alt="user-profile-picture">`;
+
+        navigationLinksContainer.appendChild(userProfileLink);
+    }
+
     /**
      * voegt de login en registratie buttons toe aan de navigatie
      */
     private addLoginAndRegisterButtons(navigationContainer: HTMLElement): void {
         const loginButton: HTMLAnchorElement = document.createElement("a");
         loginButton.href = "/login.html";
+        loginButton.classList.add("normal-link");
         loginButton.textContent = "Log in";
 
         const registerButton: HTMLAnchorElement = document.createElement("a");
         registerButton.href = "/registration.html";
+        registerButton.classList.add("normal-link");
         registerButton.textContent = "Registreren";
 
         navigationContainer.children[1].appendChild(loginButton);
@@ -131,5 +149,11 @@ export class NavController extends Controller {
                 link.classList.add("active");
             }
         });
+    }
+
+    private createNavigationLine(): void {
+        const navigationLine: HTMLHRElement = document.createElement("hr");
+        navigationLine.classList.add("gradient-line");
+        this.view.parentElement?.insertBefore(navigationLine, this.view.nextSibling);
     }
 }

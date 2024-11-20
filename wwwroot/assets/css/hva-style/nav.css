@@ -3,25 +3,34 @@
 /* Navigation */
 /* Navbar */
 .navbar {
-    background-color: var(--primary-color);
     padding: 1rem;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     color: var(--white);
+    font-family: "Source Sans 3", sans-serif;
+    gap: 3rem;
 }
 
 /* Center-align the logo and nav-links */
 .navbar .logo {
-    gap: 1rem;
     display: flex;
     align-items: center;
-    font-weight: bold;
+    gap: 0.7rem;
+    font-weight: 900;
     width: 100%;
-    font-size: 2rem;
+    font-size: 3rem;
     color: var(--white);
 }
 
+.logo h1 {
+    font-size: 3.5rem;
+    margin: 0;
+    line-height: 1;
+}
+
 .logo img {
-    width: 50px;
+    width: 70px;
     height: auto;
     border-radius: 50%;
 }
@@ -34,21 +43,70 @@
     justify-content: flex-end;
 }
 
+.nav-links .page-link {
+    display: flex;
+    font-weight: bold;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    font-size: 2.1rem;
+    gap: 0.9rem;
+    margin: 0 10px 0 10px;
+    transition: all 0.3s ease;
+}
+
 /* Styling the navbar items as buttons */
-.navbar .nav-links a {
+.nav-links .normal-link {
     text-decoration: none;
     color: var(--white);
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    background-color: var(--accent-color);
+    font-size: 1.9rem;
+    font-weight: 700;
+    padding: 0.5rem 20px;
     border-radius: 0.25rem;
-    transition: background-color 0.3s ease;
     cursor: pointer;
+    margin: 0;
+    border: 3px solid white;
+    border-radius: 10px;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
+
+.nav-links .user-profile-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    font-size: 1.9rem;
+    gap: 0.9rem;
+    margin: 0 10px 0 10px;
+    transition: all 0.3s ease;
+}
+
+.user-profile-link img {
+    width: 50px;
+    height: auto;
+    border: 3px solid var(--secondary-color);
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.nav-links .page-link:hover, .nav-links .user-profile-link:hover {
+    color : var(--secondary-color);
 }
 
 /* Hover effect for navbar buttons */
-.navbar .nav-links a:hover {
+.navbar .nav-links .normal-link:hover {
     background-color: var(--secondary-color);
+}
+
+.gradient-line {
+    background: rgb(41,91,194);
+background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    height: 4px;
+    border: none;
+    width: 100%;
+    margin: 0;
 }
 
 /* Responsive navbar */
