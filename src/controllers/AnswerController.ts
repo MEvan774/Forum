@@ -28,8 +28,9 @@ export class AnswerController extends Controller {
                 else {
                     const result: boolean = confirm("Weet je zeker of je deze bericht wilt sturen?"); // Displays the Yes/No dialog
                     if (result) {
-                        void Answer.setAnswer(1, 1, description.value);
+                        void Answer.setAnswer(1, loggedIn.userId, description.value);
                         console.log("ANSWER POSTED!");
+                        description.value = "";
                     }
                     else {
                         console.log("Post stopped!");
