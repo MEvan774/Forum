@@ -9,15 +9,15 @@ export class QuestionController extends Controller {
     }
 
     public render(): void {
-        void this.returnQuestion();
+        void this.retrieveQuestion();
     }
 
     /**
      * Functie haalt de vraag op uit de db gebasseerd op de "idQuestion" in de URL
      */
-    private async returnQuestion(): Promise<void> {
+    private async retrieveQuestion(): Promise<void> {
         const idQuestion: number = url.getFromQueryString("id", 0) as number;
-        console.log(`Question ID: ${idQuestion.valueOf()}`);
+        console.log(`Question ID: ${idQuestion}`);
         const question: Question[] = await Question.getQuestionById(idQuestion);
         console.log(question);
         this.displayQuestion(question);
@@ -29,10 +29,6 @@ export class QuestionController extends Controller {
      */
     private displayQuestion(questions: Question[]): void {
         for (const question of questions) {
-            const maincontainer: HTMLDivElement = document.querySelector(".question")!;
-            const questionContainer: HTMLDivElement = document.createElement("div");
-            questionContainer.classList.add(".question-detail-container");
-
             const questionTitleElement: HTMLHeadingElement = document.createElement("h2");
             questionTitleElement.classList.add(".question-title");
             questionTitleElement.textContent = question.title;
@@ -57,13 +53,11 @@ export class QuestionController extends Controller {
                 minute: "2-digit",
             });
 
-            questionContainer.appendChild(questionTitleElement);
-            questionContainer.appendChild(questionBodyElement);
-            questionContainer.appendChild(amountOfAnswersParagraph);
-            questionContainer.innerHTML += "<div class='extra-info-container'><p id='user-name'>" + question.userName +
+            this.view.appendChild(questionTitleElement);
+            this.view.appendChild(questionBodyElement);
+            this.view.appendChild(amountOfAnswersParagraph);
+            this.view.innerHTML += "<div class='extra-info-container'><p id='user-name'>" + question.userName +
             "</p><p id='created-at'>" + formattedDate + "</p></div>";
-            maincontainer.appendChild(questionContainer);
-            this.view.appendChild(maincontainer);
         }
     }
 }
