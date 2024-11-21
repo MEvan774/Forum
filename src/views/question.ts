@@ -13,7 +13,7 @@ const questionView: HTMLElement = document.querySelector(".question-container")!
 const questionController: QuestionController = new QuestionController(questionView);
 questionController.render();
 
-const answerDisplayView: HTMLElement = document.querySelector(".answers-container")!;
+const answerDisplayView: HTMLElement = document.querySelector(".answers-display-container")!;
 const answerDisplayController: AnswersDisplayController = new AnswersDisplayController(answerDisplayView);
 answerDisplayController.render();
 

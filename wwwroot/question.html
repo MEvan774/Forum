@@ -11,25 +11,30 @@
     <nav class="navbar">
 
     </nav>
-    <section class="question-container">
-        <h2 class="question-title"></h2>
-        <p class="question-body"></p>
-    </section>
-    <button id="addAnswerForm">Antwoord</button>
-
-    <div>
-        <textarea id="addAnswer" rows="6" cols="50"></textarea>
-    <section class="answers-container">
-
-        <button id="postAnswer">Post</button>
-
-    </section>
-    </div>
+    <main class="main-question-container">
+        <section class="question-container">
+            <h2 class="question-title"></h2>
+            <p class="question-body"></p>
+        </section>
     
-    <div class="answer-container">
-        <h3 class="answer-user">    </h3>
-        <p class="answer-body"> </p>
-    </div>
+        <section class="answers-display-container"></section>
+    
+        <button id="addAnswerForm">Antwoord</button>
+    
+        <div>
+            <textarea id="addAnswer" rows="6" cols="50"></textarea>
+        <section class="answers-container">
+    
+            <button id="postAnswer">Post</button>
+    
+        </section>
+        </div>
+        
+        <div class="answer-container">
+            <h3 class="answer-user">    </h3>
+            <p class="answer-body"> </p>
+        </div>
+    </main>
     <footer class="footerbar"></footer>
     <script src="../src/views/question.ts" type="module"></script>
 </body>

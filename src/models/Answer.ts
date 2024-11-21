@@ -55,11 +55,18 @@ export class Answer {
 
     public static async getAllAnswersOfQuestion(questionId: number): Promise<Answer[]> {
         try {
-            const allQuestions: Answer[] = [];
             const answerResults: AnswersAmountQueryResult[] = await
-            api.queryDatabase(`SELECT * FROM answer WHERE idQuestion = '${questionId}'`) as AnswersAmountQueryResult[];
-            console.log(answerResults);
-            return allQuestions;
+            api.queryDatabase(`SELECT * FROM answer WHERE idQuestion = '${questionId}'
+                ORDER BY createdAt DESC;
+            `) as AnswersAmountQueryResult[];
+            return answerResults.map((answer: AnswersAmountQueryResult) => new Answer(
+                answer.id,
+                answer.amount,
+                answer.description,
+                new Date(answer.createdAt),
+                answer.idQuestion,
+                answer.idUser
+            ));
         }
         catch (reason) {
             console.error(reason);

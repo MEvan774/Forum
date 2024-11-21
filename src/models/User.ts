@@ -88,12 +88,22 @@ export class User {
     }
 
     public static async getIdByUser(input: string, inputType: string): Promise<number | null> {
-        console.log(input);
-        console.log(inputType);
         try {
             const id: { idUser: number }[] = await api.queryDatabase(`SELECT idUser FROM user WHERE ${inputType} =
                  '${input}'`) as { idUser: number }[];
             return id[0].idUser;
+        }
+        catch (reason) {
+            console.error(reason);
+        }
+        return null;
+    }
+
+    public static async getUserById(id: number): Promise<string | null> {
+        try {
+            const userNameResult: { userName: string }[] = await api.queryDatabase(`SELECT userName FROM user
+                 WHERE idUser = '${id}'`) as { userName: string }[];
+            return userNameResult[0].userName;
         }
         catch (reason) {
             console.error(reason);

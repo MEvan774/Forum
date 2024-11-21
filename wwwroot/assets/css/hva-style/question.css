@@ -1,5 +1,10 @@
 /* !!Doesn't work without importing the base.css first!! */
 /* Question list */
+.main-question-container {
+    margin-top: 20px;
+    padding: 10px 20px;
+}
+
 .question-list {
     display: flex;
     flex-direction: column;

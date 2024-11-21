@@ -42,7 +42,9 @@ export class Question {
                 question.createdAt, question.idUser, user.userName, COUNT(answer.idAnswer) 
                 AS amount FROM (question INNER JOIN user ON question.idUser = user.idUser) LEFT JOIN answer 
                 ON question.idQuestion = answer.idQuestion GROUP BY question.title, question.description, 
-                question.createdAt, user.userName`) as QuestionQueryResult[];
+                question.createdAt, user.userName
+                ORDER BY question.createdAt DESC;
+                `) as QuestionQueryResult[];
             console.log(questionsResult);
             for (const question of questionsResult) {
                 question.createdAt = new Date(question.createdAt);
