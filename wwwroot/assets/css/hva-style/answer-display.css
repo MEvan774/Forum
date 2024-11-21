@@ -3,10 +3,17 @@
 
 .answer-container {
     background-color: #393e4c54;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 40px;
     position: relative;
+}
+
+.answer-container > p {
+    grid-column: span 2;
 }
 
 .answer-container::before {
@@ -49,4 +56,36 @@
 
 .answer-container .detailed-answer-info #date {
 
+}
+
+.answer-container .answer-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 20px;
+}
+
+.answer-container .answer-buttons button {
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.answer-container .answer-buttons #edit-answer-button {
+    background-color: var(--secondary-color);
+}
+
+.answer-container .answer-buttons #delete-answer-button {
+    background-color: var(--primary-color);
+}
+
+.answer-container .answer-buttons #edit-answer-button:hover {
+    background-color: #183499;
+}
+
+.answer-container .answer-buttons #delete-answer-button:hover {
+    background-color: #932539;
 }

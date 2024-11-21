@@ -2,6 +2,7 @@ import { Controller } from "./Controller";
 import { Answer } from "../models/Answer";
 import { User } from "../models/User";
 import { url } from "@hboictcloud/api";
+import { LoggedIn } from "../models/LoggedIn";
 
 export class AnswersDisplayController extends Controller {
     public constructor(view: HTMLElement) {
@@ -12,6 +13,10 @@ export class AnswersDisplayController extends Controller {
         void this.retrieveAnswers();
     }
 
+    /**
+     * Haalt antwoorden op van een vraag met het id van question
+     * roept displayAnswers aan om antwoorden op de pagina te zetten
+     */
     private async retrieveAnswers(): Promise<void> {
         const idQuestion: number | null = url.getFromQueryString("id", null) as number | null;
         if (idQuestion === null) {
@@ -25,6 +30,12 @@ export class AnswersDisplayController extends Controller {
         void this.displayAnswers(answers, amountOfAnswers);
     }
 
+    /**
+     * functie zet antwoorden op pagina en voor het geval de gebruiker
+     * die is ingelogd het antwoord heeft gegeven, maakt het bewerk en verwijder knoppen
+     * @param answers Array van antwoorden
+     * @param amountOfAnswers Hoeveelheid antwoorden
+     */
     private async displayAnswers(answers: Answer[], amountOfAnswers: number): Promise<void> {
         const amountOfAnswersHeader: HTMLHeadingElement = document.createElement("h2");
         if (amountOfAnswers === 0) {
@@ -37,7 +48,9 @@ export class AnswersDisplayController extends Controller {
             amountOfAnswersHeader.innerText = `${amountOfAnswers} Antwoorden`;
         }
         this.view.appendChild(amountOfAnswersHeader);
-        console.log("ja");
+
+        const loggedInUser: LoggedIn = User.getCurrentlyLoggedInUser();
+
         for (const answer of answers) {
             const answerContainer: HTMLDivElement = document.createElement("div");
             answerContainer.classList.add("answer-container");
@@ -66,9 +79,53 @@ export class AnswersDisplayController extends Controller {
                 <p id="user-name">${nameOfAnswerer}</p>
                 <p id="date">${formattedDate}</p>
             `;
+
+            let AnswerButtons: HTMLDivElement | null = null;
+            if (loggedInUser.userName === nameOfAnswerer) {
+                AnswerButtons = this.setAnswerEditorButtons(answer.id);
+            }
+
             answerContainer.appendChild(descriptionElement);
+            if (AnswerButtons) {
+                answerContainer.appendChild(AnswerButtons);
+            }
             answerContainer.appendChild(extraAnswerInfoContainer);
             this.view.appendChild(answerContainer);
         }
+    }
+
+    /**
+     * maakt bewerk en verwijder knoppen voor antwoorden
+     * @param id ID van het antwoord dat bewerkt of verwijderd kan worden
+     * @returns HTMLDivElement met knoppen om antwoorden te bewerken of te verwijderen
+     */
+    private setAnswerEditorButtons(id: number): HTMLDivElement {
+        const answerButtonsDiv: HTMLDivElement = document.createElement("div");
+        answerButtonsDiv.classList.add("answer-buttons");
+
+        const editAnswerButton: HTMLButtonElement = document.createElement("button");
+        editAnswerButton.id = "edit-answer-button";
+        editAnswerButton.innerText = "Bewerken";
+
+        editAnswerButton.addEventListener("click", () => {
+            window.location.href = `/edit-answer.html?id=${id}`;
+        });
+
+        const deleteAnswerButton: HTMLButtonElement = document.createElement("button");
+        deleteAnswerButton.id = "delete-answer-button";
+        deleteAnswerButton.innerText = "Verwijderen";
+
+        deleteAnswerButton.addEventListener("click", async () => {
+            const confirmation: boolean = confirm("Weet je zeker dat je dit antwoord wilt verwijderen?");
+            if (confirmation) {
+                await Answer.removeAnswerById(id);
+                url.redirect("");
+            }
+        });
+
+        answerButtonsDiv.appendChild(editAnswerButton);
+        answerButtonsDiv.appendChild(deleteAnswerButton);
+
+        return answerButtonsDiv;
     }
 }
