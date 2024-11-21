@@ -13,6 +13,7 @@
 @import url("./hva-style/home-intro.css");
 @import url("./hva-style/footer.css");
 @import url("./hva-style/answer-display.css");
+@import url("./hva-style/answer.css");
 
 * {
     box-sizing: border-box;
