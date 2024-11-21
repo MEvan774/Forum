@@ -4,13 +4,14 @@
 @import url("./hva-style/form.css");
 @import url("./hva-style/modal.css");
 @import url("./hva-style/nav.css");
-@import url("./hva-style/pagination.css");
 @import url("./hva-style/profile.css");
 @import url("./hva-style/question.css");
 @import url("./hva-style/sidebar.css");
 @import url("./hva-style/table.css");
 @import url("./hva-style/logout.css");
 @import url("./hva-style/questions.css");
+@import url("./hva-style/home-intro.css");
+@import url("./hva-style/footer.css");
 
 * {
     box-sizing: border-box;
@@ -18,9 +19,34 @@
 
 body {
     font-size: 1.2em;
-    color: var(--black);
+    color: var(--white);
+    min-height: 100vh;
+    position: relative;
 }
 
 h1 {
     text-align: center;
+}
+
+.background-object {
+    position: fixed;
+    top: 100px;
+    left: 50%;
+    translate: -50%;
+    width: 270px;
+    height: 270px;
+    border-radius: 145px;
+    box-shadow: 0px 0px 40px 40px rgba(31, 65, 187, 1.5);
+    background-color: var(--secondary-color);
+    z-index: -1;
+}
+
+.background-object img {
+    position: absolute;
+    top: 50%;
+    margin-top: -140px;
+    left: 50%;
+    width: 310px;
+    margin-left: -165px;
+    opacity: 0.3;
 }

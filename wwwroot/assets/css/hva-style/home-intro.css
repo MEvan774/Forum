@@ -1,0 +1,50 @@
+.home-intro-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.home-intro-container  h1 {
+    font-size: 4.5rem;
+    width: 800px;
+    line-height: 70px;
+    background-color: rgba(127, 127, 127, 0.292);
+    border-radius: 20px;
+}
+
+.home-intro-container .intro-description {
+    display: flex;
+    height: 300px;
+    text-align: center;    
+}
+
+.home-intro-container .intro-description p {
+    font-weight: bold;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    width: 500px
+}
+
+
+.home-intro-container .intro-description .description-1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.home-intro-container .intro-description .description-2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+
+.home-intro-container .intro-description hr {
+    width: 90%;
+    align-self: center;
+    height: 5px;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 20px;
+    margin: 0;
+}

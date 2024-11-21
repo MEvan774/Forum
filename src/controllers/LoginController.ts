@@ -32,7 +32,12 @@ export class LoginController extends Controller {
             if (passwordMatches) {
                 User.clearErrorMessage(username);
                 User.clearErrorMessage(password);
-                User.setCurrentlyLoggedInUser(username.value);
+                const userId: number | null = await User.getIdByUser(username.value, "email");
+                if (userId === null) {
+                    console.error("User ID not found.");
+                    return;
+                }
+                User.setCurrentlyLoggedInUser(username.value, userId);
             }
             else {
                 User.setErrorMessage(username, "The username or password is incorrect!");
@@ -43,8 +48,15 @@ export class LoginController extends Controller {
             const passwordMatches: boolean =
             await User.checkPasswordMatch(password.value, "userName", username.value);
             if (passwordMatches) {
+                console.log("Password matches.");
+
                 User.clearErrorMessage(username);
-                User.setCurrentlyLoggedInUser(username.value);
+                const userId: number | null = await User.getIdByUser(username.value, "userName");
+                if (userId === null) {
+                    console.error("User ID not found.");
+                    return;
+                }
+                User.setCurrentlyLoggedInUser(username.value, userId);
                 console.log(`Logged in ${username.value}`);
                 window.location.href = "/index.html";
             }

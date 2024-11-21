@@ -3,11 +3,12 @@ import { session } from "@hboictcloud/api";
 import { LoggedIn } from "./LoggedIn";
 
 export type UserQueryResult = {
+    idUser: number;
     name: string;
     email: string;
     password: string;
     createdAt: Date;
-    updatedAt: string | null;
+    updatedAt: Date | null;
 };
 
 export type PasswordQueryResult = {
@@ -19,13 +20,15 @@ export type Username = {
 };
 
 export class User {
+    private _id: number;
     private _name: string;
     private _email: string;
     private _password: string;
-    private _dateAdded?: Date;
-    private _dateUpdated?: string;
+    private _dateAdded: Date;
+    private _dateUpdated: Date | null;
 
-    public constructor(name: string, email: string, password: string, dateAdded?: Date, dateUpdated?: string) {
+    public constructor(id: number, name: string, email: string, password: string, dateAdded: Date, dateUpdated: Date | null) {
+        this._id = id;
         this._name = name;
         this._email = email;
         this._password = password;
@@ -33,13 +36,13 @@ export class User {
         this._dateUpdated = dateUpdated;
     }
 
-    public static setCurrentlyLoggedInUser(userName: string): void {
-        session.set("LoggedIn", ({ isLoggedIn: true, userName: userName } as LoggedIn));
+    public static setCurrentlyLoggedInUser(userName: string, id: number): void {
+        session.set("LoggedIn", ({ isLoggedIn: true, userName: userName, userId: id } as LoggedIn));
     }
 
-    public async setUser(): Promise<void> {
+    public static async setUser(userName: string, email: string, password: string): Promise<void> {
         try {
-            await api.queryDatabase(`INSERT INTO user (userName, email, password) VALUES ('${this._name}', '${this._email}', '${this._password}')`);
+            await api.queryDatabase(`INSERT INTO user (userName, email, password) VALUES ('${userName}', '${email}', '${password}')`);
         }
         catch (reason) {
             console.error(reason);
@@ -50,22 +53,48 @@ export class User {
         await api.queryDatabase(`DELETE FROM user WHERE userName = '${removingPerson}'`);
     }
 
-    public static async getAll(): Promise<UserQueryResult[]> {
-        let persons: UserQueryResult[] = [];
+    public static async getAll(): Promise<User[]> {
+        const users: User[] = [];
         try {
-            persons = await api.queryDatabase("SELECT name, email, password, created_at, updated_at FROM user") as UserQueryResult[];
+            let persons: UserQueryResult[] = await api.queryDatabase(`
+                SELECT idUser, name, email, password, created_at, updated_at FROM user
+                `) as UserQueryResult[];
             persons = persons.map((person: UserQueryResult) => ({
+                idUser: person.idUser,
                 name: person.name,
                 email: person.email,
                 password: person.password,
                 createdAt: new Date(person.createdAt),
-                updatedAt: person.updatedAt,
+                updatedAt: person.updatedAt ? new Date(person.updatedAt) : null,
             }));
+
+            const users: User[] = persons.map((person: UserQueryResult) => new User(person.idUser,
+                person.name,
+                person.email,
+                person.password,
+                person.createdAt,
+                person.updatedAt
+            ));
+            return users;
         }
         catch (reason) {
             console.error(reason);
         }
-        return persons;
+        return users;
+    }
+
+    public static async getIdByUser(input: string, inputType: string): Promise<number | null> {
+        console.log(input);
+        console.log(inputType);
+        try {
+            const id: { idUser: number }[] = await api.queryDatabase(`SELECT idUser FROM user WHERE ${inputType} =
+                 '${input}'`) as { idUser: number }[];
+            return id[0].idUser;
+        }
+        catch (reason) {
+            console.error(reason);
+        }
+        return null;
     }
 
     // geeft error message als input niet klopt
@@ -155,10 +184,8 @@ export class User {
             await api.queryDatabase(`SELECT password FROM user WHERE LOWER(${inputType}) = '${nameInput.toLowerCase()}'`) as PasswordQueryResult[];
 
             for (const password of passwordResult) {
-                console.log(password.password);
                 if (inputPassword === password.password) {
                     passwordMatch = true;
-                    console.log("Password matches!");
                 }
                 else {
                     passwordMatch = false;
@@ -175,5 +202,25 @@ export class User {
 
     public get name(): string {
         return this._name;
+    }
+
+    public get id(): number {
+        return this._id;
+    }
+
+    public get email(): string {
+        return this._email;
+    }
+
+    public get password(): string {
+        return this._password;
+    }
+
+    public get createdAt(): Date {
+        return this._dateAdded;
+    }
+
+    public get updatedAt(): Date | null {
+        return this._dateUpdated;
     }
 }

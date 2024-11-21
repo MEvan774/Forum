@@ -22,8 +22,8 @@ In dit document staat de taak verdeling per user story en die
 
 **Vrijdag 22 november t/m Maandag 25 november**
 
-- User Story 2D: Sjoerd
-- User Story 3A: Milan
+- User Story 2D: Milan
+- User Story 3A: Sjoerd
 - User Story 3B: Koen
 
 **Dinsdag 26 november t/m  Zondag 1 December**
@@ -33,3 +33,12 @@ In dit document staat de taak verdeling per user story en die
 - User Story 3D: Sjoerd en Milan
 - User Story 4A en 4B: Koen
 
+
+## Updates User Stories
+
+### Woensdag 20 november
+
+**Koen:**
+
+Vandaag heb ik User Story 2E afgemaakt. Deze hoef ik nu alleen nog te verifiëren en dat ga ik doen door middel van een TMC-methode.
+Nu ik klaar ben met 2E betekent dat dat ik donderdag verder ga met user story 3B en ik dit aanpas in de planning
