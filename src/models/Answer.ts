@@ -1,5 +1,4 @@
 import { api } from "@hboictcloud/api";
-import { describe } from "node:test";
 
 type AnswersAmountQueryResult = {
     id: number;
@@ -12,18 +11,33 @@ type AnswersAmountQueryResult = {
 
 export class Answer {
     private _id: number;
+    private _amount: number;
     private _description: string;
     private _createdAt: Date;
     private _idQuestion: number;
     private _idUser: number;
 
-    public constructor(id: number, description: string, createdAt: Date, idQuestion: number, idUser: number) {
+    public constructor(id: number, amount: number, description: string, createdAt: Date, idQuestion: number, idUser: number) {
         this._id = id;
+        this._amount = amount;
         this._description = description;
         this._createdAt = createdAt;
         this._idQuestion = idQuestion;
         this._idUser = idUser;
     };
+
+    public static async setAnswer(idQuestion: number, idUser: number, description: string): Promise<void> {
+        try {
+            await api.queryDatabase(`INSERT INTO answer (idQuestion, idUser, description) VALUES ('${idQuestion}', '${idUser}', '${description}')`);
+        }
+        catch (reason) {
+            console.error(reason);
+        }
+    }
+
+    public static async removeAnswer(removingAnswerID: number): Promise<void> {
+        await api.queryDatabase(`DELETE FROM answer WHERE userName = '${removingAnswerID}'`);
+    }
 
     /**
      * Haalt de hoeveelheid antwoorden op van een vraag
@@ -39,21 +53,41 @@ export class Answer {
         }
     }
 
-    public static async getAllAnswersOfQuestion(): Promise<Answer[]> {
+    public static async getAllAnswersOfQuestion(questionId: number): Promise<Answer[]> {
         try {
             const allQuestions: Answer[] = [];
             const answerResults: AnswersAmountQueryResult[] = await
-            api.queryDatabase("SELECT idQuestion AS id, title, description, created_at AS createdAt, idUser FROM question ORDER BY createdAt DESC") as AnswersAmountQueryResult[];
+            api.queryDatabase(`SELECT * FROM answer WHERE idQuestion = '${questionId}'`) as AnswersAmountQueryResult[];
+            // api.queryDatabase("SELECT idQuestion AS id, title, description, created_at AS createdAt, idUser FROM question ORDER BY createdAt DESC") as AnswersAmountQueryResult[];
+            /*
             for (const answer of answerResults) {
                 answer.createdAt = new Date(answer.createdAt);
-                allQuestions.push(new Answer(answer.amount, answer.description, answer.createdAt, answer.idQuestion, answer.idUser));
+                allQuestions.push(new Answer(answer.idUser, answer.amount, answer.description, answer.createdAt, answer.idQuestion, answer.idUser));
             }
+                */
+            console.log(answerResults);
             return allQuestions;
         }
         catch (reason) {
             console.error(reason);
             return [];
         }
+    }
+
+    public static async getAnswerUserId(nameInput: string): Promise<number> {
+        try {
+            const answer: AnswersAmountQueryResult[] = await api.queryDatabase(`SELECT userName FROM user WHERE idUser = '${nameInput}'`) as AnswersAmountQueryResult[];
+            console.log(`ANSWERS: '${answer}'`);
+            return answer[0].idUser;
+        }
+        catch (reason) {
+            console.error(reason);
+            return 0;
+        }
+    }
+
+    public get amount(): number {
+        return this._amount;
     }
 
     public get id(): number {
