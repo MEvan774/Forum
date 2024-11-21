@@ -57,7 +57,7 @@ export class User {
         const users: User[] = [];
         try {
             let persons: UserQueryResult[] = await api.queryDatabase(`
-                SELECT idUser, name, email, password, created_at, updated_at FROM user
+                SELECT idUser, name, email, password, createdAt, updatedAt FROM user
                 `) as UserQueryResult[];
             persons = persons.map((person: UserQueryResult) => ({
                 idUser: person.idUser,
