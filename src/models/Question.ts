@@ -1,5 +1,5 @@
 import { api } from "@hboictcloud/api";
-import { create } from "domain";
+
 type QuestionQueryResult = {
     id: number;
     title: string;

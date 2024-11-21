@@ -73,10 +73,14 @@ export class RegisterController extends Controller {
 
         const validRegistrationInput: boolean = await this.validateInputs(userName, email, password);
         if (validRegistrationInput) {
-            const user: User = new User(userName.value, email.value, password.value);
-            void user.setUser();
+            void User.setUser(userName.value, email.value, password.value);
             void User.sendEmail(userName.value, email.value);
-            User.setCurrentlyLoggedInUser(userName.value);
+            const idUser: number | null = await User.getIdByUser(userName.value, "userName");
+            if (idUser === null) {
+                console.error("User not found");
+                return;
+            }
+            User.setCurrentlyLoggedInUser(userName.value, idUser);
             window.location.href = "/index.html";
         }
     }

@@ -9,7 +9,6 @@ export class QuestionController extends Controller {
     }
 
     public render(): void {
-        console.log("Loading question...");
         void this.returnQuestion();
     }
 
