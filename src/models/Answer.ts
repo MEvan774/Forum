@@ -58,13 +58,6 @@ export class Answer {
             const allQuestions: Answer[] = [];
             const answerResults: AnswersAmountQueryResult[] = await
             api.queryDatabase(`SELECT * FROM answer WHERE idQuestion = '${questionId}'`) as AnswersAmountQueryResult[];
-            // api.queryDatabase("SELECT idQuestion AS id, title, description, created_at AS createdAt, idUser FROM question ORDER BY createdAt DESC") as AnswersAmountQueryResult[];
-            /*
-            for (const answer of answerResults) {
-                answer.createdAt = new Date(answer.createdAt);
-                allQuestions.push(new Answer(answer.idUser, answer.amount, answer.description, answer.createdAt, answer.idQuestion, answer.idUser));
-            }
-                */
             console.log(answerResults);
             return allQuestions;
         }

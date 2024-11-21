@@ -39,10 +39,10 @@ export class Question {
             const allQuestions: Question[] = [];
             const questionsResult: QuestionQueryResult[] = await
             api.queryDatabase(`SELECT question.idQuestion AS id, question.title, question.description, 
-                question.created_at AS createdAt, question.idUser, user.userName, COUNT(answer.idAnswer) 
+                question.createdAt, question.idUser, user.userName, COUNT(answer.idAnswer) 
                 AS amount FROM (question INNER JOIN user ON question.idUser = user.idUser) LEFT JOIN answer 
                 ON question.idQuestion = answer.idQuestion GROUP BY question.title, question.description, 
-                question.created_at, user.userName`) as QuestionQueryResult[];
+                question.createdAt, user.userName`) as QuestionQueryResult[];
             console.log(questionsResult);
             for (const question of questionsResult) {
                 question.createdAt = new Date(question.createdAt);
@@ -67,10 +67,10 @@ export class Question {
             const questionTarget: Question[] = [];
             const questionsResult: QuestionQueryResult[] = await
             api.queryDatabase(`SELECT question.idQuestion AS id, question.title, question.description, 
-                question.created_at AS createdAt, question.idUser, user.userName, COUNT(answer.idAnswer) 
+                question.createdAt, question.idUser, user.userName, COUNT(answer.idAnswer) 
                 AS amount FROM (question INNER JOIN user ON question.idUser = user.idUser) LEFT JOIN answer 
                 ON question.idQuestion = answer.idQuestion GROUP BY question.title, question.description, 
-                question.created_at, user.userName HAVING question.idQuestion = ${idQuestion}`) as QuestionQueryResult[];
+                question.createdAt, user.userName HAVING question.idQuestion = ${idQuestion}`) as QuestionQueryResult[];
             for (const question of questionsResult) {
                 question.createdAt = new Date(question.createdAt);
                 questionTarget.push(new Question(question.id, question.title, question.description,

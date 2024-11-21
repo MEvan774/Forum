@@ -40,6 +40,10 @@ export class User {
         session.set("LoggedIn", ({ isLoggedIn: true, userName: userName, userId: id } as LoggedIn));
     }
 
+    public static getCurrentlyLoggedInUser(): LoggedIn {
+        return session.get("LoggedIn") as LoggedIn;
+    }
+
     public static async setUser(userName: string, email: string, password: string): Promise<void> {
         try {
             await api.queryDatabase(`INSERT INTO user (userName, email, password) VALUES ('${userName}', '${email}', '${password}')`);
@@ -57,7 +61,7 @@ export class User {
         const users: User[] = [];
         try {
             let persons: UserQueryResult[] = await api.queryDatabase(`
-                SELECT idUser, name, email, password, created_at, updated_at FROM user
+                SELECT idUser, name, email, password, createdAt, updatedAt FROM user
                 `) as UserQueryResult[];
             persons = persons.map((person: UserQueryResult) => ({
                 idUser: person.idUser,

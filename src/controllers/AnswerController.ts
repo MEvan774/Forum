@@ -1,6 +1,4 @@
 import { Controller } from "./Controller";
-import { Question } from "../models/Question";
-import { User } from "../models/User";
 import { Answer } from "../models/Answer";
 import { LoggedIn } from "../models/LoggedIn";
 import { session } from "@hboictcloud/api";
@@ -43,10 +41,6 @@ export class AnswerController extends Controller {
         catch {
             alert("Alleen ingelogde gebruikers mogen reageren!");
         }
-    }
-
-    private async returnQuestion(): Promise<void> {
-
     }
 
     /*
