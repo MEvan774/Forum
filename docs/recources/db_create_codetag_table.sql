@@ -5,3 +5,5 @@ CREATE TABLE CodeTag (
 );
 
 ALTER TABLE pb2sef2425_boomootoocii31_live.codetag ADD CONSTRAINT FOREIGN KEY(idAnswer) REFERENCES pb2sef2425_boomootoocii31_live.answer(idAnswer); 
+
+ALTER TABLE pb2sef2425_boomootoocii31_live.codetag RENAME AnswerCodeTag;
