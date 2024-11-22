@@ -2,6 +2,7 @@ import { Controller } from "./Controller";
 import { Answer } from "../models/Answer";
 import { LoggedIn } from "../models/LoggedIn";
 import { session } from "@hboictcloud/api";
+import { url } from "@hboictcloud/api";
 
 export class AnswerController extends Controller {
     public constructor(view: HTMLElement) {
@@ -22,11 +23,12 @@ export class AnswerController extends Controller {
                 const description: HTMLInputElement = document.querySelector("#addAnswer")!;
                 // const validRegistrationInput: boolean = await this.validateInputs(userName, email, password);
                 if (!description.value)
-                    console.warn("Uw antwoord mag niet leeg zijn!");
+                    alert("Uw antwoord mag niet leeg zijn!");
                 else {
                     const result: boolean = confirm("Weet je zeker of je deze bericht wilt sturen?"); // Displays the Yes/No dialog
                     if (result) {
-                        void Answer.setAnswer(1, loggedIn.userId, description.value);
+                        const idQuestion: number = url.getFromQueryString("id", 0) as number;
+                        void Answer.setAnswer(idQuestion, loggedIn.userId, description.value);
                         console.log("ANSWER POSTED!");
                         description.value = "";
                     }

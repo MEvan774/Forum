@@ -36,6 +36,7 @@ export class Answer {
         catch (reason) {
             console.error(reason);
         }
+        location.reload();
     }
 
     public static async removeAnswerById(id: number): Promise<void> {
