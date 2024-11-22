@@ -8,7 +8,7 @@
 </head>
 <body>
     <nav class="navbar"></nav>
-    <main class="main-answer-editor">
+    <main>
         <div class="answer-editor-title">
             <h2>Antwoord bewerken</h2>
         </div>
@@ -16,14 +16,45 @@
             <form class="answer-editor-form" action="">
                 <div class="textarea-container">
                     <label for="description">Beschrijving</label>
-                    <textarea id="description" cols="30" rows="10" spellcheck="false"></textarea>
+                    <textarea id="description" cols="30" rows="10" spellcheck="false"
+                    placeholder="Voeg een beschrijving toe..."></textarea>
+                </div>
+
+                <p>Voor het antwoord geven met code is een code taal vereist.
+                </p>
+                <div class="tag-container">
+                    <label>
+                        <input type="radio" name="language" value="JavaScript" checked>
+                        JavaScript
+                    </label>
+                    <label>
+                        <input type="radio" name="language" value="Python">
+                        Python
+                    </label>
+                    <label>
+                        <input type="radio" name="language" value="TypeScript">
+                        TypeScript
+                    </label>
+                    <label>
+                        <input type="radio" name="language" value="HTML">
+                        HTML
+                    </label>
+                    <label>
+                        <input type="radio" name="language" value="CSS">
+                        CSS
+                    </label>
                 </div>
                 <div class="textarea-container">
                     <label for="">Code blok</label>
-                    
-                    <textarea id="code" cols="30" rows="10" spellcheck="false"></textarea>
+                    <textarea id="code" cols="30" rows="10" spellcheck="false"
+                    placeholder="Voeg optionele code toe..."></textarea>
                 </div>
+                <button id="save-answer" type="submit">Opslaan</button>
             </form>
+        </section>
+        <section class="code-block-container">
+            <pre><code id="code-block" class="language-html">
+            </code></pre>
         </section>
     </main>
     <footer class="footerbar"></footer>

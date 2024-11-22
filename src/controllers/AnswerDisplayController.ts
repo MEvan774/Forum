@@ -80,15 +80,13 @@ export class AnswersDisplayController extends Controller {
                 <p id="date">${formattedDate}</p>
             `;
 
-            let AnswerButtons: HTMLDivElement | null = null;
+            let AnswerButtons: HTMLDivElement = document.createElement("div");
             if (loggedInUser.userName === nameOfAnswerer) {
                 AnswerButtons = this.setAnswerEditorButtons(answer.id);
             }
 
             answerContainer.appendChild(descriptionElement);
-            if (AnswerButtons) {
-                answerContainer.appendChild(AnswerButtons);
-            }
+            answerContainer.appendChild(AnswerButtons);
             answerContainer.appendChild(extraAnswerInfoContainer);
             this.view.appendChild(answerContainer);
         }
