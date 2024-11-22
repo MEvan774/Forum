@@ -116,6 +116,17 @@ export class Answer {
         }
     }
 
+    public static async updateAnswer(id: number, description: string, code: string): Promise<void> {
+        try {
+            await api.queryDatabase(`
+                UPDATE answer SET description = '${description}', code = '${code}' WHERE idAnswer = ${id}
+                `);
+        }
+        catch (reason) {
+            console.error(reason);
+        }
+    }
+
     public get id(): number {
         return this._id;
     }

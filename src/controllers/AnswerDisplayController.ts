@@ -106,7 +106,8 @@ export class AnswersDisplayController extends Controller {
         editAnswerButton.innerText = "Bewerken";
 
         editAnswerButton.addEventListener("click", () => {
-            window.location.href = `/edit-answer.html?id=${id}`;
+            const questionId: number = url.getFromQueryString("id", 0) as number;
+            window.location.href = `/edit-answer.html?id-question=${questionId}&id-answer=${id}`;
         });
 
         const deleteAnswerButton: HTMLButtonElement = document.createElement("button");

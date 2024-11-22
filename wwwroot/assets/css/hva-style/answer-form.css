@@ -11,6 +11,33 @@
     margin-bottom: 5px;
 }
 
+.return-button-container {
+    margin-top: 20px;
+    display: flex;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.return-button {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 10px 0 10px 0;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.return-button:hover {
+    background-color: #aa2c43;
+}
+
+.return-button:active {
+    transform: scale(0.95);
+}
+
 .textarea-container {
     margin-bottom: 20px;
 }
