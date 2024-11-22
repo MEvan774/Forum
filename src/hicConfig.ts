@@ -11,4 +11,5 @@ try {
 }
 catch (reason) {
     console.error(reason);
+    console.error("Failed to configure the API");
 }

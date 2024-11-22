@@ -94,6 +94,28 @@ export class Answer {
         }
     }
 
+    public static async getAnswerById(id: number): Promise<Answer | null> {
+        try {
+            const answerResults: AnswersAmountQueryResult[] = await api.queryDatabase(`
+                SELECT idAnswer, description, code, createdAt, updatedAt, idQuestion, idUser
+                FROM answer WHERE idAnswer = ${id}
+                `) as AnswersAmountQueryResult[];
+            return answerResults.map((answer: AnswersAmountQueryResult) => new Answer(
+                answer.idAnswer,
+                answer.description,
+                answer.code,
+                new Date(answer.createdAt),
+                answer.updatedAt,
+                answer.idQuestion,
+                answer.idUser
+            ))[0];
+        }
+        catch (reason) {
+            console.error(reason);
+            return null;
+        }
+    }
+
     public get id(): number {
         return this._id;
     }
