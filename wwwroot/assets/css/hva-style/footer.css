@@ -1,7 +1,5 @@
 .footerbar {
     display: flex;
-    position: absolute;
-    bottom: 0;
     align-items: center;
     background-color: var(--accent-color);
     width: 100%;
