@@ -64,12 +64,13 @@ export class Answer {
                  FROM answer WHERE idQuestion = '${questionId}'
                 ORDER BY createdAt DESC;
             `) as AnswersAmountQueryResult[];
+            console.log(`${answerResults}`);
             return answerResults.map((answer: AnswersAmountQueryResult) => new Answer(
                 answer.idAnswer,
                 answer.description,
                 answer.code,
                 new Date(answer.createdAt),
-                new Date(answer.updatedAt),
+                answer.updatedAt,
                 answer.idQuestion,
                 answer.idUser
             ));
