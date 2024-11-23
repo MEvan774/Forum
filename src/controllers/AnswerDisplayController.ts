@@ -1,6 +1,7 @@
 import { Controller } from "./Controller";
 import { Answer } from "../models/Answer";
 import { User } from "../models/User";
+import { CodeTag } from "../models/CodeTag";
 import { url } from "@hboictcloud/api";
 import { LoggedIn } from "../models/LoggedIn";
 
@@ -64,6 +65,18 @@ export class AnswersDisplayController extends Controller {
             const descriptionElement: HTMLParagraphElement = document.createElement("p");
             descriptionElement.id = "answer-description";
             descriptionElement.innerText = answer.description;
+            answerContainer.appendChild(descriptionElement);
+
+            if (answer.code) {
+                const answerCodeTag: CodeTag = await CodeTag.getCodeTagByAnswerId(answer.id);
+                const preElement: HTMLPreElement = document.createElement("pre");
+                const codeElement: HTMLElement = document.createElement("code");
+                preElement.id = "answer-code";
+                codeElement.classList.add(`language-${answerCodeTag.tagType}`);
+                codeElement.innerText = answer.code;
+                preElement.appendChild(codeElement);
+                answerContainer.appendChild(preElement);
+            }
 
             const formattedDate: string = answer.createdAt.toLocaleString("nl-NL", {
                 year: "numeric",
@@ -85,7 +98,6 @@ export class AnswersDisplayController extends Controller {
                 AnswerButtons = this.setAnswerEditorButtons(answer.id);
             }
 
-            answerContainer.appendChild(descriptionElement);
             answerContainer.appendChild(AnswerButtons);
             answerContainer.appendChild(extraAnswerInfoContainer);
             this.view.appendChild(answerContainer);
