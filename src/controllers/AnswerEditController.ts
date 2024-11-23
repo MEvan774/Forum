@@ -60,6 +60,7 @@ export class AnswerEditorController extends Controller {
                     if (confirmed) {
                         this._codeTagTypes.forEach((radio: HTMLInputElement) => {
                             if (radio.checked) {
+                                console.log(radio.value);
                                 void CodeTag.updateCodeTag(idAnswer, radio.value as CODELANGUAGE);
                             }
                         });
@@ -112,7 +113,7 @@ export class AnswerEditorController extends Controller {
             const answer: Answer | null = await Answer.getAnswerById(idAnswer);
             if (answer !== null) {
                 this.displayDescription(answer.description);
-                if (answer.code) {
+                if (answer.code.length > 0) {
                     const codeTag: CodeTag = await CodeTag.getCodeTagByAnswerId(idAnswer);
                     this.displayCodeWithTag(answer.code, codeTag.tagType);
                 }

@@ -26,8 +26,6 @@ export class AnswersDisplayController extends Controller {
         }
         const answers: Answer[] = await Answer.getAllAnswersOfQuestion(idQuestion);
         const amountOfAnswers: number = await Answer.amountOfAnswers(idQuestion);
-        console.log(answers);
-
         void this.displayAnswers(answers, amountOfAnswers);
     }
 
@@ -77,8 +75,19 @@ export class AnswersDisplayController extends Controller {
                 preElement.appendChild(codeElement);
                 answerContainer.appendChild(preElement);
             }
+            console.log(answer.createdAt);
+            const createdAtDate: Date = new Date(Date.apply(answer.createdAt));
+            console.log(createdAtDate);
+            let selectedDate: Date = createdAtDate;
+            let isUpdated: boolean = false;
+            if (answer.updatedAt !== null) {
+                const updatedAtDate: Date = new Date(answer.updatedAt);
+                selectedDate = updatedAtDate;
+                isUpdated = true;
+            }
 
-            const formattedDate: string = answer.createdAt.toLocaleString("nl-NL", {
+            selectedDate.setHours(selectedDate.getHours() - 1);
+            const formattedDate: string = selectedDate.toLocaleString("nl-NL", {
                 year: "numeric",
                 month: "short",
                 day: "numeric",
@@ -90,8 +99,14 @@ export class AnswersDisplayController extends Controller {
             extraAnswerInfoContainer.classList.add("detailed-answer-info");
             extraAnswerInfoContainer.innerHTML = `
                 <p id="user-name">${nameOfAnswerer}</p>
-                <p id="date">${formattedDate}</p>
             `;
+
+            if (isUpdated) {
+                extraAnswerInfoContainer.innerHTML += `<p id="date"><span>Bewerkt op</span> ${formattedDate}</p>`;
+            }
+            else {
+                extraAnswerInfoContainer.innerHTML += `<p id="date">${formattedDate}</p>`;
+            }
 
             let AnswerButtons: HTMLDivElement = document.createElement("div");
             if (loggedInUser.userName === nameOfAnswerer) {

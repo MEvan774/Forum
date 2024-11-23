@@ -4,8 +4,8 @@ type AnswersAmountQueryResult = {
     idAnswer: number;
     description: string;
     code: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string | null;
     idQuestion: number;
     idUser: number;
 };
@@ -14,12 +14,12 @@ export class Answer {
     private _id: number;
     private _description: string;
     private _code: string;
-    private _createdAt: Date;
-    private _updatedAt: Date;
+    private _createdAt: string;
+    private _updatedAt: string | null;
     private _idQuestion: number;
     private _idUser: number;
 
-    public constructor(id: number, description: string, code: string, createdAt: Date, updatedAt: Date, idQuestion: number, idUser: number) {
+    public constructor(id: number, description: string, code: string, createdAt: string, updatedAt: string | null, idQuestion: number, idUser: number) {
         this._id = id;
         this._description = description;
         this._code = code;
@@ -65,12 +65,11 @@ export class Answer {
                  FROM answer WHERE idQuestion = '${questionId}'
                 ORDER BY createdAt DESC;
             `) as AnswersAmountQueryResult[];
-            console.log(`${answerResults}`);
             return answerResults.map((answer: AnswersAmountQueryResult) => new Answer(
                 answer.idAnswer,
                 answer.description,
                 answer.code,
-                new Date(answer.createdAt),
+                answer.createdAt,
                 answer.updatedAt,
                 answer.idQuestion,
                 answer.idUser
@@ -104,7 +103,7 @@ export class Answer {
                 answer.idAnswer,
                 answer.description,
                 answer.code,
-                new Date(answer.createdAt),
+                answer.createdAt,
                 answer.updatedAt,
                 answer.idQuestion,
                 answer.idUser
@@ -119,7 +118,7 @@ export class Answer {
     public static async updateAnswer(id: number, description: string, code: string): Promise<void> {
         try {
             await api.queryDatabase(`
-                UPDATE answer SET description = '${description}', code = '${code}' WHERE idAnswer = ${id}
+                UPDATE answer SET description = '${description}', code = '${code}' WHERE idAnswer = ${id} 
                 `);
         }
         catch (reason) {
@@ -139,11 +138,11 @@ export class Answer {
         return this._code;
     }
 
-    public get createdAt(): Date {
+    public get createdAt(): string {
         return this._createdAt;
     }
 
-    public get updatedAt(): Date {
+    public get updatedAt(): string | null {
         return this._updatedAt;
     }
 
