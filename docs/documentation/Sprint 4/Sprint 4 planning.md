@@ -22,8 +22,8 @@ In dit document staat de taak verdeling per user story en die
 
 **Vrijdag 22 november t/m Maandag 25 november**
 
-- User Story 2D: Milan
-- User Story 3A: Sjoerd
+- User Story 2D: Sjoerd
+- User Story 3A: Milan
 - User Story 3B: Koen
 
 **Dinsdag 26 november t/m  Zondag 1 December**
