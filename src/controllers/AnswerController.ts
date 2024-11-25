@@ -3,8 +3,13 @@ import { Answer } from "../models/Answer";
 import { LoggedIn } from "../models/LoggedIn";
 import { session } from "@hboictcloud/api";
 import { url } from "@hboictcloud/api";
+import { CodeTag } from "../models/CodeTag";
+import { CODELANGUAGE } from "../models/CodeLanguage";
 
 export class AnswerController extends Controller {
+    private _codeTagTypes: NodeListOf<HTMLInputElement> =
+        document.querySelectorAll(".tag-container input[type='radio']");
+
     public constructor(view: HTMLElement) {
         super(view);
     }
@@ -12,49 +17,82 @@ export class AnswerController extends Controller {
     public render(): void {
         // void this.returnQuestion();
         this.view.addEventListener("click", () => {
-            this.onClickPost();
+            void this.onClickPost();
         });
     }
 
-    private onClickPost(): void {
+    private async onClickPost(): Promise<void> {
         try {
+            let idAnswer: number = 0;
             const loggedIn: LoggedIn = session.get("LoggedIn") as LoggedIn;
             if (loggedIn.isLoggedIn) {
                 const description: HTMLInputElement = document.querySelector("#addAnswer")!;
-                // const validRegistrationInput: boolean = await this.validateInputs(userName, email, password);
-                if (!description.value)
+                if (!description.value) {
                     alert("Uw antwoord mag niet leeg zijn!");
-                else {
-                    const result: boolean = confirm("Weet je zeker of je deze bericht wilt sturen?"); // Displays the Yes/No dialog
-                    if (result) {
-                        const idQuestion: number = url.getFromQueryString("id", 0) as number;
-                        void Answer.setAnswer(idQuestion, loggedIn.userId, description.value);
-                        console.log("ANSWER POSTED!");
-                        description.value = "";
+                    return; // Exit the function if the description is empty
+                }
+
+                const result: boolean = confirm("Weet je zeker of je deze bericht wilt sturen?");
+                if (result) {
+                    const code: HTMLInputElement = document.querySelector("#addCode")!;
+                    if (code.value) {
+                        await this.postAnswer(loggedIn, description.value, code.value);
                     }
                     else {
-                        console.log("Post stopped!");
+                        await this.postAnswer(loggedIn, description.value, "");
                     }
+
+                    idAnswer = await this.getAnswerId();
+
+                    for (const radio of Array.from(this._codeTagTypes)) {
+                        const input: HTMLInputElement = radio;
+                        if (input.checked) {
+                            console.log(input.value);
+                            console.log(idAnswer);
+                            await CodeTag.setCodeTag(input.value as CODELANGUAGE, idAnswer);
+                        }
+                    }
+
+                    console.log("ANSWER POSTED!");
+                    description.value = "";
+                }
+                else {
+                    console.log("Post stopped!");
                 }
             }
-            else
+            else {
                 alert("Alleen ingelogde gebruikers mogen reageren!");
+                return; // Exit the function for non-logged-in users
+            }
         }
-        catch {
-            alert("Alleen ingelogde gebruikers mogen reageren!");
+        catch (error) {
+            console.error("Error posting answer:", error);
+            alert("Er is een fout opgetreden. Probeer het opnieuw!");
+            return; // Prevent reloading if an error occurred
+        }
+
+        // Reload the page after all operations are done
+        location.reload();
+    }
+
+    private async postAnswer(loggedIn: LoggedIn, description: string, code: string): Promise<void> {
+        try {
+            const idQuestion: number = url.getFromQueryString("id", 0) as number;
+            await Answer.setAnswer(idQuestion, loggedIn.userId, description, code);
+        }
+        catch (reason) {
+            console.log(reason);
         }
     }
 
-    /*
-    private async retrieveAnswers(idQuestion: number): Promise<void> {
-        const questionsResult: Question[] = await Question.getAll();
-        console.log(questionsResult);
-        void this.displayQuestions(questionsResult);
+    private async getAnswerId(): Promise<number> {
+        try {
+            const answerID: number = await Answer.getLastAnswerId();
+            return answerID;
+        }
+        catch (reason) {
+            console.log(reason);
+            return 0;
+        }
     }
-
-    private async PostAnswer(postedAnswer: Answer): Promise<void> {
-        if(postedAnswer.description.length === 0)
-            console.warn("Uw antwoord mag niet leeg zijn!");
-    }
-    */
 }
