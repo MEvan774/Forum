@@ -30,9 +30,15 @@ export class QuestionCreateController extends Controller {
         const formElement: HTMLFormElement = document.createElement("form");
         formElement.classList.add(".question-form");
 
-        // Creates input element
+        // Creates input element for question description
         const inputElement: HTMLInputElement = document.createElement("input");
-        inputElement.setAttribute("placeholder", "Schrijf hier je vraag!"); // Adds placeholder text to input
+        inputElement.setAttribute("placeholder", "Schrijf hier je vraag!"); // Adds placeholder text
+        inputElement.classList.add(".question-create-form");
+
+        // Creates input element for question snippet
+        const snippetElement: HTMLInputElement = document.createElement("input");
+        snippetElement.setAttribute("placeholder", "Voeg hier een snippet van je code toe!"); // Adds placeholder text
+        snippetElement.classList.add(".question-create-form");
 
         // Creates button
         const createQuestionButton: HTMLButtonElement = document.createElement("button");
@@ -41,6 +47,7 @@ export class QuestionCreateController extends Controller {
 
         // Adds the input and button as child elements to the form
         formElement.appendChild(inputElement);
+        formElement.appendChild(snippetElement);
         formElement.appendChild(createQuestionButton);
 
         // Adds the form as a child to the main container

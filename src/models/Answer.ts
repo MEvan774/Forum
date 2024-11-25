@@ -29,14 +29,13 @@ export class Answer {
         this._idUser = idUser;
     };
 
-    public static async setAnswer(idQuestion: number, idUser: number, description: string): Promise<void> {
+    public static async setAnswer(idQuestion: number, idUser: number, description: string, code: string): Promise<void> {
         try {
-            await api.queryDatabase(`INSERT INTO answer (idQuestion, idUser, description) VALUES ('${idQuestion}', '${idUser}', '${description}')`);
+            await api.queryDatabase(`INSERT INTO answer (idQuestion, idUser, description, code) VALUES ('${idQuestion}', '${idUser}', '${description}', '${code}')`);
         }
         catch (reason) {
             console.error(reason);
         }
-        location.reload();
     }
 
     public static async removeAnswerById(id: number): Promise<void> {
@@ -54,6 +53,21 @@ export class Answer {
         }
         catch (reason) {
             console.error(reason);
+            return 0;
+        }
+    }
+
+    /**
+     * Get the last uploaded answer's ID
+     * @returns The last answer ID
+     */
+    public static async getLastAnswerId(): Promise<number> {
+        try {
+            const result: { idAnswer: number }[] = await api.queryDatabase("SELECT idAnswer FROM answer ORDER BY idAnswer DESC LIMIT 1") as { idAnswer: number }[]; // this makes it so it returns a number instead of an object
+            return result.length > 0 ? result[0].idAnswer : 0; // Assuming the ID column is `id`
+        }
+        catch (error) {
+            console.error("Error fetching last answer ID:", error);
             return 0;
         }
     }
