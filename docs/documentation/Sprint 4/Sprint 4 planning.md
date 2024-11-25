@@ -28,7 +28,7 @@ In dit document staat de taak verdeling per user story en die
 
 **Dinsdag 26 november t/m  Zondag 1 December**
 
-- User Story 3B: Milan
+- User Story 3B: Koen
 - User Story 3C: Sjoerd en Milan
 - User Story 3D: Sjoerd en Milan
 - User Story 4A en 4B: Koen
@@ -42,3 +42,18 @@ In dit document staat de taak verdeling per user story en die
 
 Vandaag heb ik User Story 2E afgemaakt. Deze hoef ik nu alleen nog te verifiëren en dat ga ik doen door middel van een TMC-methode.
 Nu ik klaar ben met 2E betekent dat dat ik donderdag verder ga met user story 3B en ik dit aanpas in de planning
+
+### Maandag 25 nov
+
+**Koen:**
+
+Vandaag hebben we tijdens ons contact moment het gehad over het aanpassen van de planning en hebben we gereflecteerd op het werk dat we hebben gemaakt. Voor mij was er een grote aanpassing ion de user stories waar ik aan ga werken omdat ik veel user stories bijna af heb gemaakt die eigenlijk pas later van pas komen. 
+
+### Verandering user stories:
+
+**25 nov t/m 28 nov**
+
+User stories 4A een 4B worden verschuift en ik nu verder met user story 4C en #23 omdat ik daar al onbewust aan ben begonnen.
+
+
+
