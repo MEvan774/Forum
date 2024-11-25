@@ -66,18 +66,18 @@ export class AnswersDisplayController extends Controller {
             answerContainer.appendChild(descriptionElement);
 
             if (answer.code) {
-                const answerCodeTag: CodeTag = await CodeTag.getCodeTagByAnswerId(answer.id);
-                const preElement: HTMLPreElement = document.createElement("pre");
-                const codeElement: HTMLElement = document.createElement("code");
-                preElement.id = "answer-code";
-                codeElement.classList.add(`language-${answerCodeTag.tagType}`);
-                codeElement.innerText = answer.code;
-                preElement.appendChild(codeElement);
-                answerContainer.appendChild(preElement);
+                const answerCodeTag: CodeTag | undefined = await CodeTag.getCodeTagByAnswerId(answer.id);
+                if (answerCodeTag !== undefined) {
+                    const preElement: HTMLPreElement = document.createElement("pre");
+                    const codeElement: HTMLElement = document.createElement("code");
+                    preElement.id = "answer-code";
+                    codeElement.classList.add(`language-${answerCodeTag.tagType}`);
+                    codeElement.innerText = answer.code;
+                    preElement.appendChild(codeElement);
+                    answerContainer.appendChild(preElement);
+                }
             }
-            console.log(answer.createdAt);
-            const createdAtDate: Date = new Date(Date.apply(answer.createdAt));
-            console.log(createdAtDate);
+            const createdAtDate: Date = new Date(answer.createdAt);
             let selectedDate: Date = createdAtDate;
             let isUpdated: boolean = false;
             if (answer.updatedAt !== null) {

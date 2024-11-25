@@ -48,7 +48,7 @@ export class AnswerEditorController extends Controller {
      */
     private onClickSave(): void {
         const saveButton: HTMLButtonElement = document.getElementById("save-answer") as HTMLButtonElement;
-        saveButton.addEventListener("click", (event: Event) => {
+        saveButton.addEventListener("click", async (event: Event) => {
             event.preventDefault();
             if (this.validateInput()) {
                 const idAnswer: number | null = url.getFromQueryString("id-answer", null) as number | null;
@@ -64,7 +64,7 @@ export class AnswerEditorController extends Controller {
                                 void CodeTag.updateCodeTag(idAnswer, radio.value as CODELANGUAGE);
                             }
                         });
-                        void Answer.updateAnswer(idAnswer, this._descriptionInput.value, this._codeInput.value);
+                        await Answer.updateAnswer(idAnswer, this._descriptionInput.value, this._codeInput.value);
                         this.directToQuestion();
                     }
                 }
@@ -114,8 +114,13 @@ export class AnswerEditorController extends Controller {
             if (answer !== null) {
                 this.displayDescription(answer.description);
                 if (answer.code.length > 0) {
-                    const codeTag: CodeTag = await CodeTag.getCodeTagByAnswerId(idAnswer);
-                    this.displayCodeWithTag(answer.code, codeTag.tagType);
+                    const codeTag: CodeTag | undefined = await CodeTag.getCodeTagByAnswerId(idAnswer);
+                    if (codeTag === undefined) {
+                        return;
+                    }
+                    else {
+                        this.displayCodeWithTag(answer.code, codeTag.tagType);
+                    }
                 }
             }
         };
