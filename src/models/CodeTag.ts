@@ -18,26 +18,37 @@ export class CodeTag {
         this._idAnswer = idAnswer;
     };
 
-    public static async getCodeTagByAnswerId(idAnswer: number): Promise<CodeTag> {
+    /**
+     * Haalt de code tag op van een antwoord als de tag bestaat
+     * anders geeft null terug
+     * @param idAnswer meegegeven id van het antwoord
+     * @returns geeft een codetag object terug of null
+     */
+    public static async getCodeTagByAnswerId(idAnswer: number): Promise<CodeTag | undefined> {
         try {
             const codeTag: CodeTagQueryResult[] = await api.queryDatabase(`SELECT * FROM answercodetag
                  WHERE idAnswer = ${idAnswer}`) as CodeTagQueryResult[];
-            return codeTag.map((tag: CodeTagQueryResult) => new CodeTag(
-                tag.idTag,
-                tag.tagType,
-                tag.idAnswer
-            ))[0];
+
+            if (codeTag.length === 0) {
+                return undefined;
+            }
+            return new CodeTag(
+                codeTag[0].idTag,
+                codeTag[0].tagType,
+                codeTag[0].idAnswer
+            );
         }
         catch (reason) {
             console.error(reason);
-            return new CodeTag(0, CODELANGUAGE.TS, 0);
+            return undefined;
         }
     }
 
     public static async updateCodeTag(idAnswer: number, tagType: CODELANGUAGE): Promise<void> {
         try {
             await api.queryDatabase(`
-                UPDATE answercodetag SET tagType = '${tagType}' WHERE idAnswer = ${idAnswer}
+                INSERT INTO answercodetag (idAnswer, tagType) VALUES (${idAnswer}, '${tagType}')
+                ON DUPLICATE KEY UPDATE tagType = '${tagType}'
                 `);
         }
         catch (reason) {

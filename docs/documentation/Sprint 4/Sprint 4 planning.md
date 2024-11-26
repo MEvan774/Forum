@@ -28,7 +28,7 @@ In dit document staat de taak verdeling per user story en die
 
 **Dinsdag 26 november t/m  Zondag 1 December**
 
-- User Story 3B: Milan
+- User Story 3B: Koen
 - User Story 3C: Sjoerd en Milan
 - User Story 3D: Sjoerd en Milan
 - User Story 4A en 4B: Koen
@@ -42,3 +42,14 @@ In dit document staat de taak verdeling per user story en die
 
 Vandaag heb ik User Story 2E afgemaakt. Deze hoef ik nu alleen nog te verifiëren en dat ga ik doen door middel van een TMC-methode.
 Nu ik klaar ben met 2E betekent dat dat ik donderdag verder ga met user story 3B en ik dit aanpas in de planning
+
+### Maandag 25 november
+
+**Koen:**
+
+Vandaag hebben we tijdens ons contact moment het gehad over het aanpassen van de planning en hebben we gereflecteerd op het werk dat we hebben gemaakt. Voor mij was er een grote aanpassing ion de user stories waar ik aan ga werken omdat ik veel user stories bijna af heb gemaakt die eigenlijk pas later van pas komen.
+
+Dit kwam omdat het niet duidelijk genoeg was wat User Story 3B allemaal moest bevatten. Er werd namelijk als acceptatiecriteria gegeven dat de datum te zien moest zijn en of wanneer de vraag is geupdate.  Deze criteria kwam ook van pas bij user story #23. Daarnaast was er nog een user story 4C, dat ging over een antwoord verwijderen. Dit heb ik onbewust ook al toegevoegd aan de display van een vraag. De enige criteria voor deze user story die ik nog niet heb toegevoegd was om een na het verwijderen van een antwoord een bericht te verzenden naar de gebruiker.
+
+Omdat ik nu een groter deel af heb gemaakt dan gedacht wil ik nu meer de tijd nemen om ook te werken aan learning journeys en het voorbereiden van de voortgangsevaluatie. Daarnaast vind ik het ook belangrijk dat ik de user stories goed heb nabekeken of alle functionaliteit en gebruikersinteracties kloppen. Daarom verschuif ik user story 4A en 4B door naar volgende week.
+

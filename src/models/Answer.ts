@@ -39,7 +39,9 @@ export class Answer {
     }
 
     public static async removeAnswerById(id: number): Promise<void> {
-        await api.queryDatabase(`DELETE FROM answer WHERE idAnswer = ${id}`);
+        await api.queryDatabase(`DELETE FROM answercodetag WHERE idAnswer = ${id};
+            DELETE FROM answer WHERE idAnswer = ${id}
+            `);
     }
 
     /**
@@ -132,8 +134,8 @@ export class Answer {
     public static async updateAnswer(id: number, description: string, code: string): Promise<void> {
         try {
             await api.queryDatabase(`
-                UPDATE answer SET description = '${description}', code = '${code}' WHERE idAnswer = ${id} 
-                `);
+                UPDATE answer SET description = ?, code = ? WHERE idAnswer = ${id}
+                `, description, code);
         }
         catch (reason) {
             console.error(reason);
