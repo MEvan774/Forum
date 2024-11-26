@@ -26,3 +26,13 @@ Vandaag hebben we een user/guerilla test gehouden met Anne, de feedback van haar
 - Je kan je eigen profiel niet bekijken.
 - Bij registreren moet er nog toegevoegd worden dat je je wachtwoord moet herhalen.
 - De styling van het vragen aanmaken is onduidelijk, je kijkt er overheen.
+
+## Dinsdag 26/11/2024
+
+Vandaag hebben we een user/guerilla test gehouden met Rai, de feedback van haar is als volgt:
+- Je kan je vraag zonder ingelogd te zijn stellen
+- Meer feedback om in te loggen voordat je je antwoord kan invullen, of de optie om je antwoord te geven weg te laten.
+- Tab functionaliteit in code block zetten (code block zo dicht mogelijk laten functioneren als visual studio of andere code programs).
+- Bij het bewerken van de antwoord worden de regels van de code op 1 lijn gezet.
+- Onduidelijk als je een vraag post, gebruiker weet niet of het gepost is. Pagina moet naar boven scrollen naar je antwoord of de antwoorden moeten onderaan verschijnen.
+- Code block van antwoorden ziet er janky uit, boven in is er meer ruimte dan onderin. Padding moet boven en onder hetzelfde zijn
