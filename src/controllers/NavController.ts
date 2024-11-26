@@ -25,6 +25,10 @@ export class NavController extends Controller {
         <img src="./assets/img/code-exchange-logo.png" alt="Code Exchange Logo">
         `;
         this.view.appendChild(navLogoContainer);
+
+        navLogoContainer.addEventListener("click", () => {
+            window.location.href = "index.html";
+        });
     }
 
     /**
