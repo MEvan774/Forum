@@ -13,7 +13,7 @@ export class RegisterController extends Controller {
         });
     }
 
-    private async validateInputs(userName: HTMLInputElement, email: HTMLInputElement, password: HTMLInputElement): Promise<boolean> {
+    private async validateInputs(userName: HTMLInputElement, email: HTMLInputElement, password: HTMLInputElement, repeatPassword: HTMLInputElement): Promise<boolean> {
         let valid: boolean = true;
 
         if (userName.value === "") {
@@ -60,6 +60,10 @@ export class RegisterController extends Controller {
             User.setErrorMessage(password, "Password must be at least 8 characters long.");
             valid = false;
         }
+        else if (password.value !== repeatPassword.value) {
+            User.setErrorMessage(repeatPassword, "Both inputs must contain the same passwords.");
+            valid = false;
+        }
         else {
             User.clearErrorMessage(password);
         }
@@ -70,8 +74,9 @@ export class RegisterController extends Controller {
         const userName: HTMLInputElement = document.querySelector("#input-username")!;
         const email: HTMLInputElement = document.querySelector("#input-email")!;
         const password: HTMLInputElement = document.querySelector("#input-password")!;
+        const repeatPassword: HTMLInputElement = document.querySelector("#input-repeadPassword")!;
 
-        const validRegistrationInput: boolean = await this.validateInputs(userName, email, password);
+        const validRegistrationInput: boolean = await this.validateInputs(userName, email, password, repeatPassword);
         if (validRegistrationInput) {
             await User.setUser(userName.value, email.value, password.value);
             const idUser: number | null = await User.getIdByUser(userName.value, "userName");
