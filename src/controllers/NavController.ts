@@ -83,7 +83,7 @@ export class NavController extends Controller {
             document.body.classList.add("show-logout", "show-overlay");
             const confirmButton: HTMLButtonElement = document.getElementById("logout") as HTMLButtonElement;
             confirmButton.addEventListener("click", () => {
-                session.remove("LoggedIn");
+                session.set("LoggedIn", { isLoggedIn: false, userName: "", userId: undefined });
                 window.location.href = "/index.html";
             });
 
