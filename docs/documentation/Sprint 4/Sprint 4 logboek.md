@@ -15,6 +15,14 @@ Sjoerd: Ik heb user story 2C afgemaakt. De vragen genereren nu correct. Bij het 
 
 Sjoerd: Vandaag vooral gewerkt, in de avond een klein beetje de styling aangepast van de detail pagina van de vragen.
 
+## Donderdag 21 Nov
+
+Feedback ontvangen bij consult ERD & EERD:
+-Naamgeving moet consequent volgens conventies in camelCase.
+-ERD is meer EERD, kan abstracter. (Datatypes mogen weggelaten worden)
+-Relaties toevoegen in ERD. ("User maakt vraag")
+-Opletten op subtypes (Nog niet echt van belang, maar voor in de toekomst)
+
 ## Maandag 25 Nov
 
 Vandaag hebben we een user/guerilla test gehouden met Anne, de feedback van haar is als volgt:
