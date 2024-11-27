@@ -10,6 +10,8 @@ export class AnswerController extends Controller {
     private _codeTagTypes: NodeListOf<HTMLInputElement> =
         document.querySelectorAll(".tag-container input[type='radio']");
 
+    private _answerCodeInput: HTMLTextAreaElement = document.querySelector("#addCode")!;
+
     public constructor(view: HTMLElement) {
         super(view);
     }
@@ -18,6 +20,26 @@ export class AnswerController extends Controller {
         // void this.returnQuestion();
         this.view.addEventListener("click", () => {
             void this.onClickPost();
+        });
+        AnswerController.tabEventListener(this._answerCodeInput);
+    }
+
+    /**
+     * zorgt ervoor dat de tab knop functioneert in een code input vekd
+     * @param codeInput de code input veld waar de tab knop in moet werken
+     */
+    public static tabEventListener(codeInput: HTMLTextAreaElement): void {
+        codeInput.addEventListener("keydown", (e: KeyboardEvent) => {
+            if (e.key === "Tab") {
+                e.preventDefault();
+                const textArea: HTMLTextAreaElement = e.target as HTMLTextAreaElement;
+                textArea.setRangeText(
+                    "\t",
+                    textArea.selectionStart,
+                    textArea.selectionEnd,
+                    "end"
+                );
+            }
         });
     }
 

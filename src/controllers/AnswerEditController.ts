@@ -2,6 +2,7 @@ import { Controller } from "./Controller";
 import { NavController } from "./NavController";
 import { FooterController } from "./FooterController";
 import { Answer } from "../models/Answer";
+import { AnswerController } from "./AnswerController";
 import { CodeTag } from "../models/CodeTag";
 import { CODELANGUAGE } from "../models/CodeLanguage";
 import { url } from "@hboictcloud/api";
@@ -17,7 +18,6 @@ export class AnswerEditorController extends Controller {
 
     private _navController: NavController = new NavController(document.querySelector(".navbar")!);
     private _footerController: FooterController = new FooterController(document.querySelector(".footerbar")!);
-
     public constructor(view: HTMLElement) {
         super(view);
     };
@@ -25,6 +25,7 @@ export class AnswerEditorController extends Controller {
     public async render(): Promise<void> {
         this._navController.render();
         this._footerController.render();
+        AnswerController.tabEventListener(this._codeInput);
         this.onClickReturn();
         await this.retrieveAnswers();
         this.onClickSave();
