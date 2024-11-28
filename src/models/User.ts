@@ -1,23 +1,8 @@
 import { api } from "@hboictcloud/api";
 import { session } from "@hboictcloud/api";
 import { LoggedIn } from "./LoggedIn";
-
-export type UserQueryResult = {
-    idUser: number;
-    name: string;
-    email: string;
-    password: string;
-    createdAt: Date;
-    updatedAt: Date | null;
-};
-
-export type PasswordQueryResult = {
-    password: string;
-};
-
-export type Username = {
-    userName: string;
-};
+import { UserQueryResult } from "./QueryResultTypes/UserQueryResult";
+import { PasswordQueryResult } from "./QueryResultTypes/PasswordQueryResult";
 
 export class User {
     private _id: number;

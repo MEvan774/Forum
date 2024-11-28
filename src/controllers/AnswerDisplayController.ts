@@ -102,7 +102,9 @@ export class AnswersDisplayController extends Controller {
             `;
 
             if (isUpdated) {
-                extraAnswerInfoContainer.innerHTML += `<p id="date"><span>Bewerkt op</span> ${formattedDate}</p>`;
+                extraAnswerInfoContainer.innerHTML += `
+                <p id="date"><span>Bewerkt op</span> ${formattedDate}</p>
+                `;
             }
             else {
                 extraAnswerInfoContainer.innerHTML += `<p id="date">${formattedDate}</p>`;
