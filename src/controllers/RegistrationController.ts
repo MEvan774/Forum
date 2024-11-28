@@ -87,7 +87,7 @@ export class RegisterController extends Controller {
         const userName: HTMLInputElement = document.querySelector("#input-username")!;
         const email: HTMLInputElement = document.querySelector("#input-email")!;
         const password: HTMLInputElement = document.querySelector("#input-password")!;
-        const repeatPassword: HTMLInputElement = document.querySelector("#input-repeadPassword")!;
+        const repeatPassword: HTMLInputElement = document.querySelector("#input-repeatPassword")!;
 
         const validRegistrationInput: boolean = await this.validateInputs(userName, email, password, repeatPassword);
         if (validRegistrationInput) {

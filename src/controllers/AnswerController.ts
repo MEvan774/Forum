@@ -27,6 +27,7 @@ export class AnswerController extends Controller {
     /**
      * zorgt ervoor dat de tab knop functioneert in een code input vekd
      * @param codeInput de code input veld waar de tab knop in moet werken
+     * @author Koen
      */
     public static tabEventListener(codeInput: HTMLTextAreaElement): void {
         codeInput.addEventListener("keydown", (e: KeyboardEvent) => {
