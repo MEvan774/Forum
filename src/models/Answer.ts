@@ -19,7 +19,8 @@ export class Answer {
     private _idQuestion: number;
     private _idUser: number;
 
-    public constructor(id: number, description: string, code: string, createdAt: string, updatedAt: string | null, idQuestion: number, idUser: number) {
+    public constructor(id: number, description: string, code: string, createdAt: string,
+        updatedAt: string | null, idQuestion: number, idUser: number) {
         this._id = id;
         this._description = description;
         this._code = code;
@@ -29,14 +30,28 @@ export class Answer {
         this._idUser = idUser;
     };
 
-    public static async setAnswer(idQuestion: number, idUser: number, description: string, code: string): Promise<void> {
+    /**
+     * Sets answer data in the Answer object
+     */
+
+    public static async setAnswer(idQuestion: number, idUser: number, description: string,
+        code: string): Promise<void> {
         try {
-            await api.queryDatabase(`INSERT INTO answer (idQuestion, idUser, description, code) VALUES ('${idQuestion}', '${idUser}', '${description}', '${code}')`);
+            await api.queryDatabase(`INSERT INTO answer (
+                idQuestion,
+                idUser,
+                description,
+                code) 
+                VALUES ('${idQuestion}', '${idUser}', '${description}', '${code}')`);
         }
         catch (reason) {
             console.error(reason);
         }
     }
+
+    /**
+     * Removes answer from the database by id
+     */
 
     public static async removeAnswerById(id: number): Promise<void> {
         await api.queryDatabase(`DELETE FROM answercodetag WHERE idAnswer = ${id};
@@ -45,7 +60,7 @@ export class Answer {
     }
 
     /**
-     * Haalt de hoeveelheid antwoorden op van een vraag
+     * Gets the amount of answers of a question, returns number
      */
     public static async amountOfAnswers(questionId: number): Promise<number> {
         try {
@@ -65,14 +80,19 @@ export class Answer {
      */
     public static async getLastAnswerId(): Promise<number> {
         try {
-            const result: { idAnswer: number }[] = await api.queryDatabase("SELECT idAnswer FROM answer ORDER BY idAnswer DESC LIMIT 1") as { idAnswer: number }[]; // this makes it so it returns a number instead of an object
-            return result.length > 0 ? result[0].idAnswer : 0; // Assuming the ID column is `id`
+            const result: { idAnswer: number }[] = await api.queryDatabase(`SELECT idAnswer FROM answer 
+            ORDER BY idAnswer DESC LIMIT 1`) as { idAnswer: number }[];
+            return result.length > 0 ? result[0].idAnswer : 0;
         }
         catch (error) {
             console.error("Error fetching last answer ID:", error);
             return 0;
         }
     }
+
+    /**
+     * Gets all the answers of a question
+     */
 
     public static async getAllAnswersOfQuestion(questionId: number): Promise<Answer[]> {
         try {
@@ -97,9 +117,16 @@ export class Answer {
         }
     }
 
+    /**
+     * Gets user id by name
+     */
+
     public static async getAnswerUserId(nameInput: string): Promise<number> {
         try {
-            const answer: AnswersAmountQueryResult[] = await api.queryDatabase(`SELECT userName FROM user WHERE idUser = '${nameInput}'`) as AnswersAmountQueryResult[];
+            const answer: AnswersAmountQueryResult[] = await api.queryDatabase(`
+                SELECT userName 
+                FROM user 
+                WHERE idUser = '${nameInput}'`) as AnswersAmountQueryResult[];
             console.log(`ANSWERS: '${answer}'`);
             return answer[0].idUser;
         }
@@ -109,11 +136,16 @@ export class Answer {
         }
     }
 
+    /**
+     * Gets the amount of answers of a question, returns number
+     */
+
     public static async getAnswerById(id: number): Promise<Answer | null> {
         try {
             const answerResults: AnswersAmountQueryResult[] = await api.queryDatabase(`
                 SELECT idAnswer, description, code, createdAt, updatedAt, idQuestion, idUser
-                FROM answer WHERE idAnswer = ${id}
+                FROM answer 
+                WHERE idAnswer = ${id}
                 `) as AnswersAmountQueryResult[];
             return answerResults.map((answer: AnswersAmountQueryResult) => new Answer(
                 answer.idAnswer,
@@ -131,10 +163,16 @@ export class Answer {
         }
     }
 
+    /**
+     * Updates the answer from the database by id
+     */
+
     public static async updateAnswer(id: number, description: string, code: string): Promise<void> {
         try {
             await api.queryDatabase(`
-                UPDATE answer SET description = ?, code = ? WHERE idAnswer = ${id}
+                UPDATE answer 
+                SET description = ?, code = ? 
+                WHERE idAnswer = ${id}
                 `, description, code);
         }
         catch (reason) {
