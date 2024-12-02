@@ -6,6 +6,9 @@ export class RegisterController extends Controller {
         super(view);
     }
 
+    /**
+     * Functie maakt van view een eventlistener en activeert de functie onClickRegister
+     */
     public render(): void {
         this.view.addEventListener("click", (event: Event) => {
             event.preventDefault();
@@ -13,6 +16,11 @@ export class RegisterController extends Controller {
         });
     }
 
+    /**
+     * Functie valideert de input van de gebruiker
+     * @param input van username email password en repeatPassword
+     * @returns boolean true als de input goed is gekeurd anders false
+     */
     private async validateInputs(userName: HTMLInputElement, email: HTMLInputElement, password: HTMLInputElement, repeatPassword: HTMLInputElement): Promise<boolean> {
         let valid: boolean = true;
 
@@ -70,11 +78,16 @@ export class RegisterController extends Controller {
         return valid;
     };
 
+    /**
+     * haalt de input van de gebruiker op en geeft mee aan de validatie functie
+     * krijgt boolean terug en als het true is worden de gegevens meegegeven aan de setUser functie
+     * geeft naam van gebruiker en email mee aan sendEmail functie
+     */
     private async onClickRegister(): Promise<void> {
         const userName: HTMLInputElement = document.querySelector("#input-username")!;
         const email: HTMLInputElement = document.querySelector("#input-email")!;
         const password: HTMLInputElement = document.querySelector("#input-password")!;
-        const repeatPassword: HTMLInputElement = document.querySelector("#input-repeadPassword")!;
+        const repeatPassword: HTMLInputElement = document.querySelector("#input-repeatPassword")!;
 
         const validRegistrationInput: boolean = await this.validateInputs(userName, email, password, repeatPassword);
         if (validRegistrationInput) {
