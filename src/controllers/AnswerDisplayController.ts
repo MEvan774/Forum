@@ -50,6 +50,7 @@ export class AnswersDisplayController extends Controller {
 
         const loggedInUser: LoggedIn = User.getCurrentlyLoggedInUser();
 
+        // Creates a answer element for each answer available of the targeted question
         for (const answer of answers) {
             const answerContainer: HTMLDivElement = document.createElement("div");
             answerContainer.classList.add("answer-container");

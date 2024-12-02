@@ -58,7 +58,8 @@ export class CodeTag {
 
     public static async setCodeTag(tagType: CODELANGUAGE, idAnswer: number): Promise<void> {
         try {
-            await api.queryDatabase(`INSERT INTO answercodetag (tagType, idAnswer) VALUES ('${tagType}', '${idAnswer}')`);
+            await api.queryDatabase(`INSERT INTO answercodetag (tagType, idAnswer) 
+            VALUES ('${tagType}', '${idAnswer}')`);
         }
         catch (reason) {
             console.error(reason);

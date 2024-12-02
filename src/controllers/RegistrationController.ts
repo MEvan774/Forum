@@ -21,7 +21,8 @@ export class RegisterController extends Controller {
      * @param input van username email password en repeatPassword
      * @returns boolean true als de input goed is gekeurd anders false
      */
-    private async validateInputs(userName: HTMLInputElement, email: HTMLInputElement, password: HTMLInputElement, repeatPassword: HTMLInputElement): Promise<boolean> {
+    private async validateInputs(userName: HTMLInputElement, email: HTMLInputElement,
+        password: HTMLInputElement, repeatPassword: HTMLInputElement): Promise<boolean> {
         let valid: boolean = true;
 
         if (userName.value === "") {
@@ -89,7 +90,8 @@ export class RegisterController extends Controller {
         const password: HTMLInputElement = document.querySelector("#input-password")!;
         const repeatPassword: HTMLInputElement = document.querySelector("#input-repeatPassword")!;
 
-        const validRegistrationInput: boolean = await this.validateInputs(userName, email, password, repeatPassword);
+        const validRegistrationInput: boolean = await this.validateInputs(userName, email,
+            password, repeatPassword);
         if (validRegistrationInput) {
             await User.setUser(userName.value, email.value, password.value);
             const idUser: number | null = await User.getIdByUser(userName.value, "userName");

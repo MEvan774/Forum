@@ -37,7 +37,8 @@ export class QuestionCreateController extends Controller {
 
         // Creates input element for question snippet
         const snippetElement: HTMLInputElement = document.createElement("input");
-        snippetElement.setAttribute("placeholder", "Voeg hier een snippet van je code toe!"); // Adds placeholder text
+        // Adds placeholder text
+        snippetElement.setAttribute("placeholder", "Voeg hier een snippet van je code toe!");
         snippetElement.classList.add(".question-create-form");
 
         // Creates button

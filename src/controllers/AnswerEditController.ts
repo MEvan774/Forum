@@ -65,7 +65,10 @@ export class AnswerEditorController extends Controller {
                                 void CodeTag.updateCodeTag(idAnswer, radio.value as CODELANGUAGE);
                             }
                         });
-                        await Answer.updateAnswer(idAnswer, this._descriptionInput.value, this._codeInput.value);
+                        await Answer.updateAnswer(
+                            idAnswer,
+                            this._descriptionInput.value,
+                            this._codeInput.value);
                         this.directToQuestion();
                     }
                 }

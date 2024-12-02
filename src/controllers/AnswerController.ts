@@ -17,7 +17,6 @@ export class AnswerController extends Controller {
     }
 
     public render(): void {
-        // void this.returnQuestion();
         this.view.addEventListener("click", () => {
             void this.onClickPost();
         });
@@ -44,6 +43,12 @@ export class AnswerController extends Controller {
         });
     }
 
+    /**
+     * Functionality of the post answer button, checks if user is logged in and if any input is present in
+     * the @param description and sends the answer when both values are valid. It also checks the
+     * @param code value if the user has put in some code and adds code snippets if it has ipnut.
+     */
+
     private async onClickPost(): Promise<void> {
         try {
             let idAnswer: number = 0;
@@ -58,13 +63,14 @@ export class AnswerController extends Controller {
                 const result: boolean = confirm("Weet je zeker of je deze bericht wilt sturen?");
                 if (result) {
                     const code: HTMLInputElement = document.querySelector("#addCode")!;
-                    if (code.value) {
+                    if (code.value) { // Posts answer to the model and continues the code when finished
                         await this.postAnswer(loggedIn, description.value, code.value);
                     }
                     else {
                         await this.postAnswer(loggedIn, description.value, "");
                     }
 
+                    // gets id from the answer so it can be used to assign the code tag to the answer
                     idAnswer = await this.getAnswerId();
 
                     for (const radio of Array.from(this._codeTagTypes)) {
@@ -94,9 +100,13 @@ export class AnswerController extends Controller {
             return; // Prevent reloading if an error occurred
         }
 
-        // Reload the page after all operations are done
+        // Reloads the page after login is succesfull
         location.reload();
     }
+
+    /*
+    * Sents the answer data to the model so it gets send to the database
+    */
 
     private async postAnswer(loggedIn: LoggedIn, description: string, code: string): Promise<void> {
         try {
@@ -107,6 +117,11 @@ export class AnswerController extends Controller {
             console.log(reason);
         }
     }
+
+    /**
+    * Gets the anwser id from the last posted answer
+    * @param returns answerID of the last posted answer
+    */
 
     private async getAnswerId(): Promise<number> {
         try {

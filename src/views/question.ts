@@ -17,7 +17,7 @@ const answerDisplayView: HTMLElement = document.querySelector(".answers-display-
 const answerDisplayController: AnswersDisplayController = new AnswersDisplayController(answerDisplayView);
 answerDisplayController.render();
 
-const answerView: HTMLElement = document.querySelector(".answers-container")!;// binds post anwer button to the onclick function
+const answerView: HTMLElement = document.querySelector(".answers-container")!;
 const answerController: AnswerController = new AnswerController(answerView);
 answerController.render();
 
