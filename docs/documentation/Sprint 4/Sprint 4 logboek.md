@@ -72,3 +72,7 @@ We hebben op dit moment een paar van de aanpassingen gemaakt volgens de feedback
 - Meer feedback om in te loggen voordat je je antwoord kan invullen, of de optie om je antwoord te geven weg te laten.
 - Onduidelijk als je een vraag post, gebruiker weet niet of het gepost is. Pagina moet naar boven scrollen naar je antwoord of de antwoorden moeten onderaan verschijnen.
 
+
+## Woensdag 4 dec
+
+Vandaag is een nieuwe user story aangemaakt voor het geven van een rating (User Story 4D). Deze user story heeft een should have prioriteit en is toegevoegd aan het sprint board van Sprint 5.

@@ -3,7 +3,6 @@ import { Fles } from "./Fles";
 
 export class BierKrat extends Verpakking {
     private aantalFlessen: number = 24;
-    public static readonly MATERIAL: MATERIAAL = MATERIAAL.GLAS;
 
     public constructor() {
         super(MATERIAAL.GLAS);
