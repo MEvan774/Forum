@@ -41,7 +41,7 @@
 }
 
 
-.selected-question-container #question-code code::before,
+.selected-question-container #question-code code::before, 
 .answer-container #answer-code code::before {
     position: absolute;
     right: 15px;

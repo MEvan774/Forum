@@ -74,18 +74,16 @@ export class QuestionController extends Controller {
             const questionCodeTag: CodeTag | undefined = await CodeTag.getCodeTagByQuestionId(question.id);
 
             if (questionCodeTag !== undefined) {
-                console.log("KANKER");
                 const preElement: HTMLPreElement = document.createElement("pre");
                 const codeElement: HTMLElement = document.createElement("code");
-                preElement.id = "answer-code";
+                preElement.id = "question-code";
                 codeElement.classList.add(`language-${questionCodeTag.tagType}`);
                 codeElement.innerText = question.code;
                 preElement.appendChild(codeElement);
                 this.view.appendChild(preElement);
             }
         }
-        this.view.appendChild(amountOfAnswersParagraph);
-        this.view.innerHTML += "<div class='extra-info-container'><p id='user-name'>" +
+        this.view.innerHTML += "<div class='detailed-question-info'><p id='user-name'>" +
         question.userName +
         "</p><p id='created-at'>" + formattedDate + "</p></div>";
     }
