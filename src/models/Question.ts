@@ -4,6 +4,7 @@ type QuestionQueryResult = {
     id: number;
     title: string;
     description: string;
+    code: string;
     createdAt: Date;
     idUser: number;
     amount?: number;
@@ -14,20 +15,57 @@ export class Question {
     private _id: number;
     private _title: string;
     private _description: string;
+    private _code: string;
     private _createdAt: Date;
     private _idUser: number;
     private _userName?: string;
     private _amount?: number;
 
-    public constructor(id: number, title: string, description: string, createdAt: Date, idUser: number,
+    public constructor(id: number, title: string, description: string, code: string, createdAt: Date, idUser: number,
         userName?: string, amount?: number) {
         this._id = id;
         this._title = title;
         this._description = description;
+        this._code = code;
         this._createdAt = createdAt;
         this._idUser = idUser;
         this._userName = userName;
         this._amount = amount;
+    }
+
+    /**
+     * Sets answer data in the Answer object
+     */
+
+    public static async setQuestion(title: string, description: string, idUser: number, code: string
+    ): Promise<void> {
+        try {
+            await api.queryDatabase(`INSERT INTO question (
+                    title,
+                    description,
+                    idUser,
+                    code) 
+                    VALUES ('${title}', '${description}', '${idUser}', '${code}')`);
+        }
+        catch (reason) {
+            console.error(reason);
+        }
+    }
+
+    /**
+     * Get the last uploaded answer's ID
+     * @returns The last answer ID
+     */
+    public static async getLastQuestionId(): Promise<number> {
+        try {
+            const result: { idQuestion: number }[] = await api.queryDatabase(`SELECT idQuestion FROM question 
+            ORDER BY idQuestion DESC LIMIT 1`) as { idQuestion: number }[];
+            return result.length > 0 ? result[0].idQuestion : 0;
+        }
+        catch (error) {
+            console.error("Error fetching last answer ID:", error);
+            return 0;
+        }
     }
 
     /**
@@ -39,17 +77,17 @@ export class Question {
             const allQuestions: Question[] = [];
             const questionsResult: QuestionQueryResult[] = await
             api.queryDatabase(`SELECT question.idQuestion AS id, question.title, question.description, 
-                question.createdAt, question.idUser, user.userName, COUNT(answer.idAnswer) 
+                question.code, question.createdAt, question.idUser, user.userName, COUNT(answer.idAnswer) 
                 AS amount FROM (question INNER JOIN user ON question.idUser = user.idUser) LEFT JOIN answer 
                 ON question.idQuestion = answer.idQuestion GROUP BY question.title, question.description, 
-                question.createdAt, user.userName
+                question.code, question.createdAt, user.userName
                 ORDER BY question.createdAt DESC;
                 `) as QuestionQueryResult[];
             console.log(questionsResult);
             for (const question of questionsResult) {
                 question.createdAt = new Date(question.createdAt);
                 allQuestions.push(new Question(question.id, question.title, question.description,
-                    question.createdAt, question.idUser, question.userName, question.amount));
+                    question.code, question.createdAt, question.idUser, question.userName, question.amount));
             }
             return allQuestions;
         }
@@ -69,14 +107,17 @@ export class Question {
             const questionTarget: Question[] = [];
             const questionsResult: QuestionQueryResult[] = await
             api.queryDatabase(`SELECT question.idQuestion AS id, question.title, question.description, 
-                question.createdAt, question.idUser, user.userName, COUNT(answer.idAnswer) 
-                AS amount FROM (question INNER JOIN user ON question.idUser = user.idUser) LEFT JOIN answer 
-                ON question.idQuestion = answer.idQuestion GROUP BY question.title, question.description, 
-                question.createdAt, user.userName HAVING question.idQuestion = ${idQuestion}`) as QuestionQueryResult[];
+                question.code, question.createdAt, question.idUser, user.userName, 
+                COUNT(answer.idAnswer) AS amount 
+             FROM (question INNER JOIN user ON question.idUser = user.idUser) 
+             LEFT JOIN answer ON question.idQuestion = answer.idQuestion 
+             WHERE question.idQuestion = ${idQuestion} 
+             GROUP BY question.idQuestion, question.title, question.description, question.code, 
+                      question.createdAt, user.userName`) as QuestionQueryResult[];
             for (const question of questionsResult) {
                 question.createdAt = new Date(question.createdAt);
                 questionTarget.push(new Question(question.id, question.title, question.description,
-                    question.createdAt, question.idUser, question.userName, question.amount));
+                    question.code, question.createdAt, question.idUser, question.userName, question.amount));
             }
             return questionTarget;
         }
@@ -96,6 +137,10 @@ export class Question {
 
     public get description(): string {
         return this._description;
+    }
+
+    public get code(): string {
+        return this._code;
     }
 
     public get createdAt(): Date {
