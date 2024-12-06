@@ -41,23 +41,23 @@ export class QuestionCreateController extends Controller {
         // Creates input element for question description
         this.titleElement = document.createElement("input");
         this.titleElement.setAttribute("placeholder", "Schrijf hier de titel van je vraag!"); // Adds placeholder text
-        this.titleElement.classList.add("question-create-form");
+        this.titleElement.classList.add("question-title-form");
 
         // Creates input element for question description
         this.inputElement = document.createElement("input");
         this.inputElement.setAttribute("placeholder", "Schrijf hier je vraag!"); // Adds placeholder text
-        this.inputElement.classList.add("question-create-form");
+        this.inputElement.classList.add("question-description-form");
 
         // Creates input element for question snippet
         this.snippetElement = document.createElement("input");
         this.snippetElement.setAttribute("placeholder", "Voeg hier een snippet van je code toe!"); // Adds placeholder text
-        this.snippetElement.classList.add("question-create-form");
+        this.snippetElement.classList.add("question-code-form");
 
         // Creates button
         const createQuestionButton: HTMLButtonElement = document.createElement("button");
         createQuestionButton.setAttribute("type", "button"); // Set button type explicitly
         createQuestionButton.classList.add("button-create-question");
-        createQuestionButton.innerText = "Submit!";
+        createQuestionButton.innerText = "Plaats je vraag!";
 
         const tagButtons: HTMLElement = document.createElement("div");
         tagButtons.innerHTML = `

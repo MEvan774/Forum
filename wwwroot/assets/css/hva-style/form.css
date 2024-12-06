@@ -86,3 +86,70 @@ form .form-error {
     font-size: 1rem;
     margin-top: 0.5rem;
 }
+
+.question-title-form{
+    border: 3px solid var(--gray);
+    border-radius: 5px;
+    resize: vertical;
+    white-space: nowrap;
+
+    padding: 10px 5px;
+    scrollbar-color: var(--primary-color) rgba(215, 215, 215, 0);
+    min-height: 20px;
+    max-height: 1000px;
+    width: 35%;
+    margin-bottom: 20px;
+    transition: outline 0.1s, outline-offset 0.1s;
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.question-description-form{
+    border: 3px solid var(--gray);
+    border-radius: 5px;
+    float: right;
+    resize: vertical;
+    white-space: nowrap;
+    padding: 10px 5px;
+    scrollbar-color: var(--primary-color) rgba(215, 215, 215, 0);
+    min-height: 20px;
+    max-height: 1000px;
+    width: 65%;
+    margin-bottom: 20px;
+    transition: outline 0.1s, outline-offset 0.1s;
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.question-code-form{
+    border: 3px solid var(--gray);
+    border-radius: 5px;
+    resize: vertical;
+    white-space: nowrap;
+
+    padding: 10px 5px;
+    scrollbar-color: var(--primary-color) rgba(215, 215, 215, 0);
+    min-height: 200px;
+    max-height: 1000px;
+    width: 100%;
+    margin-bottom: 20px;
+    transition: outline 0.1s, outline-offset 0.1s;
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.button-create-question {
+    color: white;
+    background-color: var(--primary-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-bottom: 20px;
+}
+
+.button-create-question:hover {
+    background-color: #932539;
+}
+
