@@ -92,6 +92,67 @@ export class CodeTag {
         }
     }
 
+    /**
+     * fetches the codeTag by finding the corresponding idQuestion
+     * @param idQuestion id of the question, will be used to get the correct codeTag
+     * @returns the codeTag of the question
+     */
+
+    public static async getCodeTagByQuestionId(idQuestion: number): Promise<CodeTag | undefined> {
+        try {
+            const codeTag: CodeTagQueryResult[] = await api.queryDatabase(`SELECT idTag, tagType,
+                idQuestion AS idAnswer FROM questioncodetag
+                WHERE idQuestion = ${idQuestion}`) as CodeTagQueryResult[];
+
+            if (codeTag.length === 0) {
+                return undefined;
+            }
+            return new CodeTag(
+                codeTag[0].idTag,
+                codeTag[0].tagType,
+                codeTag[0].idAnswer
+            );
+        }
+        catch (reason) {
+            console.error(reason);
+            return undefined;
+        }
+    }
+
+    /**
+     * Updates the codeTags values
+     * @param idQuestion changes the idQuestion from the codeTag to the new one
+     * @param tagType changes the idQuestion from the codeTag to the new one
+     */
+
+    public static async updateCodeTagQuestion(idQuestion: number, tagType: CODELANGUAGE): Promise<void> {
+        try {
+            await api.queryDatabase(`
+                INSERT INTO questioncodetag (idQuestion, tagType) VALUES (${idQuestion}, '${tagType}')
+                ON DUPLICATE KEY UPDATE tagType = '${tagType}'
+                `);
+        }
+        catch (reason) {
+            console.error(reason);
+        }
+    }
+
+    /**
+     * Sets the codeTag and idQuestion
+     * @param tagType sets the codeLanguage of the codeTag
+     * @param idQuestion sets the idQuestion of the codeTag
+     */
+
+    public static async setCodeTagQuestion(tagType: CODELANGUAGE, idQuestion: number): Promise<void> {
+        try {
+            await api.queryDatabase(`INSERT INTO questioncodetag (tagType, idQuestion) 
+            VALUES ('${tagType}', '${idQuestion}')`);
+        }
+        catch (reason) {
+            console.error(reason);
+        }
+    }
+
     public get idTag(): number {
         return this._idTag;
     }

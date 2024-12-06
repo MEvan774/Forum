@@ -11,7 +11,7 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     transition: all 0.2s ease;
-    height: 205px;
+    height: auto;
 }
 
 .question-container h2 {
@@ -66,3 +66,59 @@
     margin: 0;
 }
 
+.question-container::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 3px;
+    background-color: var(--primary-color);
+    bottom: -20px;
+    left: 0;
+    border-radius: 10px;
+}
+
+.question-container #answer-code {
+    background-color: #00000080;
+    max-height: 500px;
+    padding: 20px;
+    border-radius: 10px;
+    overflow: auto;
+    font-family: monospace;
+    font-size: 16px;
+    scrollbar-color: var(--primary-color) black;
+    position: relative;
+}
+
+.question-container #answer-code code {
+    white-space: pre;   
+}
+
+
+.question-container [class*="JavaScript"]::before {
+    content: "JavaScript";
+}
+
+.question-container [class*="TypeScript"]::before {
+    content: "TypeScript";
+}
+
+.question-container [class*="Python"]::before {
+    content: "Python";
+}
+
+.question-container [class*="HTML"]::before {
+    content: "HTML";
+}
+
+.question-container [class*="CSS"]::before {
+    content: "CSS";
+}
+
+.question-container #answer-code code::before {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 18px;
+    font-family: monospace;
+    color: var(--primary-color);
+} 

@@ -1,8 +1,15 @@
 import { Controller } from "./Controller";
-// import { LoggedIn } from "../models/LoggedIn";
-// import { session } from "@hboictcloud/api";
+import { CodeTag } from "../models/CodeTag";
+import { CODELANGUAGE } from "../models/CodeLanguage";
+import { LoggedIn } from "../models/LoggedIn";
+import { session } from "@hboictcloud/api";
+import { Question } from "../models/Question";
 
 export class QuestionCreateController extends Controller {
+    private inputElement!: HTMLInputElement;
+    private titleElement!: HTMLInputElement;
+    private snippetElement!: HTMLInputElement;
+
     public constructor(view: HTMLElement) {
         super(view);
     }
@@ -11,9 +18,10 @@ export class QuestionCreateController extends Controller {
         this.view.addEventListener("click", () => {
             this.createForm();
             const createQuestionButton: HTMLButtonElement =
-            document.querySelector(".button-create-question")!;
-            createQuestionButton.addEventListener("click", () => {
-                this.createQuestion();
+                document.querySelector(".button-create-question")!;
+            createQuestionButton.addEventListener("click", event => {
+                event.preventDefault(); // Prevents form submission and page reload
+                void this.createQuestion();
             });
         });
     }
@@ -28,34 +36,150 @@ export class QuestionCreateController extends Controller {
 
         // Creates form element
         const formElement: HTMLFormElement = document.createElement("form");
-        formElement.classList.add(".question-form");
+        formElement.classList.add("question-form");
 
         // Creates input element for question description
-        const inputElement: HTMLInputElement = document.createElement("input");
-        inputElement.setAttribute("placeholder", "Schrijf hier je vraag!"); // Adds placeholder text
-        inputElement.classList.add(".question-create-form");
+        this.titleElement = document.createElement("input");
+        this.titleElement.setAttribute("placeholder", "Schrijf hier de titel van je vraag!"); // Adds placeholder text
+        this.titleElement.classList.add("question-create-form");
+
+        // Creates input element for question description
+        this.inputElement = document.createElement("input");
+        this.inputElement.setAttribute("placeholder", "Schrijf hier je vraag!"); // Adds placeholder text
+        this.inputElement.classList.add("question-create-form");
 
         // Creates input element for question snippet
-        const snippetElement: HTMLInputElement = document.createElement("input");
-        // Adds placeholder text
-        snippetElement.setAttribute("placeholder", "Voeg hier een snippet van je code toe!");
-        snippetElement.classList.add(".question-create-form");
+        this.snippetElement = document.createElement("input");
+        this.snippetElement.setAttribute("placeholder", "Voeg hier een snippet van je code toe!"); // Adds placeholder text
+        this.snippetElement.classList.add("question-create-form");
 
         // Creates button
         const createQuestionButton: HTMLButtonElement = document.createElement("button");
-        createQuestionButton.classList.add(".button-create-question");
+        createQuestionButton.setAttribute("type", "button"); // Set button type explicitly
+        createQuestionButton.classList.add("button-create-question");
         createQuestionButton.innerText = "Submit!";
 
+        const tagButtons: HTMLElement = document.createElement("div");
+        tagButtons.innerHTML = `
+                    <div class="tag-container">
+                <label>
+                    <input type="radio" name="language" value="JavaScript" checked>
+                    JavaScript
+                </label>
+                <label>
+                    <input type="radio" name="language" value="Python">
+                    Python
+                </label>
+                <label>
+                    <input type="radio" name="language" value="TypeScript">
+                    TypeScript
+                </label>
+                <label>
+                    <input type="radio" name="language" value="HTML">
+                    HTML
+                </label>
+                <label>
+                    <input type="radio" name="language" value="CSS">
+                    CSS
+                </label>
+            </div>`;
+
         // Adds the input and button as child elements to the form
-        formElement.appendChild(inputElement);
-        formElement.appendChild(snippetElement);
+        formElement.appendChild(this.titleElement);
+        formElement.appendChild(this.inputElement);
+        formElement.appendChild(this.snippetElement);
         formElement.appendChild(createQuestionButton);
+        formElement.appendChild(tagButtons);
 
         // Adds the form as a child to the main container
         formContainer.appendChild(formElement);
     }
 
-    private createQuestion(): void {
+    /**
+     * Checks if question input is valid and creates a question
+     * @author Milan
+     */
+    private async createQuestion(): Promise<void> {
+        try {
+            let idQuestion: number = 0;
+            const loggedIn: LoggedIn = session.get("LoggedIn") as LoggedIn;
+            if (loggedIn.isLoggedIn) {
+                if (!this.inputElement.value) {
+                    alert("Uw antwoord mag niet leeg zijn!");
+                    return; // Exit the function if the description is empty
+                }
+                if (!this.titleElement.value) {
+                    alert("Uw titel mag niet leeg zijn!");
+                    return; // Exit the function if the description is empty
+                }
 
+                const result: boolean = confirm("Weet je zeker of je deze bericht wilt sturen?");
+                if (result) {
+                    if (this.snippetElement.value)
+                        await this.postQuestion(loggedIn, this.titleElement.value,
+                            this.inputElement.value, this.snippetElement.value);
+                    else
+                        await this.postQuestion(loggedIn, this.titleElement.value,
+                            this.inputElement.value, "");
+
+                    // gets id from the answer so it can be used to assign the code tag to the answer
+
+                    const _codeTagTypes: NodeListOf<HTMLInputElement> =
+                    document.querySelectorAll(".tag-container input[type='radio']");
+                    idQuestion = await this.getQuestionId();
+
+                    for (const radio of Array.from(_codeTagTypes)) {
+                        const input: HTMLInputElement = radio;
+                        if (input.checked) {
+                            console.log(input.value);
+                            console.log(idQuestion);
+                            await CodeTag.setCodeTagQuestion(input.value as CODELANGUAGE, idQuestion);
+                        }
+                    }
+
+                    console.log("ANSWER POSTED!");
+                }
+                else
+                    console.log("Post stopped!");
+            }
+            else {
+                alert("Alleen ingelogde gebruikers mogen reageren!");
+                return; // Exit the function for non-logged-in users
+            }
+        }
+        catch (error) {
+            console.error("Error posting answer:", error);
+            alert("Er is een fout opgetreden. Probeer het opnieuw!");
+            return; // Prevent reloading if an error occurred
+        }
+
+        // Reloads the page after login is succesfull
+        location.reload();
+    }
+
+    private async postQuestion(loggedIn: LoggedIn, title: string, description: string, code: string):
+    Promise<void> {
+        try {
+            await Question.setQuestion(title, description, loggedIn.userId, code);
+        }
+        catch (reason) {
+            console.log(reason);
+        }
+    }
+
+    /**
+    * Gets the anwser id from the last posted answer
+    * @param returns answerID of the last posted answer
+    */
+
+    private async getQuestionId(): Promise<number> {
+        try {
+            const questionID: number = await Question.getLastQuestionId();
+            return questionID;
+        }
+        catch (reason) {
+            console.log(reason);
+            return 0;
+        }
     }
 }
