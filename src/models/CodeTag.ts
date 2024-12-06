@@ -44,6 +44,32 @@ export class CodeTag {
         }
     }
 
+    /**
+     * Haalt de code tag op van een vraag als de tag bestaat
+     * anders geeft null terug
+     * @param idAnswer meegegeven id van de vraag
+     * @returns geeft een codetag object terug of null
+     */
+    public static async getCodeTagByQuestionId(idQuestion: number): Promise<CodeTag | undefined> {
+        try {
+            const codeTag: CodeTagQueryResult[] = await api.queryDatabase(`SELECT * FROM questioncodetag
+                WHERE idQuestion = ${idQuestion}`) as CodeTagQueryResult[];
+            console.log(codeTag);
+            if (codeTag.length === 0) {
+                return undefined;
+            }
+            return codeTag.map((tag: CodeTagQueryResult) => new CodeTag(
+                tag.idTag,
+                tag.tagType,
+                tag.idAnswer
+            ))[0];
+        }
+        catch (reason) {
+            console.error(reason);
+            return undefined;
+        }
+    }
+
     public static async updateCodeTag(idAnswer: number, tagType: CODELANGUAGE): Promise<void> {
         try {
             await api.queryDatabase(`
@@ -67,38 +93,10 @@ export class CodeTag {
     }
 
     /**
-     * fetches the codeTag by finding the corresponding idQuestion
-     * @param idQuestion id of the question, will be used to get the correct codeTag
-     * @returns the codeTag of the question
-     */
-
-    public static async getCodeTagByQuestionId(idQuestion: number): Promise<CodeTag | undefined> {
-        try {
-            const codeTag: CodeTagQueryResult[] = await api.queryDatabase(`SELECT idTag, tagType,
-                idQuestion AS idAnswer FROM questioncodetag
-                WHERE idQuestion = ${idQuestion}`) as CodeTagQueryResult[];
-
-            if (codeTag.length === 0) {
-                return undefined;
-            }
-            return new CodeTag(
-                codeTag[0].idTag,
-                codeTag[0].tagType,
-                codeTag[0].idAnswer
-            );
-        }
-        catch (reason) {
-            console.error(reason);
-            return undefined;
-        }
-    }
-
-    /**
      * Updates the codeTags values
      * @param idQuestion changes the idQuestion from the codeTag to the new one
      * @param tagType changes the idQuestion from the codeTag to the new one
      */
-
     public static async updateCodeTagQuestion(idQuestion: number, tagType: CODELANGUAGE): Promise<void> {
         try {
             await api.queryDatabase(`

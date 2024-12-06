@@ -27,6 +27,7 @@ export class Question {
         this._title = title;
         this._description = description;
         this._code = code;
+        this._code = code;
         this._createdAt = createdAt;
         this._idUser = idUser;
         this._userName = userName;
@@ -79,7 +80,7 @@ export class Question {
             api.queryDatabase(`SELECT question.idQuestion AS id, question.title, question.description, 
                 question.code, question.createdAt, question.idUser, user.userName, COUNT(answer.idAnswer) 
                 AS amount FROM (question INNER JOIN user ON question.idUser = user.idUser) LEFT JOIN answer 
-                ON question.idQuestion = answer.idQuestion GROUP BY question.title, question.description, 
+                ON question.idQuestion = answer.idQuestion GROUP BY question.title, question.description,  
                 question.code, question.createdAt, user.userName
                 ORDER BY question.createdAt DESC;
                 `) as QuestionQueryResult[];
@@ -102,29 +103,31 @@ export class Question {
      * @param idQuestion ID van de vraag
      * @returns Het opgehaald vraag object
      */
-    public static async getQuestionById(idQuestion: number): Promise<Question[]> {
+    public static async getQuestionById(idQuestion: number): Promise<Question | null> {
         try {
-            const questionTarget: Question[] = [];
             const questionsResult: QuestionQueryResult[] = await
             api.queryDatabase(`SELECT question.idQuestion AS id, question.title, question.description, 
-                question.code, question.createdAt, question.idUser, user.userName, 
-                COUNT(answer.idAnswer) AS amount 
-             FROM (question INNER JOIN user ON question.idUser = user.idUser) 
-             LEFT JOIN answer ON question.idQuestion = answer.idQuestion 
-             WHERE question.idQuestion = ${idQuestion} 
-             GROUP BY question.idQuestion, question.title, question.description, question.code, 
-                      question.createdAt, user.userName`) as QuestionQueryResult[];
-            for (const question of questionsResult) {
-                question.createdAt = new Date(question.createdAt);
-                questionTarget.push(new Question(question.id, question.title, question.description,
-                    question.code, question.createdAt, question.idUser, question.userName, question.amount));
-            }
-            return questionTarget;
+                question.code, question.createdAt, question.idUser, user.userName, COUNT(answer.idAnswer) 
+                AS amount FROM (question INNER JOIN user ON question.idUser = user.idUser) LEFT JOIN answer 
+                ON question.idQuestion = answer.idQuestion GROUP BY question.title, question.description, 
+                question.code, question.createdAt, user.userName HAVING question.idQuestion = 
+                ${idQuestion}`) as QuestionQueryResult[];
+            console.log(questionsResult);
+            return questionsResult.map((question: QuestionQueryResult) => new Question(
+                question.id,
+                question.title,
+                question.description,
+                question.code,
+                question.createdAt,
+                question.idUser,
+                question.userName,
+                question.amount
+            ))[0];
         }
         catch (reason) {
             console.error(reason);
+            return null;
         }
-        return [];
     }
 
     public get id(): number {
