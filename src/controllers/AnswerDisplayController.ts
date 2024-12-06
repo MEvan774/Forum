@@ -37,6 +37,7 @@ export class AnswersDisplayController extends Controller {
      */
     private async displayAnswers(answers: Answer[], amountOfAnswers: number): Promise<void> {
         const amountOfAnswersHeader: HTMLHeadingElement = document.createElement("h2");
+        amountOfAnswersHeader.id = "amount-of-answers";
         if (amountOfAnswers === 0) {
             amountOfAnswersHeader.innerText = "0 Antwoorden";
         }
@@ -50,7 +51,6 @@ export class AnswersDisplayController extends Controller {
 
         const loggedInUser: LoggedIn = User.getCurrentlyLoggedInUser();
 
-        // Creates a answer element for each answer available of the targeted question
         for (const answer of answers) {
             const answerContainer: HTMLDivElement = document.createElement("div");
             answerContainer.classList.add("answer-container");

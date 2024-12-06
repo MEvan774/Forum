@@ -1,3 +1,7 @@
+#amount-of-answers {
+    margin-top: 10px;
+}
+
 .answer-container {
     background-color: #393e4c54;
     display: grid;
@@ -23,52 +27,6 @@
     left: 0;
     border-radius: 10px;
 }
-
-.answer-container #answer-code {
-    background-color: #00000080;
-    max-height: 500px;
-    padding: 20px;
-    border-radius: 10px;
-    overflow: auto;
-    font-family: monospace;
-    font-size: 16px;
-    scrollbar-color: var(--primary-color) black;
-    position: relative;
-}
-
-.answer-container #answer-code code {
-    white-space: pre;   
-}
-
-
-.answer-container [class*="JavaScript"]::before {
-    content: "JavaScript";
-}
-
-.answer-container [class*="TypeScript"]::before {
-    content: "TypeScript";
-}
-
-.answer-container [class*="Python"]::before {
-    content: "Python";
-}
-
-.answer-container [class*="HTML"]::before {
-    content: "HTML";
-}
-
-.answer-container [class*="CSS"]::before {
-    content: "CSS";
-}
-
-.answer-container #answer-code code::before {
-    position: absolute;
-    right: 15px;
-    top: 10px;
-    font-size: 18px;
-    font-family: monospace;
-    color: var(--primary-color);
-} 
 
 .answer-container .detailed-answer-info {
     display: flex;

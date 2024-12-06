@@ -4,6 +4,7 @@ type QuestionQueryResult = {
     id: number;
     title: string;
     description: string;
+    code: string;
     createdAt: Date;
     idUser: number;
     amount?: number;
@@ -14,16 +15,18 @@ export class Question {
     private _id: number;
     private _title: string;
     private _description: string;
+    private _code: string;
     private _createdAt: Date;
     private _idUser: number;
     private _userName?: string;
     private _amount?: number;
 
-    public constructor(id: number, title: string, description: string, createdAt: Date, idUser: number,
+    public constructor(id: number, title: string, description: string, code: string, createdAt: Date, idUser: number,
         userName?: string, amount?: number) {
         this._id = id;
         this._title = title;
         this._description = description;
+        this._code = code;
         this._createdAt = createdAt;
         this._idUser = idUser;
         this._userName = userName;
@@ -39,17 +42,17 @@ export class Question {
             const allQuestions: Question[] = [];
             const questionsResult: QuestionQueryResult[] = await
             api.queryDatabase(`SELECT question.idQuestion AS id, question.title, question.description, 
-                question.createdAt, question.idUser, user.userName, COUNT(answer.idAnswer) 
+                question.code, question.createdAt, question.idUser, user.userName, COUNT(answer.idAnswer) 
                 AS amount FROM (question INNER JOIN user ON question.idUser = user.idUser) LEFT JOIN answer 
-                ON question.idQuestion = answer.idQuestion GROUP BY question.title, question.description, 
-                question.createdAt, user.userName
+                ON question.idQuestion = answer.idQuestion GROUP BY question.title, question.description,  
+                question.code, question.createdAt, user.userName
                 ORDER BY question.createdAt DESC;
                 `) as QuestionQueryResult[];
             console.log(questionsResult);
             for (const question of questionsResult) {
                 question.createdAt = new Date(question.createdAt);
                 allQuestions.push(new Question(question.id, question.title, question.description,
-                    question.createdAt, question.idUser, question.userName, question.amount));
+                    question.code, question.createdAt, question.idUser, question.userName, question.amount));
             }
             return allQuestions;
         }
@@ -64,26 +67,31 @@ export class Question {
      * @param idQuestion ID van de vraag
      * @returns Het opgehaald vraag object
      */
-    public static async getQuestionById(idQuestion: number): Promise<Question[]> {
+    public static async getQuestionById(idQuestion: number): Promise<Question | null> {
         try {
-            const questionTarget: Question[] = [];
             const questionsResult: QuestionQueryResult[] = await
             api.queryDatabase(`SELECT question.idQuestion AS id, question.title, question.description, 
-                question.createdAt, question.idUser, user.userName, COUNT(answer.idAnswer) 
+                question.code, question.createdAt, question.idUser, user.userName, COUNT(answer.idAnswer) 
                 AS amount FROM (question INNER JOIN user ON question.idUser = user.idUser) LEFT JOIN answer 
                 ON question.idQuestion = answer.idQuestion GROUP BY question.title, question.description, 
-                question.createdAt, user.userName HAVING question.idQuestion = ${idQuestion}`) as QuestionQueryResult[];
-            for (const question of questionsResult) {
-                question.createdAt = new Date(question.createdAt);
-                questionTarget.push(new Question(question.id, question.title, question.description,
-                    question.createdAt, question.idUser, question.userName, question.amount));
-            }
-            return questionTarget;
+                question.code, question.createdAt, user.userName HAVING question.idQuestion = 
+                ${idQuestion}`) as QuestionQueryResult[];
+            console.log(questionsResult);
+            return questionsResult.map((question: QuestionQueryResult) => new Question(
+                question.id,
+                question.title,
+                question.description,
+                question.code,
+                question.createdAt,
+                question.idUser,
+                question.userName,
+                question.amount
+            ))[0];
         }
         catch (reason) {
             console.error(reason);
+            return null;
         }
-        return [];
     }
 
     public get id(): number {
@@ -96,6 +104,10 @@ export class Question {
 
     public get description(): string {
         return this._description;
+    }
+
+    public get code(): string {
+        return this._code;
     }
 
     public get createdAt(): Date {

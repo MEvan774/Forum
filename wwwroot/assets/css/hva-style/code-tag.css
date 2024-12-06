@@ -1,0 +1,52 @@
+#answer-code, #question-code {
+    background-color: #00000080;
+    max-height: 500px;
+    padding: 20px;
+    border-radius: 10px;
+    overflow: auto;
+    font-family: monospace;
+    font-size: 16px;
+    scrollbar-color: var(--primary-color) black;
+    position: relative;
+}
+
+#answer-code code, #question-code code {
+    white-space: pre;   
+}
+
+
+.selected-question-container [class*="JavaScript"]::before,
+.answer-container [class*="JavaScript"]::before {
+    content: "JavaScript";
+}
+
+.selected-question-container [class*="TypeScript"]::before,
+.answer-container [class*="TypeScript"]::before {
+    content: "TypeScript";
+}
+
+.selected-question-container [class*="Python"]::before,
+.answer-container [class*="Python"]::before {
+    content: "Python";
+}
+
+.selected-question-container [class*="HTML"]::before,
+.answer-container [class*="HTML"]::before {
+    content: "HTML";
+}
+
+.selected-question-container [class*="CSS"]::before,
+.answer-container [class*="CSS"]::before {
+    content: "CSS";
+}
+
+
+.selected-question-container #question-code code::before,
+.answer-container #answer-code code::before {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 18px;
+    font-family: monospace;
+    color: var(--primary-color);
+} 

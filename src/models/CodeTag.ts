@@ -44,6 +44,32 @@ export class CodeTag {
         }
     }
 
+    /**
+     * Haalt de code tag op van een vraag als de tag bestaat
+     * anders geeft null terug
+     * @param idAnswer meegegeven id van de vraag
+     * @returns geeft een codetag object terug of null
+     */
+    public static async getCodeTagByQuestionId(idQuestion: number): Promise<CodeTag | undefined> {
+        try {
+            const codeTag: CodeTagQueryResult[] = await api.queryDatabase(`SELECT * FROM questioncodetag
+                WHERE idQuestion = ${idQuestion}`) as CodeTagQueryResult[];
+            console.log(codeTag);
+            if (codeTag.length === 0) {
+                return undefined;
+            }
+            return codeTag.map((tag: CodeTagQueryResult) => new CodeTag(
+                tag.idTag,
+                tag.tagType,
+                tag.idAnswer
+            ))[0];
+        }
+        catch (reason) {
+            console.error(reason);
+            return undefined;
+        }
+    }
+
     public static async updateCodeTag(idAnswer: number, tagType: CODELANGUAGE): Promise<void> {
         try {
             await api.queryDatabase(`
