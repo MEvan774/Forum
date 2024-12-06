@@ -5,7 +5,6 @@ type QuestionQueryResult = {
     title: string;
     description: string;
     code: string;
-    code: string;
     createdAt: Date;
     idUser: number;
     amount?: number;
@@ -17,13 +16,11 @@ export class Question {
     private _title: string;
     private _description: string;
     private _code: string;
-    private _code: string;
     private _createdAt: Date;
     private _idUser: number;
     private _userName?: string;
     private _amount?: number;
 
-    public constructor(id: number, title: string, description: string, code: string, createdAt: Date, idUser: number,
     public constructor(id: number, title: string, description: string, code: string, createdAt: Date, idUser: number,
         userName?: string, amount?: number) {
         this._id = id;
@@ -93,7 +90,6 @@ export class Question {
                 question.createdAt = new Date(question.createdAt);
                 allQuestions.push(new Question(question.id, question.title, question.description,
                     question.code, question.createdAt, question.idUser, question.userName, question.amount));
-                    question.code, question.createdAt, question.idUser, question.userName, question.amount));
             }
             return allQuestions;
         }
@@ -145,10 +141,6 @@ export class Question {
 
     public get description(): string {
         return this._description;
-    }
-
-    public get code(): string {
-        return this._code;
     }
 
     public get code(): string {
