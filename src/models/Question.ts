@@ -79,7 +79,6 @@ export class Question {
             const questionsResult: QuestionQueryResult[] = await
             api.queryDatabase(`SELECT question.idQuestion AS id, question.title, question.description, 
                 question.code, question.createdAt, question.idUser, user.userName, COUNT(answer.idAnswer) 
-                question.code, question.createdAt, question.idUser, user.userName, COUNT(answer.idAnswer) 
                 AS amount FROM (question INNER JOIN user ON question.idUser = user.idUser) LEFT JOIN answer 
                 ON question.idQuestion = answer.idQuestion GROUP BY question.title, question.description,  
                 question.code, question.createdAt, user.userName
