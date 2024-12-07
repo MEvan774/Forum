@@ -6,9 +6,9 @@ import { session } from "@hboictcloud/api";
 import { Question } from "../models/Question";
 
 export class QuestionCreateController extends Controller {
-    private inputElement!: HTMLInputElement;
-    private titleElement!: HTMLInputElement;
-    private snippetElement!: HTMLInputElement;
+    private inputElement!: HTMLTextAreaElement;
+    private titleElement!: HTMLTextAreaElement;
+    private snippetElement!: HTMLTextAreaElement;
 
     public constructor(view: HTMLElement) {
         super(view);
@@ -38,18 +38,18 @@ export class QuestionCreateController extends Controller {
         const formElement: HTMLFormElement = document.createElement("form");
         formElement.classList.add("question-form");
 
-        // Creates input element for question description
-        this.titleElement = document.createElement("input");
+        // Creates textarea element for question description
+        this.titleElement = document.createElement("textarea");
         this.titleElement.setAttribute("placeholder", "Schrijf hier de titel van je vraag!"); // Adds placeholder text
         this.titleElement.classList.add("question-title-form");
 
-        // Creates input element for question description
-        this.inputElement = document.createElement("input");
+        // Creates textarea element for question description
+        this.inputElement = document.createElement("textarea");
         this.inputElement.setAttribute("placeholder", "Schrijf hier je vraag!"); // Adds placeholder text
         this.inputElement.classList.add("question-description-form");
 
-        // Creates input element for question snippet
-        this.snippetElement = document.createElement("input");
+        // Creates textarea element for question snippet
+        this.snippetElement = document.createElement("textarea");
         this.snippetElement.setAttribute("placeholder", "Voeg hier een snippet van je code toe!"); // Adds placeholder text
         this.snippetElement.classList.add("question-code-form");
 
