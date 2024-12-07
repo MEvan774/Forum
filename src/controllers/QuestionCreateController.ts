@@ -42,16 +42,38 @@ export class QuestionCreateController extends Controller {
         this.titleElement = document.createElement("textarea");
         this.titleElement.setAttribute("placeholder", "Schrijf hier de titel van je vraag!"); // Adds placeholder text
         this.titleElement.classList.add("question-title-form");
+        this.titleElement.style.resize = "vertical"; // Allow vertical resizing
+        this.titleElement.style.overflowY = "auto"; // Vertical scrollbar when needed
+        this.titleElement.style.overflowX = "hidden"; // Prevent horizontal scrollbar
+        this.titleElement.style.whiteSpace = "pre-wrap"; // Preserve whitespace and wrap text
 
         // Creates textarea element for question description
         this.inputElement = document.createElement("textarea");
-        this.inputElement.setAttribute("placeholder", "Schrijf hier je vraag!"); // Adds placeholder text
+
+        // Add attributes
+        this.inputElement.setAttribute("placeholder", "Schrijf hier je vraag!");
+        this.inputElement.cols = 14; // Width in terms of character columns
+        this.inputElement.rows = 2; // Height in terms of lines (adjust as needed)
+
+        // Add CSS for scrollbar and wrapping
+        this.inputElement.style.resize = "vertical"; // Allow vertical resizing
+        this.inputElement.style.overflowY = "auto"; // Vertical scrollbar when needed
+        this.inputElement.style.overflowX = "hidden"; // Prevent horizontal scrollbar
+        this.inputElement.style.whiteSpace = "pre-wrap"; // Preserve whitespace and wrap text
+
+        // Add CSS class if needed
         this.inputElement.classList.add("question-description-form");
 
         // Creates textarea element for question snippet
         this.snippetElement = document.createElement("textarea");
         this.snippetElement.setAttribute("placeholder", "Voeg hier een snippet van je code toe!"); // Adds placeholder text
         this.snippetElement.classList.add("question-code-form");
+        this.snippetElement.cols = 14;
+        this.snippetElement.rows = 20;
+        this.snippetElement.style.resize = "vertical"; // Allow vertical resizing
+        this.snippetElement.style.overflowY = "auto"; // Vertical scrollbar when needed
+        this.snippetElement.style.overflowX = "hidden"; // Prevent horizontal scrollbar
+        this.snippetElement.style.whiteSpace = "pre-wrap"; // Preserve whitespace and wrap text
 
         // Creates button
         const createQuestionButton: HTMLButtonElement = document.createElement("button");
