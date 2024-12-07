@@ -16,6 +16,7 @@
 @import url("./hva-style/answer.css");
 @import url("./hva-style/answer-form.css");
 @import url("./hva-style/code-tag.css");
+@import url("./hva-style/edit-profile.css");
 
 * {
     box-sizing: border-box;
