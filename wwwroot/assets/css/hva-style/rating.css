@@ -1,0 +1,44 @@
+.rating-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.rating-container p {
+    text-align: center;
+    margin: 0;
+    font-size: 1.9rem;
+    padding: 0;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.rating-container .upvote-button img {
+    transform: rotate(180deg);
+    margin-bottom: 2px;
+}
+
+.rating-container .downvote-button img {
+    margin-top: 2px;
+}
+
+.rating-container button {
+    display: flex;
+    background: gray;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+}
+
+.rating-container button img {
+    object-fit: contain;
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
+}

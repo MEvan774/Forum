@@ -1,6 +1,7 @@
 import { Controller } from "./Controller";
 import { Question } from "../models/Question";
 import { CodeTag } from "../models/CodeTag";
+import { QuestionRatingController } from "./QuestionRatingController";
 import { url } from "@hboictcloud/api";
 
 export class QuestionController extends Controller {
@@ -10,6 +11,8 @@ export class QuestionController extends Controller {
 
     public render(): void {
         void this.retrieveQuestion();
+        const questionRatingView: QuestionRatingController = new QuestionRatingController(this.view);
+        questionRatingView.render();
     }
 
     /**
@@ -31,6 +34,9 @@ export class QuestionController extends Controller {
      * @param question retrieved question from the db
      */
     private async displayQuestion(question: Question): Promise<void> {
+        const questionInfoContainer: HTMLElement = document.createElement("div");
+        questionInfoContainer.classList.add("question-info");
+
         const questionTitleElement: HTMLHeadingElement = document.createElement("h2");
         questionTitleElement.classList.add(".question-title");
         questionTitleElement.textContent = question.title;
@@ -68,8 +74,8 @@ export class QuestionController extends Controller {
             minute: "2-digit",
         });
 
-        this.view.appendChild(questionTitleElement);
-        this.view.appendChild(questionBodyElement);
+        questionInfoContainer.appendChild(questionTitleElement);
+        questionInfoContainer.appendChild(questionBodyElement);
         if (question.code) {
             const questionCodeTag: CodeTag | undefined = await CodeTag.getCodeTagByQuestionId(question.id);
 
@@ -80,11 +86,12 @@ export class QuestionController extends Controller {
                 codeElement.classList.add(`language-${questionCodeTag.tagType}`);
                 codeElement.innerText = question.code;
                 preElement.appendChild(codeElement);
-                this.view.appendChild(preElement);
+                questionInfoContainer.appendChild(preElement);
             }
         }
-        this.view.innerHTML += "<div class='detailed-question-info'><p id='user-name'>" +
+        questionInfoContainer.innerHTML += "<div class='detailed-question-info'><p id='user-name'>" +
         question.userName +
         "</p><p id='created-at'>" + formattedDate + "</p></div>";
+        this.view.appendChild(questionInfoContainer);
     }
 }
