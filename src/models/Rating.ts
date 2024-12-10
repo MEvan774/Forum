@@ -43,6 +43,21 @@ export class QuestionRating {
         }
     }
 
+    public static async updateQuestionRating(idQuestion: number, idUser: number, rating: number): Promise<boolean> {
+        try {
+            await api.queryDatabase(`
+                INSERT INTO QuestionRating (idQuestion, idUser, rating)
+                VALUES (${idQuestion}, ${idUser}, ${rating})
+                ON DUPLICATE KEY UPDATE rating = ${rating};
+            `);
+            return true;
+        }
+        catch (reason) {
+            console.error(reason);
+            return false;
+        }
+    }
+
     public get id(): number {
         return this._id;
     }

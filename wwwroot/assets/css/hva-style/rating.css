@@ -15,12 +15,21 @@
 }
 
 .rating-container .upvote-button img {
-    transform: rotate(180deg);
     margin-bottom: 2px;
 }
 
 .rating-container .downvote-button img {
+    transform: rotate(180deg);
     margin-top: 2px;
+}
+
+.rating-container button:disabled {
+    background: rgba(128, 128, 128, 0.375);
+    cursor: not-allowed;
+}
+
+.rating-container button:disabled img {
+    filter: brightness(0) invert(1) opacity(0.5);
 }
 
 .rating-container button {

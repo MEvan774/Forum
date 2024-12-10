@@ -11,8 +11,10 @@ export class QuestionController extends Controller {
 
     public render(): void {
         void this.retrieveQuestion();
-        const questionRatingView: QuestionRatingController = new QuestionRatingController(this.view);
-        questionRatingView.render();
+        const questionRatingView: HTMLElement =
+        document.querySelector(".selected-question-container .rating-container")!;
+        const questionRatingController: QuestionRatingController = new QuestionRatingController(questionRatingView);
+        questionRatingController.render();
     }
 
     /**
@@ -34,8 +36,7 @@ export class QuestionController extends Controller {
      * @param question retrieved question from the db
      */
     private async displayQuestion(question: Question): Promise<void> {
-        const questionInfoContainer: HTMLElement = document.createElement("div");
-        questionInfoContainer.classList.add("question-info");
+        const questionInfoContainer: HTMLElement = document.querySelector(".question-info")!;
 
         const questionTitleElement: HTMLHeadingElement = document.createElement("h2");
         questionTitleElement.classList.add(".question-title");
@@ -56,7 +57,6 @@ export class QuestionController extends Controller {
                 preElement.appendChild(codeElement);
             }
         }
-        console.log("grote snack");
         const amountOfAnswersParagraph: HTMLParagraphElement = document.createElement("p");
         amountOfAnswersParagraph.textContent = `Antwoorden: ${question.amount}`;
         if (question.amount > 0) {
