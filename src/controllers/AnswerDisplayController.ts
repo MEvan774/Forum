@@ -4,6 +4,7 @@ import { User } from "../models/User";
 import { CodeTag } from "../models/CodeTag";
 import { url } from "@hboictcloud/api";
 import { LoggedIn } from "../models/LoggedIn";
+import { AnswerRatingController } from "./AnswerRatingController";
 
 export class AnswersDisplayController extends Controller {
     public constructor(view: HTMLElement) {
@@ -55,6 +56,15 @@ export class AnswersDisplayController extends Controller {
             const answerContainer: HTMLDivElement = document.createElement("div");
             answerContainer.classList.add("answer-container");
 
+            const answerRatingContainer: HTMLDivElement = document.createElement("div");
+            answerRatingContainer.classList.add("rating-container");
+            const answerRatingController: AnswerRatingController =
+            new AnswerRatingController(answerRatingContainer, answer);
+            answerRatingController.render();
+
+            const answerInfo: HTMLDivElement = document.createElement("div");
+            answerInfo.classList.add("answer-info");
+
             const nameOfAnswerer: string | null = await User.getUserById(answer.idUser);
             if (nameOfAnswerer === null) {
                 console.error(`No user found with ID ${answer.idUser}`);
@@ -64,20 +74,7 @@ export class AnswersDisplayController extends Controller {
             const descriptionElement: HTMLParagraphElement = document.createElement("p");
             descriptionElement.id = "answer-description";
             descriptionElement.innerText = answer.description;
-            answerContainer.appendChild(descriptionElement);
 
-            if (answer.code) {
-                const answerCodeTag: CodeTag | undefined = await CodeTag.getCodeTagByAnswerId(answer.id);
-                if (answerCodeTag !== undefined) {
-                    const preElement: HTMLPreElement = document.createElement("pre");
-                    const codeElement: HTMLElement = document.createElement("code");
-                    preElement.id = "answer-code";
-                    codeElement.classList.add(`language-${answerCodeTag.tagType}`);
-                    codeElement.innerText = answer.code;
-                    preElement.appendChild(codeElement);
-                    answerContainer.appendChild(preElement);
-                }
-            }
             const createdAtDate: Date = new Date(answer.createdAt);
             let selectedDate: Date = createdAtDate;
             let isUpdated: boolean = false;
@@ -116,8 +113,24 @@ export class AnswersDisplayController extends Controller {
                 AnswerButtons = this.setAnswerEditorButtons(answer.id);
             }
 
-            answerContainer.appendChild(AnswerButtons);
-            answerContainer.appendChild(extraAnswerInfoContainer);
+            answerInfo.appendChild(descriptionElement);
+            if (answer.code) {
+                const answerCodeTag: CodeTag | undefined = await CodeTag.getCodeTagByAnswerId(answer.id);
+                if (answerCodeTag !== undefined) {
+                    const preElement: HTMLPreElement = document.createElement("pre");
+                    const codeElement: HTMLElement = document.createElement("code");
+                    preElement.id = "answer-code";
+                    codeElement.classList.add(`language-${answerCodeTag.tagType}`);
+                    codeElement.innerText = answer.code;
+                    preElement.appendChild(codeElement);
+                    answerInfo.appendChild(preElement);
+                }
+            }
+            answerInfo.appendChild(AnswerButtons);
+            answerInfo.appendChild(extraAnswerInfoContainer);
+
+            answerContainer.appendChild(answerRatingContainer);
+            answerContainer.appendChild(answerInfo);
             this.view.appendChild(answerContainer);
         }
     }
