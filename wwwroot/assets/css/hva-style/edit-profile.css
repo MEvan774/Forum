@@ -62,6 +62,84 @@
     margin-bottom: 50px;
 }
 
-.edit-profile-container .save-button{
+.delete-profile-container .delete-button{
+    color: white;
+    border-width: 3px;
+    border-style: solid;
+    background-color: var(--background-color);
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
     margin-bottom: 100px;
+    border-color: red;
 }
+
+.delete-profile-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Horizontally centers the content */
+    align-items: center;
+    text-align: center;
+}
+
+.delete-profile-container .delete-button:hover {
+    background-color: red;
+    color: var(--background-color);
+}
+
+.delete-options-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    padding-top: 20px;
+}
+
+@keyframes bounceIn {
+    0% {
+      transform: scale(0%);
+    }
+    100% {
+      transform: scale(100%);
+    }
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0%;
+    }
+    100% {
+      opacity: 100%;
+    }
+  }
+
+.delete-profile-container .delete-account-container {
+    animation: 1s linear(0, 0.554 4.7%, 0.961 9.9%, 1.226 15.7%, 1.308 18.9%, 1.358 22.3%, 1.374 24.5%, 1.379
+    26.9%, 1.358 32.4%, 1.312 37.5%, 1.126 54.6%, 1.077 60.7%, 1.041 66.9%, 1.02 72.9%, 1.007 79.6%, 1)
+    0s 1 bounceIn;
+
+    position: fixed; /* Keeps the form fixed in place */
+    top: 50%; /* Centers vertically */
+    left: 50%; /* Centers horizontally */
+    margin-top: -100px; /* Adjust for half the height of the form */
+    margin-left: -230px; /* Adjust for half the width of the form */     
+    margin-top: -100px; /* Adjust for half the height of the form */
+    margin-right: -230px; /* Adjust for half the width of the form */
+    width: 470px;
+    z-index: 11;
+}
+
+/* Full-page overlay */
+.overlay {
+    position: fixed; /* Ensures the panel covers the entire viewport */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex; /* Centers the content */
+    justify-content: center;
+    align-items: center;
+    z-index: 10; /* Ensure it appears above other elements */
+    animation: 0.5s ease-in fadeIn;
+  }
