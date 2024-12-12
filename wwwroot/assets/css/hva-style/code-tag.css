@@ -1,17 +1,15 @@
 #answer-code, #question-code {
-    background-color: #00000080;
+    background-color: #1c1b1b;
     max-height: 500px;
-    padding: 20px;
+    padding: 20px 0 20px 0;
     border-radius: 10px;
+    white-space: pre;
     overflow: auto;
     font-family: monospace;
     font-size: 16px;
     scrollbar-color: var(--primary-color) black;
     position: relative;
-}
 
-#answer-code code, #question-code code {
-    white-space: pre;   
 }
 
 

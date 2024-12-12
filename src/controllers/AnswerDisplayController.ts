@@ -5,6 +5,7 @@ import { CodeTag } from "../models/CodeTag";
 import { url } from "@hboictcloud/api";
 import { LoggedIn } from "../models/LoggedIn";
 import { AnswerRatingController } from "./AnswerRatingController";
+import hljs from "highlight.js";
 
 export class AnswersDisplayController extends Controller {
     public constructor(view: HTMLElement) {
@@ -121,9 +122,10 @@ export class AnswersDisplayController extends Controller {
                     const codeElement: HTMLElement = document.createElement("code");
                     preElement.id = "answer-code";
                     codeElement.classList.add(`language-${answerCodeTag.tagType}`);
-                    codeElement.innerText = answer.code;
+                    codeElement.textContent = answer.code;
                     preElement.appendChild(codeElement);
                     answerInfo.appendChild(preElement);
+                    hljs.highlightElement(codeElement);
                 }
             }
             answerInfo.appendChild(AnswerButtons);
