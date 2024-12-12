@@ -3,6 +3,7 @@ import { Question } from "../models/Question";
 import { CodeTag } from "../models/CodeTag";
 import { QuestionRatingController } from "./QuestionRatingController";
 import { url } from "@hboictcloud/api";
+import hljs from "highlight.js";
 
 export class QuestionController extends Controller {
     public constructor(view: HTMLElement) {
@@ -87,6 +88,7 @@ export class QuestionController extends Controller {
                 codeElement.innerText = question.code;
                 preElement.appendChild(codeElement);
                 questionInfoContainer.appendChild(preElement);
+                hljs.highlightElement(codeElement);
             }
         }
         questionInfoContainer.innerHTML += "<div class='detailed-question-info'><p id='user-name'>" +
