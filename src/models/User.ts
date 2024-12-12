@@ -52,6 +52,10 @@ export class User {
         await api.queryDatabase(`DELETE FROM user WHERE userName = '${removingPerson}'`);
     }
 
+    public static async removeUserById(id: number): Promise<void> {
+        await api.queryDatabase(`DELETE FROM user WHERE idUser = '${id}'`);
+    }
+
     public static async getAll(): Promise<User[]> {
         const users: User[] = [];
         try {

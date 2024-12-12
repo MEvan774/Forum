@@ -1,5 +1,6 @@
 import { Controller } from "./Controller";
 import { User } from "../models/User";
+import { session } from "@hboictcloud/api";
 
 export class DeleteProfileController extends Controller {
     private _deleteProfileButton: HTMLButtonElement =
@@ -20,8 +21,8 @@ export class DeleteProfileController extends Controller {
         console.log(this._currentUser);
     }
 
+    // Opens form for deleting account
     private onDeleteProfileButton(): void {
-        console.log("KANKER_DELETE");
         this.createForm(true, false, "Weet je zeker dat je je account wilt verwijderen?");
     }
 
@@ -41,10 +42,12 @@ export class DeleteProfileController extends Controller {
         // Creates button
         if (hasOptions) {
             const yesButton: HTMLButtonElement = document.createElement("button");
+
             if (canReturnToHomePage)
                 yesButton.addEventListener("click", this.onReturnToHome.bind(this));
             else
-                yesButton.addEventListener("click", this.onDeleteUser.bind(this));
+                console.log("FALSE");
+            yesButton.addEventListener("click", this.onDeleteUser.bind(this));
 
             yesButton.setAttribute("type", "button"); // Set button type explicitly
             yesButton.classList.add("button-create-question");
@@ -60,7 +63,11 @@ export class DeleteProfileController extends Controller {
         }
         else {
             const yesButton: HTMLButtonElement = document.createElement("button");
-            yesButton.addEventListener("click", this.onCloseForm.bind(this));
+            if (canReturnToHomePage)
+                yesButton.addEventListener("click", this.onReturnToHome.bind(this));
+            else
+                yesButton.addEventListener("click", this.onCloseForm.bind(this));
+
             yesButton.setAttribute("type", "button"); // Set button type explicitly
             yesButton.classList.add("button-create-question");
             yesButton.innerText = "Oké";
@@ -87,11 +94,14 @@ export class DeleteProfileController extends Controller {
 
     private async onDeleteUser(): Promise<void> {
         this._formElement?.remove();
-        // await User.removeUserById(this._currentUser.id);
+        await User.removeUserById(this._currentUser.id);
         this.createForm(false, true, "Account verwijderd!");
     }
 
+    // Removes user data and logs out returns him to home screen
     private onReturnToHome(): void {
-        window.location.href = "http://localhost:3000/index.html";
+        console.log("Test");
+        session.set("LoggedIn", { isLoggedIn: false, userName: "", userId: undefined });
+        window.location.href = "/index.html";
     }
 }
