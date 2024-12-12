@@ -11,14 +11,24 @@ export class User {
     private _password: string;
     private _dateAdded: Date;
     private _dateUpdated: Date | null;
+    private _profilePicture: Blob | null;
+    private _profession: string | null;
+    private _yearsOfProfession: number | null;
+    private _yearOfBirth: Date | null;
 
-    public constructor(id: number, name: string, email: string, password: string, dateAdded: Date, dateUpdated: Date | null) {
+    public constructor(id: number, name: string, email: string, password: string, dateAdded: Date,
+        dateUpdated: Date | null, profilePicture: Blob | null, profession: string | null,
+        yearsOfProfession: number | null, yearOfBirth: Date | null) {
         this._id = id;
         this._name = name;
         this._email = email;
         this._password = password;
         this._dateAdded = dateAdded;
         this._dateUpdated = dateUpdated;
+        this._profilePicture = profilePicture;
+        this._profession = profession;
+        this._yearsOfProfession = yearsOfProfession;
+        this._yearOfBirth = yearOfBirth;
     }
 
     public static setCurrentlyLoggedInUser(userName: string, id: number): void {
@@ -46,7 +56,8 @@ export class User {
         const users: User[] = [];
         try {
             let persons: UserQueryResult[] = await api.queryDatabase(`
-                SELECT idUser, name, email, password, createdAt, updatedAt FROM user
+                SELECT idUser, name, email, password, createdAt, updatedAt, profilePicture,
+                profession, yearsOfProfession FROM user
                 `) as UserQueryResult[];
             persons = persons.map((person: UserQueryResult) => ({
                 idUser: person.idUser,
@@ -55,6 +66,10 @@ export class User {
                 password: person.password,
                 createdAt: new Date(person.createdAt),
                 updatedAt: person.updatedAt ? new Date(person.updatedAt) : null,
+                profilePicture: person.profilePicture,
+                profession: person.profession,
+                yearsOfProfession: person.yearsOfProfession,
+                yearOfBirth: person.yearOfBirth,
             }));
 
             const users: User[] = persons.map((person: UserQueryResult) => new User(person.idUser,
@@ -62,7 +77,11 @@ export class User {
                 person.email,
                 person.password,
                 person.createdAt,
-                person.updatedAt
+                person.updatedAt,
+                person.profilePicture,
+                person.profession,
+                person.yearsOfProfession,
+                person.yearOfBirth
             ));
             return users;
         }
@@ -74,14 +93,73 @@ export class User {
 
     public static async getIdByUser(input: string, inputType: string): Promise<number | null> {
         try {
-            const id: { idUser: number }[] = await api.queryDatabase(`SELECT idUser FROM user WHERE ${inputType} =
-                 '${input}'`) as { idUser: number }[];
+            const id: { idUser: number }[] = await api.queryDatabase(`SELECT idUser FROM user 
+                WHERE ${inputType} =
+ '${input}'`) as { idUser: number }[];
             return id[0].idUser;
         }
         catch (reason) {
             console.error(reason);
         }
         return null;
+    }
+
+    public static async getUserDataById(id: number): Promise<User> {
+        const users: User[] = [];
+        try {
+            let persons: UserQueryResult[] = await api.queryDatabase(`
+                SELECT idUser, userName AS name, email, password, createdAt, updatedAt, profilePicture,
+                profession, yearsOfProfession, yearOfBirth FROM user Where idUser = ${id}
+                `) as UserQueryResult[];
+            persons = persons.map((person: UserQueryResult) => ({
+                idUser: person.idUser,
+                name: person.name,
+                email: person.email,
+                password: person.password,
+                createdAt: new Date(person.createdAt),
+                updatedAt: person.updatedAt ? new Date(person.updatedAt) : null,
+                profilePicture: person.profilePicture,
+                profession: person.profession,
+                yearsOfProfession: person.yearsOfProfession,
+                yearOfBirth: person.yearOfBirth,
+            }));
+
+            const users: User[] = persons.map((person: UserQueryResult) => new User(person.idUser,
+                person.name,
+                person.email,
+                person.password,
+                person.createdAt,
+                person.updatedAt,
+                person.profilePicture,
+                person.profession,
+                person.yearsOfProfession,
+                person.yearOfBirth
+            ));
+            return users[0];
+        }
+        catch (reason) {
+            console.error(reason);
+        }
+        return users[0];
+    }
+
+    public static async updateUserData(id: number, name: string, profilePicture: Blob | null, profession: string,
+        yearsOfProfession: number | null, yearOfBirth: Date | null): Promise<void> {
+        try {
+            const formattedDateForDateType: string | undefined = yearOfBirth?.toISOString().split("T")[0]; // YYYY-MM-DD
+            // Execute the query
+            await api.queryDatabase(`UPDATE user 
+                SET 
+                    userName = ?,
+                    profilePicture = ?, 
+                    profession = ?, 
+                    yearsOfProfession = ?, 
+                    yearOfBirth = ?
+                    WHERE idUser = ${id}`, name, profilePicture, profession, yearsOfProfession, formattedDateForDateType);
+        }
+        catch (reason) {
+            console.error(reason);
+        }
     }
 
     public static async getUserById(id: number): Promise<string | null> {
@@ -219,7 +297,19 @@ export class User {
         return this._dateAdded;
     }
 
-    public get updatedAt(): Date | null {
-        return this._dateUpdated;
+    public get profilePicture(): Blob | null {
+        return this._profilePicture;
+    }
+
+    public get profession(): string | null {
+        return this._profession;
+    }
+
+    public get yearsOfProfession(): number | null {
+        return this._yearsOfProfession;
+    }
+
+    public get yearOfBirth(): Date | null {
+        return this._yearOfBirth;
     }
 }

@@ -20,7 +20,8 @@
     <main>
         <section class="edit-profile-container">
         <img class="profilePicture" src="assets\img\default-profile-picture.png" alt="Profile" id="profilePicture">
-        <button id="uploadPictureButton">Upload foto</button>
+        <button id="uploadPictureButton" type = "file">Upload foto</button>
+        <input class="upload-picture" id="uploadPictureInput" type = "file"></input>
         <p>
             <label>Gebruikers naam</label>
             <input class="edit-name" type="text" id="nameInput">
@@ -31,13 +32,13 @@
         </p>
         <p>
             <label>Jaren expertise</label>
-            <input class="edit-jears-expertise" type="text" id="yearExpertiseInput">
+            <input class="edit-jears-expertise" type="text" id="yearsProfessionInput">
         </p>
         <p>
             <label>Expertise</label>
-            <input class="edit-expertise" type="text" id="expertiseInput">
+            <input class="edit-expertise" type="text" id="professionInput">
         </p>
-        <button id="saveButton">Sla op</button>
+        <button class="save-button" id="saveButton">Sla op</button>
     </section>
     </main>
     <footer class="footerbar"></footer>

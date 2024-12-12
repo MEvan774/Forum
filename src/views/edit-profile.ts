@@ -9,7 +9,7 @@ navController.render();
 
 const editProfile: HTMLElement = document.querySelector(".edit-profile-container")!;
 const editProfileController: EditProfileController = new EditProfileController(editProfile);
-editProfileController.render();
+void editProfileController.render();
 
 const footerView: HTMLElement = document.querySelector(".footerbar")!;
 const footerController: FooterController = new FooterController(footerView);
