@@ -91,6 +91,10 @@ type AnswerRatingQueryResult = {
     rating: number;
 };
 
+type AvaragaeRating = {
+    avarageRating: number;
+};
+
 export class AnswerRating {
     private _id: number;
     private _idAnswer: number;
@@ -147,6 +151,31 @@ export class AnswerRating {
         catch (reason) {
             console.error(reason);
             return false;
+        }
+    }
+
+    /**
+     * Retrieves the avarage rating of all answers of a user
+     * @param idUser identifies the user to find the right answer ratings
+     * @returns number of the avagerage answer rating
+     */
+    public static async getAvarageAnswerRating(idUser: number): Promise<number> {
+        try {
+            const result: AvaragaeRating[] = await api.queryDatabase(`
+                SELECT AVG(totalRating) AS avarageRating FROM (
+                    SELECT SUM(answerrating.rating) AS totalRating
+                    FROM AnswerRating answerrating
+                    LEFT JOIN Answer answer ON answerrating.idAnswer = answer.idAnswer
+                    WHERE Answer.idUser = ?
+                    GROUP BY answer.idAnswer
+                ) AS summedRatings;
+                `, idUser) as AvaragaeRating[];
+
+            return result[0].avarageRating;
+        }
+        catch (reason) {
+            console.error(reason);
+            return 0;
         }
     }
 

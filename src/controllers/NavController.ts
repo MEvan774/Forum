@@ -114,7 +114,7 @@ export class NavController extends Controller {
     private addLoggedInUserDisplay(): void {
         const navigationLinksContainer: HTMLDivElement = document.querySelector(".nav-links")!;
         const userProfileLink: HTMLAnchorElement = document.createElement("a");
-        userProfileLink.href = "/edit-profile.html";
+        userProfileLink.href = "/edit-profile.html?path=profile";
         userProfileLink.classList.add("user-profile-link");
 
         const loggedInObject: LoggedIn = session.get("LoggedIn") as LoggedIn;
