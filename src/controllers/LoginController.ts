@@ -37,7 +37,8 @@ export class LoginController extends Controller {
                     console.error("User ID not found.");
                     return;
                 }
-                User.setCurrentlyLoggedInUser(username.value, userId);
+                const imageRef: string | null = (await User.getUserDataById(userId)).profilePicture;
+                User.setCurrentlyLoggedInUser(username.value, userId, imageRef);
             }
             else {
                 User.setErrorMessage(username, "The username or password is incorrect!");
@@ -56,7 +57,8 @@ export class LoginController extends Controller {
                     console.error("User ID not found.");
                     return;
                 }
-                User.setCurrentlyLoggedInUser(username.value, userId);
+                const imageRef: string | null = (await User.getUserDataById(userId)).profilePicture;
+                User.setCurrentlyLoggedInUser(username.value, userId, imageRef);
                 console.log(`Logged in ${username.value}`);
                 window.location.href = "/index.html";
             }

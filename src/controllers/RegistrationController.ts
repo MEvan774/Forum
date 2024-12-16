@@ -100,7 +100,7 @@ export class RegisterController extends Controller {
                 return;
             }
             void User.sendEmail(userName.value, email.value);
-            User.setCurrentlyLoggedInUser(userName.value, idUser);
+            User.setCurrentlyLoggedInUser(userName.value, idUser, null);
             window.location.href = "/index.html";
         }
     }

@@ -83,7 +83,7 @@ export class NavController extends Controller {
             document.body.classList.add("show-logout", "show-overlay");
             const confirmButton: HTMLButtonElement = document.getElementById("logout") as HTMLButtonElement;
             confirmButton.addEventListener("click", () => {
-                session.set("LoggedIn", { isLoggedIn: false, userName: "", userId: undefined });
+                session.set("LoggedIn", { isLoggedIn: false, userName: "", userId: undefined, userImage: null });
                 window.location.href = "/index.html";
             });
 
@@ -118,9 +118,14 @@ export class NavController extends Controller {
         userProfileLink.classList.add("user-profile-link");
 
         const loggedInObject: LoggedIn = session.get("LoggedIn") as LoggedIn;
+
+        let userProfileImage: string = "./assets/img/default-profile-picture.png";
+        if (loggedInObject.userImage !== null)
+            userProfileImage = loggedInObject.userImage;
+
         userProfileLink.innerHTML = `
         <p>${loggedInObject.userName}</p>
-        <img src="./assets/img/default-profile-picture.png" alt="user-profile-picture">`;
+        <img src="${userProfileImage}" alt="user-profile-picture">`;
 
         navigationLinksContainer.appendChild(userProfileLink);
     }

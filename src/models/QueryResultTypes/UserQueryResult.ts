@@ -5,7 +5,7 @@ export type UserQueryResult = {
     password: string;
     createdAt: Date;
     updatedAt: Date | null;
-    profilePicture: Blob | null;
+    profilePicture: string | null;
     profession: string | null;
     yearsOfProfession: number | null;
     yearOfBirth: Date | null;
