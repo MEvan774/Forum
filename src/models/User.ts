@@ -11,13 +11,13 @@ export class User {
     private _password: string;
     private _dateAdded: Date;
     private _dateUpdated: Date | null;
-    private _profilePicture: Blob | null;
+    private _profilePicture: string | null;
     private _profession: string | null;
     private _yearsOfProfession: number | null;
     private _yearOfBirth: Date | null;
 
     public constructor(id: number, name: string, email: string, password: string, dateAdded: Date,
-        dateUpdated: Date | null, profilePicture: Blob | null, profession: string | null,
+        dateUpdated: Date | null, profilePicture: string | null, profession: string | null,
         yearsOfProfession: number | null, yearOfBirth: Date | null) {
         this._id = id;
         this._name = name;
@@ -31,8 +31,8 @@ export class User {
         this._yearOfBirth = yearOfBirth;
     }
 
-    public static setCurrentlyLoggedInUser(userName: string, id: number): void {
-        session.set("LoggedIn", ({ isLoggedIn: true, userName: userName, userId: id } as LoggedIn));
+    public static setCurrentlyLoggedInUser(userName: string, id: number, userImage: string | null): void {
+        session.set("LoggedIn", ({ isLoggedIn: true, userName: userName, userId: id, userImage: userImage } as LoggedIn));
     }
 
     public static getCurrentlyLoggedInUser(): LoggedIn {
@@ -147,7 +147,7 @@ export class User {
         return users[0];
     }
 
-    public static async updateUserData(id: number, name: string, profilePicture: Blob | null, profession: string,
+    public static async updateUserData(id: number, name: string, profilePicture: string | null, profession: string,
         yearsOfProfession: number | null, yearOfBirth: Date | null): Promise<void> {
         try {
             const formattedDateForDateType: string | undefined = yearOfBirth?.toISOString().split("T")[0]; // YYYY-MM-DD
@@ -301,7 +301,7 @@ export class User {
         return this._dateAdded;
     }
 
-    public get profilePicture(): Blob | null {
+    public get profilePicture(): string | null {
         return this._profilePicture;
     }
 

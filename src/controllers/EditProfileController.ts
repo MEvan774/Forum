@@ -1,5 +1,6 @@
 import { Controller } from "./Controller";
 import { User } from "../models/User";
+import { types, utils } from "@hboictcloud/api";
 
 export class EditProfileController extends Controller {
     private _profilePicture: HTMLImageElement =
@@ -28,10 +29,14 @@ export class EditProfileController extends Controller {
 
     public constructor(view: HTMLElement) {
         super(view);
-        this._currentUser = new User(0, "", "", "", new Date(), null, null, null, null, null);
     };
 
-    private _currentUser: User;
+    private _currentUser!: User;
+    private _imageData!: types.DataURL;
+
+    /**
+     * Gets the current logged in User and sets the account values in the input fields
+     */
 
     public async render(): Promise<void> {
         this._currentUser = await User.getUserDataById(User.getCurrentlyLoggedInUser().userId);
@@ -44,11 +49,7 @@ export class EditProfileController extends Controller {
         formattedDate = formattedDate.slice(1);
 
         if (this._currentUser.profilePicture) {
-            // let preparedImage: string = this.bufferToBase64(this._currentUser.profilePicture);
-            // const urlCreator = window.URL || window.webkitURL;
-            // const imageUrl: string = urlCreator.createObjectURL(this._currentUser.profilePicture);
-            // const preparedImage: string = this.generateDataURI(this._currentUser.profilePicture, "image/png");
-            // window.open(imageUrl, "_blank");
+            this._profilePicture.src = this._currentUser.profilePicture;
         }
 
         this._dateBirthInput.value = formattedDate;
@@ -68,22 +69,33 @@ export class EditProfileController extends Controller {
         this._uploadPictureInput.addEventListener("change", this.onUploadImage.bind(this));
     }
 
+    // activates the function: onUploadImage, that allows the user to upload profile picture
     private onUploadImageButton(): void {
         this._uploadPictureInput.click();
     }
 
-    private onUploadImage(): void {
-        console.log("UploadImage");
-        // const target: HTMLInputElement = event.target as HTMLInputElement;
-        this._profilePicture.src = URL.createObjectURL(this._uploadPictureInput.files[0]);
+    // gets the picture input and sets the _profilePicture image as the uploaded image
+    private async onUploadImage(): Promise<void> {
+        this._imageData = (await utils.getDataUrl(this._uploadPictureInput)) as types.DataURL;
+        this._profilePicture.src = this._imageData.url;
     }
 
+    // checks if some values are not filled in and saves the changes
     private async onClickSaveButton(): Promise<void> {
-        console.log("SAVEDATA");
-        // const imageBuffer: Buffer = await this.convertImageToBuffer(this._profilePicture.src);
-        window.open(this._profilePicture.src, "_blank");
-        await User.updateUserData(this._currentUser.id, this._nameInput.value, this._profilePicture.src, this._professionInput.value, Number(this._yearsExpertiseInput.value), new Date(this._dateBirthInput.value));
-        User.setCurrentlyLoggedInUser(this._nameInput.value, this._currentUser.id);
+        let birthDateValue: Date | null = null;
+        if (this._dateBirthInput.value)
+            birthDateValue = new Date(this._dateBirthInput.value);
+
+        let imageLink: string | null = null;
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        if (this._imageData && this._imageData.url)// checks image variables are present
+            imageLink = this._imageData.url;
+        else
+            if (this._currentUser.profilePicture)
+                imageLink = this._currentUser.profilePicture;
+
+        await User.updateUserData(this._currentUser.id, this._nameInput.value, imageLink, this._professionInput.value, Number(this._yearsExpertiseInput.value), birthDateValue);
+        User.setCurrentlyLoggedInUser(this._nameInput.value, this._currentUser.id, imageLink);
         window.location.href = "http://localhost:3000/index.html";
     }
 }
