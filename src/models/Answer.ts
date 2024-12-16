@@ -42,7 +42,7 @@ export class Answer {
                 idUser,
                 description,
                 code) 
-                VALUES ('${idQuestion}', '${idUser}', '${description}', '${code}')`);
+                VALUES (${idQuestion}, ${idUser}, ?, ?)`, description, code);
         }
         catch (reason) {
             console.error(reason);
