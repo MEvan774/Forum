@@ -120,9 +120,10 @@ export class NavController extends Controller {
         const loggedInObject: LoggedIn = session.get("LoggedIn") as LoggedIn;
 
         let userProfileImage: string = "./assets/img/default-profile-picture.png";
-        if (loggedInObject.userImage !== null)
+        console.log(loggedInObject.userImage);
+        if (loggedInObject.userImage !== null) {
             userProfileImage = loggedInObject.userImage;
-
+        }
         userProfileLink.innerHTML = `
         <p>${loggedInObject.userName}</p>
         <img src="${userProfileImage}" alt="user-profile-picture">`;
