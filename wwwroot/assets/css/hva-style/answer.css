@@ -20,6 +20,7 @@
 }
 
 .answerForm textarea {
+    font-family: Arial;
     background-color: black;
     border: 1px solid var(--border-color);
     border-radius: 10px;

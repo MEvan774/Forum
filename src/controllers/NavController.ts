@@ -120,8 +120,7 @@ export class NavController extends Controller {
         const loggedInObject: LoggedIn = session.get("LoggedIn") as LoggedIn;
 
         let userProfileImage: string = "./assets/img/default-profile-picture.png";
-        console.log(loggedInObject.userImage);
-        if (loggedInObject.userImage !== null) {
+        if (loggedInObject.userImage) {
             userProfileImage = loggedInObject.userImage;
         }
         userProfileLink.innerHTML = `
