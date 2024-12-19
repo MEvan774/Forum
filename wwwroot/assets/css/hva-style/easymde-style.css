@@ -1,0 +1,7 @@
+.editor-toolbar button {
+  color: white !important;
+}
+
+.editor-toolbar button:hover {
+  color: var(--background-color) !important;
+}

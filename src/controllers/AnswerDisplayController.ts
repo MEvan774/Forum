@@ -6,6 +6,7 @@ import { url } from "@hboictcloud/api";
 import { LoggedIn } from "../models/LoggedIn";
 import { AnswerRatingController } from "./AnswerRatingController";
 import hljs from "highlight.js";
+import { marked } from "marked";
 
 export class AnswersDisplayController extends Controller {
     public constructor(view: HTMLElement) {
@@ -74,7 +75,7 @@ export class AnswersDisplayController extends Controller {
 
             const descriptionElement: HTMLParagraphElement = document.createElement("p");
             descriptionElement.id = "answer-description";
-            descriptionElement.innerText = answer.description;
+            descriptionElement.innerHTML = await marked.parse(answer.description);
 
             const createdAtDate: Date = new Date(answer.createdAt);
             let selectedDate: Date = createdAtDate;

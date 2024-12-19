@@ -114,15 +114,15 @@ export class NavController extends Controller {
     private addLoggedInUserDisplay(): void {
         const navigationLinksContainer: HTMLDivElement = document.querySelector(".nav-links")!;
         const userProfileLink: HTMLAnchorElement = document.createElement("a");
-        userProfileLink.href = "/edit-profile.html";
+        userProfileLink.href = "/edit-profile.html?path=profile";
         userProfileLink.classList.add("user-profile-link");
 
         const loggedInObject: LoggedIn = session.get("LoggedIn") as LoggedIn;
 
         let userProfileImage: string = "./assets/img/default-profile-picture.png";
-        if (loggedInObject.userImage !== null)
+        if (loggedInObject.userImage) {
             userProfileImage = loggedInObject.userImage;
-
+        }
         userProfileLink.innerHTML = `
         <p>${loggedInObject.userName}</p>
         <img src="${userProfileImage}" alt="user-profile-picture">`;

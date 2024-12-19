@@ -6,10 +6,10 @@ import { AnswerController } from "./AnswerController";
 import { CodeTag } from "../models/CodeTag";
 import { CODELANGUAGE } from "../models/CodeLanguage";
 import { url } from "@hboictcloud/api";
+import EasyMDE from "easymde";
 
 export class AnswerEditorController extends Controller {
-    private _descriptionInput: HTMLTextAreaElement =
-        document.getElementById("description") as HTMLTextAreaElement;
+    private _descriptionInput: EasyMDE = this.makeInputMarkdown();
 
     private _codeInput: HTMLTextAreaElement = document.getElementById("code") as HTMLTextAreaElement;
 
@@ -30,6 +30,11 @@ export class AnswerEditorController extends Controller {
         await this.retrieveAnswers();
         this.onClickSave();
     };
+
+    private makeInputMarkdown(): EasyMDE {
+        const markedDescription: EasyMDE = new EasyMDE({ element: document.getElementById("description") as HTMLTextAreaElement });
+        return markedDescription;
+    }
 
     /**
      * Gaat terug naar de vraag pagina als gebruiker op de terug knop klikt
@@ -61,13 +66,13 @@ export class AnswerEditorController extends Controller {
                     if (confirmed) {
                         this._codeTagTypes.forEach((radio: HTMLInputElement) => {
                             if (radio.checked) {
-                                console.log(radio.value);
                                 void CodeTag.updateCodeTag(idAnswer, radio.value as CODELANGUAGE);
                             }
                         });
+                        console.log(this._descriptionInput.value());
                         await Answer.updateAnswer(
                             idAnswer,
-                            this._descriptionInput.value,
+                            this._descriptionInput.value(),
                             this._codeInput.value);
                         this.directToQuestion();
                     }
@@ -96,7 +101,7 @@ export class AnswerEditorController extends Controller {
      */
     private validateInput(): boolean {
         let valid: boolean = true;
-        if (this._descriptionInput.value.trim() === "") {
+        if (this._descriptionInput.value().trim() === "") {
             alert("Voeg een beschrijving toe aan je antwoord");
             valid = false;
         }
@@ -117,7 +122,7 @@ export class AnswerEditorController extends Controller {
             const answer: Answer | null = await Answer.getAnswerById(idAnswer);
             if (answer !== null) {
                 this.displayDescription(answer.description);
-                if (answer.code.length > 0) {
+                if (answer.code !== "") {
                     const codeTag: CodeTag | undefined = await CodeTag.getCodeTagByAnswerId(idAnswer);
                     if (codeTag === undefined) {
                         return;
@@ -149,6 +154,6 @@ export class AnswerEditorController extends Controller {
      * @param description Beschrijving van het antwoord
      */
     private displayDescription(description: string): void {
-        this._descriptionInput.value = description;
+        this._descriptionInput.value(description);
     }
 };

@@ -19,9 +19,12 @@
         "@hboictcloud/eslint-plugin-code-exchange": "^1.x",
         "@hboictcloud/vite-plugin-typechecks": "^1.x",
         "@types/node": "^20.x",
+        "easymde": "^2.18.0",
         "eslint": "9.13.0",
         "glob": "11.0.0",
         "highlight.js": "^11.11.0",
+        "highlight.js": "^11.10.0",
+        "marked": "^15.0.4",
         "typescript": "5.5.4",
         "vite": "5.4.10"
     },

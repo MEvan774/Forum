@@ -5,10 +5,13 @@ import { session } from "@hboictcloud/api";
 import { url } from "@hboictcloud/api";
 import { CodeTag } from "../models/CodeTag";
 import { CODELANGUAGE } from "../models/CodeLanguage";
+import EasyMDE from "easymde";
 
 export class AnswerController extends Controller {
     private _codeTagTypes: NodeListOf<HTMLInputElement> =
         document.querySelectorAll(".tag-container input[type='radio']");
+
+    private _descriptionInput: EasyMDE = this.makeInputMarkdown();
 
     private _answerCodeInput: HTMLTextAreaElement = document.querySelector("#addCode")!;
 
@@ -43,6 +46,11 @@ export class AnswerController extends Controller {
         });
     }
 
+    private makeInputMarkdown(): EasyMDE {
+        const markedDescription: EasyMDE = new EasyMDE({ element: document.getElementById("addAnswer") as HTMLTextAreaElement });
+        return markedDescription;
+    }
+
     /**
      * Functionality of the post answer button, checks if user is logged in and if any input is present in
      * the @param description and sends the answer when both values are valid. It also checks the
@@ -54,20 +62,18 @@ export class AnswerController extends Controller {
             let idAnswer: number = 0;
             const loggedIn: LoggedIn = session.get("LoggedIn") as LoggedIn;
             if (loggedIn.isLoggedIn) {
-                const description: HTMLInputElement = document.querySelector("#addAnswer")!;
-                if (!description.value) {
+                if (this._descriptionInput.value() === "") {
                     alert("Uw antwoord mag niet leeg zijn!");
                     return; // Exit the function if the description is empty
                 }
 
                 const result: boolean = confirm("Weet je zeker of je deze bericht wilt sturen?");
                 if (result) {
-                    const code: HTMLInputElement = document.querySelector("#addCode")!;
-                    if (code.value) { // Posts answer to the model and continues the code when finished
-                        await this.postAnswer(loggedIn, description.value, code.value);
+                    if (this._descriptionInput.value()) { // Posts answer to the model and continues the code when finished
+                        await this.postAnswer(loggedIn, this._descriptionInput.value(), this._answerCodeInput.value);
                     }
                     else {
-                        await this.postAnswer(loggedIn, description.value, "");
+                        await this.postAnswer(loggedIn, this._descriptionInput.value(), "");
                     }
 
                     // gets id from the answer so it can be used to assign the code tag to the answer
@@ -81,9 +87,6 @@ export class AnswerController extends Controller {
                             await CodeTag.setCodeTag(input.value as CODELANGUAGE, idAnswer);
                         }
                     }
-
-                    console.log("ANSWER POSTED!");
-                    description.value = "";
                 }
                 else {
                     console.log("Post stopped!");
