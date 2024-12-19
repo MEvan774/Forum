@@ -63,52 +63,74 @@ export class QuestionRatingController extends Controller {
         this.view.appendChild(this._downvoteButton);
     }
 
+    /**
+     * checks if the user has already rated the question
+     * sets the votebutton to voted that corresponds to the rating
+     * @param questionRatings all ratings of the question
+     * @param upvoteButton gets active if user has already rated upvote
+     * @param downvoteButton gets active if user has already rated downvote
+     */
     private checkIfUserHasRated(questionRatings: QuestionRating[], upvoteButton: HTMLButtonElement,
         downvoteButton: HTMLButtonElement): void {
         for (const rating of questionRatings) {
             if (rating.idUser === this._loggedInUser.userId) {
                 if (rating.rating === 1) {
-                    console.log("User has rated upvote");
-                    upvoteButton.disabled = true;
+                    upvoteButton.id = "voted-button";
                 }
-            }
-            if (rating.idUser === this._loggedInUser.userId) {
-                console.log("User has rated downvote");
-                if (rating.rating === -1) {
-                    downvoteButton.disabled = true;
+                else {
+                    downvoteButton.id = "voted-button";
                 }
             }
         }
     }
 
+    /**
+     * rates question with upvote or downvote depending on the button clicked
+     * inserts if user hasnt rated yet, updates if user has already rated and user clicks the other button
+     * and deletes if user has already rated and clicks the same button
+     */
     private rateQuestion(): void {
         this._downvoteButton.addEventListener("click", async () => {
             let alreadyGivenRatingMultiplier: number = 1;
-            if (this._downvoteButton.disabled || this._upvoteButton.disabled) {
+            if ((this._downvoteButton.id || this._upvoteButton.id) === "voted-button") {
                 alreadyGivenRatingMultiplier = 2;
             }
-            if (!this._downvoteButton.disabled) {
-                if (this._idQuestion !== null && this._loggedInUser.userId !== 0) {
-                    await QuestionRating.updateQuestionRating(this._idQuestion, this._loggedInUser.userId, -1);
-                    this._downvoteButton.disabled = true;
-                    this._upvoteButton.disabled = false;
+            if (this._loggedInUser.userId !== 0) {
+                if (this._downvoteButton.id !== "voted-button") {
+                    await QuestionRating.updateQuestionRating(this._idQuestion as number, this._loggedInUser.userId, -1);
+                    this._upvoteButton.id = "";
+                    this._downvoteButton.id = "voted-button";
                     this._totalRating.textContent = `${parseInt(this._totalRating.textContent as string) - alreadyGivenRatingMultiplier}`;
                 }
+                else {
+                    await QuestionRating.deleteQuestionRating(this._idQuestion as number, this._loggedInUser.userId);
+                    this._downvoteButton.id = "";
+                    this._upvoteButton.id = "";
+                    this._totalRating.textContent = `${parseInt(this._totalRating.textContent as string) + 1}`;
+                }
+                void this.retrieveRatings();
             }
         });
 
         this._upvoteButton.addEventListener("click", async () => {
             let alreadyGivenRatingMultiplier: number = 1;
-            if (this._downvoteButton.disabled || this._upvoteButton.disabled) {
+            if ((this._downvoteButton.id || this._upvoteButton.id) === "voted-button") {
                 alreadyGivenRatingMultiplier = 2;
             }
-            if (!this._upvoteButton.disabled) {
-                if (this._idQuestion !== null && this._loggedInUser.userId !== 0) {
-                    await QuestionRating.updateQuestionRating(this._idQuestion, this._loggedInUser.userId, 1);
-                    this._upvoteButton.disabled = true;
-                    this._downvoteButton.disabled = false;
+            if (this._loggedInUser.userId !== 0) {
+                if (this._upvoteButton.id !== "voted-button") {
+                    await QuestionRating.updateQuestionRating(this._idQuestion as number, this._loggedInUser.userId, 1);
+                    this._upvoteButton.id = "voted-button";
+                    this._downvoteButton.id = "";
                     this._totalRating.textContent = `${parseInt(this._totalRating.textContent as string) + alreadyGivenRatingMultiplier}`;
                 }
+                else {
+                    await QuestionRating.deleteQuestionRating(this._idQuestion as number, this._loggedInUser.userId);
+                    this._downvoteButton.id = "";
+                    this._upvoteButton.id = "";
+                    this._totalRating.textContent = `${parseInt(this._totalRating.textContent as string) - 1}`;
+                }
+                void this.retrieveRatings();
             }
         });
     }

@@ -67,6 +67,18 @@ export class QuestionRating {
         }
     }
 
+    public static async deleteQuestionRating(idQuestion: number, idUser: number): Promise<void> {
+        try {
+            await api.queryDatabase(`
+                DELETE FROM QuestionRating
+                WHERE idQuestion = ${idQuestion} AND idUser = ${idUser};
+                `);
+        }
+        catch (reason) {
+            console.error(reason);
+        }
+    }
+
     public get id(): number {
         return this._id;
     }
@@ -176,6 +188,18 @@ export class AnswerRating {
         catch (reason) {
             console.error(reason);
             return 0;
+        }
+    }
+
+    public static async deleteAnswerRating(idAnswer: number, idUser: number): Promise<void> {
+        try {
+            await api.queryDatabase(`
+                DELETE FROM AnswerRating
+                WHERE idAnswer = ${idAnswer} AND idUser = ${idUser};
+                `);
+        }
+        catch (reason) {
+            console.error(reason);
         }
     }
 
