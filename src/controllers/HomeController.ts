@@ -2,8 +2,11 @@ import { Controller } from "./Controller";
 import { Question } from "../models/Question";
 
 export class HomeController extends Controller {
+    private static view: HTMLElement;
+
     public constructor(view: HTMLElement) {
         super(view);
+        HomeController.view = view;
     };
 
     public render(): void {
@@ -16,7 +19,7 @@ export class HomeController extends Controller {
     private async retrieveQuestions(): Promise<void> {
         const questionsResult: Question[] = await Question.getAll();
         console.log(questionsResult);
-        this.displayQuestions(questionsResult);
+        HomeController.displayQuestions(questionsResult);
     }
 
     /**
@@ -25,7 +28,7 @@ export class HomeController extends Controller {
      * de hoeveelheid antwoorden wordt opgehaald uit de amountOfAnswers functie van de Answer model...
      * met de IdQuestion van de vraag
      */
-    private displayQuestions(questions: Question[]): void {
+    public static displayQuestions(questions: Question[]): void {
         for (const question of questions) {
             const questionAnchor: HTMLAnchorElement = document.createElement("a");
             questionAnchor.classList.add("question-director");
@@ -67,7 +70,7 @@ export class HomeController extends Controller {
             <div class='extra-info-container'><p id='user-name'>${question.userName}</p>
             <p id='created-at'>${formattedDate}</p></div>
             `;
-            this.view.appendChild(questionAnchor);
+            HomeController.view.appendChild(questionAnchor);
             questionAnchor.appendChild(questionContainer);
         }
     }

@@ -3,6 +3,7 @@ import { HomeController } from "../controllers/HomeController";
 import { NavController } from "../controllers/NavController";
 import { FooterController } from "../controllers/FooterController";
 import { QuestionCreateController } from "../controllers/QuestionCreateController";
+import { QuestionFilterController } from "../controllers/QuestionFilterController";
 
 const navView: HTMLElement = document.querySelector(".navbar")!;
 const navController: NavController = new NavController(navView);
@@ -19,3 +20,7 @@ footerController.render();
 const questionCreateView: HTMLElement = document.querySelector(".button-create-form")!;
 const questionCreateController: QuestionCreateController = new QuestionCreateController(questionCreateView);
 questionCreateController.render();
+
+const questionFilterView: HTMLElement = document.querySelector("questions-container")!;
+const questionFilterController: QuestionFilterController = new QuestionFilterController(questionFilterView);
+questionFilterController.render();

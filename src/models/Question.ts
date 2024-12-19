@@ -98,6 +98,55 @@ export class Question {
         }
     }
 
+    public static async getAllAndFilterByAnswer(): Promise<Question[]> {
+        try {
+            const allQuestions: Question[] = [];
+            const questionsResult: QuestionQueryResult[] = await api.queryDatabase(`
+                SELECT 
+                    question.idQuestion AS id, 
+                    question.title, 
+                    question.description, 
+                    question.code, 
+                    question.createdAt, 
+                    question.idUser, 
+                    user.userName, 
+                    COUNT(answer.idAnswer) AS amount 
+                FROM 
+                    question 
+                INNER JOIN 
+                    user ON question.idUser = user.idUser 
+                LEFT JOIN 
+                    answer ON question.idQuestion = answer.idQuestion 
+                GROUP BY 
+                    question.idQuestion, question.title, question.description,  
+                    question.code, question.createdAt, user.userName
+                HAVING 
+                    COUNT(answer.idAnswer) > 0
+                ORDER BY 
+                    question.createdAt DESC;
+            `) as QuestionQueryResult[];
+            console.log(questionsResult);
+            for (const question of questionsResult) {
+                question.createdAt = new Date(question.createdAt);
+                allQuestions.push(new Question(
+                    question.id,
+                    question.title,
+                    question.description,
+                    question.code,
+                    question.createdAt,
+                    question.idUser,
+                    question.userName,
+                    question.amount
+                ));
+            }
+            return allQuestions;
+        }
+        catch (reason) {
+            console.error(reason);
+            return [];
+        }
+    }
+
     /**
      * Haalt een vraag op uit de database gebasseerd op zijn ID
      * @param idQuestion ID van de vraag
