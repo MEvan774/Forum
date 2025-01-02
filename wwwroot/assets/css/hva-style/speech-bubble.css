@@ -1,0 +1,39 @@
+
+.upvote-button-container, .downvote-button-container {
+    position: relative;
+}
+
+.speech-bubble-container {
+    display: none;
+    position: absolute;
+    background: white;
+    align-items: center;
+    border-radius: 8px;
+    padding: 10px;
+    width: 300px;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 55px;
+    z-index: 1;
+}
+
+
+.speech-bubble-container::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid white;
+    border-bottom: 10px solid transparent;
+    border-top: 10px solid transparent;
+    position: absolute;
+    transform: translateY(-50%);
+    top: 50%;
+    right: 100%;
+}
+
+.speech-bubble-container p {
+    color: gray;
+    font-size: 15px;
+}

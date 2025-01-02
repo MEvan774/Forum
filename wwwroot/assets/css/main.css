@@ -19,6 +19,7 @@
 @import url("./hva-style/edit-profile.css");
 @import url("./hva-style/rating.css");
 @import url("./hva-style/easymde-style.css");
+@import url("./hva-style/speech-bubble.css");	
 
 * {
     box-sizing: border-box;

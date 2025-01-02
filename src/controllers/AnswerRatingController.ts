@@ -57,9 +57,19 @@ export class AnswerRatingController extends Controller {
 
         this.checkIfUserHasRated(answerRatings, this._upvoteButton, this._downvoteButton);
 
-        this.view.appendChild(this._upvoteButton);
+        const upvoteButtonContainer: HTMLDivElement = document.createElement("div");
+        upvoteButtonContainer.classList.add("upvote-button-container");
+        upvoteButtonContainer.appendChild(this._upvoteButton);
+        this.view.appendChild(upvoteButtonContainer);
+
         this.view.appendChild(this._totalRating);
-        this.view.appendChild(this._downvoteButton);
+
+        const downvoteButtonContainer: HTMLDivElement = document.createElement("div");
+        downvoteButtonContainer.classList.add("downvote-button-container");
+        downvoteButtonContainer.appendChild(this._downvoteButton);
+        this.view.appendChild(downvoteButtonContainer);
+
+        this.loadSpeechBubbles();
     }
 
     /**
@@ -129,6 +139,45 @@ export class AnswerRatingController extends Controller {
                     this._totalRating.textContent = `${parseInt(this._totalRating.textContent as string) - 1}`;
                 }
             }
+        });
+    }
+
+    private loadSpeechBubbles(): void {
+        const loadSpeechBubbleUpvoteContainer: HTMLDivElement = document.createElement("div");
+        loadSpeechBubbleUpvoteContainer.classList.add("speech-bubble-container");
+        const speechText: HTMLDivElement = document.createElement("p");
+        speechText.textContent = "Geef een upvote aan dit antwoord";
+
+        const loadSpeechBubbleDownvoteContainer: HTMLDivElement = document.createElement("div");
+        loadSpeechBubbleDownvoteContainer.classList.add("speech-bubble-container");
+        const speechTextDownvote: HTMLDivElement = document.createElement("p");
+        speechTextDownvote.textContent = "Geef een downvote aan dit antwoord";
+
+        this._upvoteButton.insertAdjacentElement("afterend", loadSpeechBubbleUpvoteContainer);
+        loadSpeechBubbleUpvoteContainer.appendChild(speechText);
+
+        this._downvoteButton.insertAdjacentElement("afterend", loadSpeechBubbleDownvoteContainer);
+        loadSpeechBubbleDownvoteContainer.appendChild(speechTextDownvote);
+
+        this.showSpeechBubble(loadSpeechBubbleUpvoteContainer, loadSpeechBubbleDownvoteContainer);
+    }
+
+    private showSpeechBubble(loadSpeechBubbleUpvoteContainer: HTMLDivElement,
+        loadSpeechBubbleDownvoteContainer: HTMLDivElement): void {
+        this._upvoteButton.addEventListener("mouseover", () => {
+            loadSpeechBubbleUpvoteContainer.style.display = "block";
+        });
+
+        this._upvoteButton.addEventListener("mouseout", () => {
+            loadSpeechBubbleUpvoteContainer.style.display = "none";
+        });
+
+        this._downvoteButton.addEventListener("mouseover", () => {
+            loadSpeechBubbleDownvoteContainer.style.display = "block";
+        });
+
+        this._downvoteButton.addEventListener("mouseout", () => {
+            loadSpeechBubbleDownvoteContainer.style.display = "none";
         });
     }
 }
