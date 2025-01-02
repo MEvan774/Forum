@@ -1,4 +1,5 @@
 import { api } from "@hboictcloud/api";
+import { off } from "process";
 
 type QuestionQueryResult = {
     id: number;
@@ -98,8 +99,89 @@ export class Question {
         }
     }
 
-    public static async getAllAndFilterByAnswer(): Promise<Question[]> {
+    public static async getAllAndOrderByYearsOfProfession(
+        limit: number,
+        offset: number
+    ): Promise<Question[]> {
         try {
+            const countResult: { total: number }[] = await api.queryDatabase(`
+                SELECT COUNT(DISTINCT question.idQuestion) AS total
+                FROM question
+                INNER JOIN user ON question.idUser = user.idUser;
+            `) as { total: number }[];
+            const totalQuestions: number = countResult[0]?.total || 0;
+            const adjustedLimit: number = Math.min(limit, totalQuestions - offset);
+            if (adjustedLimit <= 0) {
+                return []; // No rows left to fetch
+            }
+            // Fetch the paginated questions ordered by yearsOfProfession
+            const allQuestions: Question[] = [];
+            const questionsResult: QuestionQueryResult[] = await api.queryDatabase(`
+                SELECT 
+                    question.idQuestion AS id, 
+                    question.title, 
+                    question.description, 
+                    question.code, 
+                    question.createdAt, 
+                    question.idUser, 
+                    user.userName, 
+                    user.yearsOfProfession, 
+                    COUNT(answer.idAnswer) AS amount 
+                FROM 
+                    question 
+                INNER JOIN 
+                    user ON question.idUser = user.idUser
+                LEFT JOIN 
+                    answer ON question.idQuestion = answer.idQuestion 
+                GROUP BY 
+                    question.idQuestion, question.title, question.description,  
+                    question.code, question.createdAt, user.userName, user.yearsOfProfession
+                ORDER BY 
+                    user.yearsOfProfession DESC, question.createdAt DESC
+                LIMIT ${adjustedLimit} OFFSET ${offset};
+            `) as QuestionQueryResult[];
+            // Map query results to Question objects
+            for (const question of questionsResult) {
+                question.createdAt = new Date(question.createdAt);
+                allQuestions.push(new Question(
+                    question.id,
+                    question.title,
+                    question.description,
+                    question.code,
+                    question.createdAt,
+                    question.idUser,
+                    question.userName,
+                    question.amount
+                ));
+            }
+            return allQuestions;
+        }
+        catch (reason) {
+            console.error(reason);
+            return [];
+        }
+    }
+
+    public static async getAllAndFilterByAnswer(
+        limit: number,
+        offset: number
+    ): Promise<Question[]> {
+        try {
+            // Get the total number of questions with at least one answer
+            const countResult: { total: number }[] = await api.queryDatabase(`
+                SELECT COUNT(DISTINCT question.idQuestion) AS total
+                FROM question
+                LEFT JOIN answer ON question.idQuestion = answer.idQuestion
+                WHERE answer.idAnswer IS NOT NULL;
+            `) as { total: number }[];
+            const totalQuestionsWithAnswers: number = countResult[0]?.total || 0;
+            if (totalQuestionsWithAnswers === 0) {
+                return [];
+            }
+            const adjustedLimit: number = Math.min(limit, totalQuestionsWithAnswers - offset);
+            if (adjustedLimit <= 0) {
+                return []; // No rows left to fetch
+            }
             const allQuestions: Question[] = [];
             const questionsResult: QuestionQueryResult[] = await api.queryDatabase(`
                 SELECT 
@@ -117,15 +199,15 @@ export class Question {
                     user ON question.idUser = user.idUser 
                 LEFT JOIN 
                     answer ON question.idQuestion = answer.idQuestion 
+                WHERE 
+                    answer.idAnswer IS NOT NULL
                 GROUP BY 
                     question.idQuestion, question.title, question.description,  
                     question.code, question.createdAt, user.userName
-                HAVING 
-                    COUNT(answer.idAnswer) > 0
                 ORDER BY 
-                    question.createdAt DESC;
+                    question.createdAt DESC
+                LIMIT ${adjustedLimit} OFFSET ${offset};
             `) as QuestionQueryResult[];
-            console.log(questionsResult);
             for (const question of questionsResult) {
                 question.createdAt = new Date(question.createdAt);
                 allQuestions.push(new Question(
@@ -137,6 +219,65 @@ export class Question {
                     question.idUser,
                     question.userName,
                     question.amount
+                ));
+            }
+            return allQuestions;
+        }
+        catch (reason) {
+            console.error(reason);
+            return [];
+        }
+    }
+
+    /**
+     * gets all questions and filters them by date
+     * @param limit decides how many questions are being recieved
+     * @param offset decides the amount of offset in which the questions are recieved, its always on 10 since
+     * it needs to load the questions every 10 batch
+     * @param questionAmount the total amount of questions, its primairly used to calculate the final few
+     * questions if it doesnt end at a 10, 20, 30 etc. Its to prevent getting questions that arent in the
+     * database
+     * @returns questions recieved by this function
+     */
+    public static async getAllAndFilterByDate(
+        limit: number,
+        offset: number,
+        questionAmount: number
+    ): Promise<Question[]> {
+        try {
+            const adjustedLimit: number = Math.min(limit, questionAmount - offset);
+            if (adjustedLimit <= 0) {
+                return []; // No rows left to fetch
+            }
+            const allQuestions: Question[] = [];
+            const questionsResult: QuestionQueryResult[] = await api.queryDatabase(`
+                SELECT 
+                    question.idQuestion AS id, 
+                    question.title, 
+                    question.description, 
+                    question.code, 
+                    question.createdAt, 
+                    question.idUser, 
+                    user.userName
+                FROM 
+                    question
+                INNER JOIN 
+                    user ON question.idUser = user.idUser
+                ORDER BY 
+                    question.createdAt DESC -- Sort recent to old
+                LIMIT ${adjustedLimit} OFFSET ${offset};
+            `) as QuestionQueryResult[];
+            for (const question of questionsResult) {
+                question.createdAt = new Date(question.createdAt);
+                allQuestions.push(new Question(
+                    question.id,
+                    question.title,
+                    question.description,
+                    question.code,
+                    question.createdAt,
+                    question.idUser,
+                    question.userName,
+                    0 // No answer count needed
                 ));
             }
             return allQuestions;

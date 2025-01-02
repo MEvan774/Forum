@@ -4,6 +4,7 @@ import { NavController } from "../controllers/NavController";
 import { FooterController } from "../controllers/FooterController";
 import { QuestionCreateController } from "../controllers/QuestionCreateController";
 import { QuestionFilterController } from "../controllers/QuestionFilterController";
+import { LoadQuestionsController } from "../controllers/LoadQuestionsController";
 
 const navView: HTMLElement = document.querySelector(".navbar")!;
 const navController: NavController = new NavController(navView);
@@ -21,6 +22,10 @@ const questionCreateView: HTMLElement = document.querySelector(".button-create-f
 const questionCreateController: QuestionCreateController = new QuestionCreateController(questionCreateView);
 questionCreateController.render();
 
+const loadQuestionsView: HTMLElement = document.querySelector("questions-container")!;
+const loadQuestionsController: LoadQuestionsController = new LoadQuestionsController(loadQuestionsView);
+loadQuestionsController.render();
+
 const questionFilterView: HTMLElement = document.querySelector("questions-container")!;
-const questionFilterController: QuestionFilterController = new QuestionFilterController(questionFilterView);
+const questionFilterController: QuestionFilterController = new QuestionFilterController(questionFilterView, loadQuestionsController);
 questionFilterController.render();
