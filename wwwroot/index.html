@@ -48,8 +48,14 @@
             <button class="button-create-form">Stel hier je vraag!</button>
         </div>
         <section class="questions-container">
-            <h2>Alle gestelde vragen</h2>
-            <p>Vragen zijn op meest recente datum gesorteerd</p>
+            <div class="dropdown">
+                <button class="dropbtn" id="drop-down-button">Filter hier je vragen op: datum</button>
+                <div id="myDropdown" class="dropdown-content">
+                  <button id="filter-date">Datum</button>
+                  <button id="filter-expertise">Expertise niveau</button>
+                  <button id="filter-with-answer">Met antwoorden</button>
+                </div>
+              </div> 
         </section>
     </main>
     <footer class="footerbar"></footer>
