@@ -88,13 +88,14 @@ export class EditProfileController extends Controller {
 
         let imageLink: string | null = null;
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        if (this._imageData && this._imageData.url)// checks image variables are present
+        if (this._imageData && this._imageData.url)// checks if image variables are present
             imageLink = this._imageData.url;
         else
             if (this._currentUser.profilePicture)
                 imageLink = this._currentUser.profilePicture;
 
-        await User.updateUserData(this._currentUser.id, this._nameInput.value, imageLink, this._professionInput.value, Number(this._yearsExpertiseInput.value), birthDateValue);
+        await User.updateUserData(this._currentUser.id, this._nameInput.value, imageLink,
+            this._professionInput.value, Number(this._yearsExpertiseInput.value), birthDateValue);
         User.setCurrentlyLoggedInUser(this._nameInput.value, this._currentUser.id, imageLink);
         window.location.href = "http://localhost:3000/index.html";
     }

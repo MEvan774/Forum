@@ -1,12 +1,15 @@
 import { Controller } from "./Controller";
 import { FilterQuestion } from "../models/FilterQuestion";
 import { Question } from "../models/Question";
-import { HomeController } from "./HomeController";
-import { User } from "../models/User";
+import { LoadQuestionsController } from "./LoadQuestionsController";
 
 export class QuestionFilterController extends Controller {
-    public constructor(view: HTMLElement) {
+    public _filteredQuestions: Question[] = [];
+    private _loadQuestionsController: LoadQuestionsController;
+
+    public constructor(view: HTMLElement, loadQuestionsController: LoadQuestionsController) {
         super(view);
+        this._loadQuestionsController = loadQuestionsController;
     }
 
     private _dropDown: HTMLButtonElement =
@@ -30,29 +33,35 @@ export class QuestionFilterController extends Controller {
         this._filteryearsExpertiseButton.addEventListener("click", this.onApplyfilteryearExpertise.bind(this));
     }
 
+    public async onLoadPage(): Promise<void> {
+        await this.reloadQuestions();
+    }
+
     private onOpenDropDown(): void {
         document.getElementById("myDropdown")!.classList.toggle("show");
     }
 
     private async onApplyFilterOnAnswer(): Promise<void> {
         this._currentFilter = FilterQuestion.FILTERWITHANSWER;
+        document.getElementById("myDropdown")!.classList.toggle("show");
         await this.reloadQuestions();
     }
 
     private async onApplyFilterOnDate(): Promise<void> {
         this._currentFilter = FilterQuestion.ONDATE;
+        document.getElementById("myDropdown")!.classList.toggle("show");
         await this.reloadQuestions();
     }
 
     private async onApplyfilteryearExpertise(): Promise<void> {
         this._currentFilter = FilterQuestion.ONYEAREXPERTISE;
+        document.getElementById("myDropdown")!.classList.toggle("show");
         await this.reloadQuestions();
     }
 
     /**
      * Removes and replaces all the questions on the page with filtered questions
      */
-
     private async reloadQuestions(): Promise<void> {
         const elements: NodeListOf<HTMLElement> = document.querySelectorAll<HTMLElement>(".question-director");
 
@@ -63,29 +72,24 @@ export class QuestionFilterController extends Controller {
         switch (this._currentFilter) {
             case this._currentFilter = FilterQuestion.FILTERWITHANSWER:
             {
-                const filteredQuestions: Question[] = await Question.getAllAndFilterByAnswer();
-                HomeController.displayQuestions(filteredQuestions);
+                this._loadQuestionsController.setQuestionList(this._filteredQuestions);
+                await this._loadQuestionsController.loadQuestions(this._currentFilter);
                 this._dropDown.innerHTML = "Filter hier je vragen op: antwoord";
                 break;
             }
             case this._currentFilter = FilterQuestion.ONDATE:
             {
-                const filteredQuestions: Question[] = await Question.getAll();
-                HomeController.displayQuestions(filteredQuestions);
+                this._filteredQuestions = await Question.getAll();
+                this._loadQuestionsController.setQuestionList(this._filteredQuestions);
+                await this._loadQuestionsController.loadQuestions(this._currentFilter);
                 this._dropDown.innerHTML = "Filter hier je vragen op: datum";
                 break;
             }
             case this._currentFilter = FilterQuestion.ONYEAREXPERTISE:
             {
-                const questions: Question[] = await Question.getAll();
-                const users: User[] = await User.getAll();
-                const sortedUsers: User[] = users.sort((a, b) => b.yearsOfProfession! - a.yearsOfProfession!);
-                const sortedQuestions: Question[] = [];
-
-                sortedUsers.forEach(user => {
-                    sortedQuestions.push(...questions.filter(q => q.idUser === user.id));
-                });
-                HomeController.displayQuestions(sortedQuestions);
+                this._filteredQuestions = await Question.getAll();
+                this._loadQuestionsController.setQuestionList(this._filteredQuestions);
+                await this._loadQuestionsController.loadQuestions(this._currentFilter);
                 this._dropDown.innerHTML = "Filter hier je vragen op: expertise niveau";
                 break;
             }
