@@ -18,7 +18,7 @@ export class StatisticsController extends Controller {
      */
     private async retrieveAvarageAnswerRating(): Promise<void> {
         const LoggedInUser: LoggedIn = User.getCurrentlyLoggedInUser();
-        const avarageAnswerRating: number = await AnswerRating.getAvarageAnswerRating(LoggedInUser.userId);
+        const avarageAnswerRating: number | null = await AnswerRating.getAvarageAnswerRating(LoggedInUser.userId);
         console.log(avarageAnswerRating);
         this.displayAvarageAnswerRating(avarageAnswerRating);
     }
@@ -27,9 +27,14 @@ export class StatisticsController extends Controller {
      * Displays the avarage rating on the page
      * @param avarageAnswerRating the avarage rating of the user
      */
-    private displayAvarageAnswerRating(avarageAnswerRating: number): void {
+    private displayAvarageAnswerRating(avarageAnswerRating: number | null): void {
         const avarageRatingParagraph: HTMLParagraphElement = document.createElement("p");
-        avarageRatingParagraph.innerHTML = `Gemiddelde antwoord waardering: <span>${avarageAnswerRating}</span>`;
+        if (avarageAnswerRating === null) {
+            avarageRatingParagraph.innerHTML = "Gemiddelde antwoord waardering: <span class= no-rates>Je hebt nog geen beoordelingen</span>";
+        }
+        else {
+            avarageRatingParagraph.innerHTML = `Gemiddelde antwoord waardering: <span>${avarageAnswerRating}</span>`;
+        }
         avarageRatingParagraph.classList.add("avarage-rating");
         this.view.appendChild(avarageRatingParagraph);
     }

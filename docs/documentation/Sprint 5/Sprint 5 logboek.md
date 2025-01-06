@@ -14,3 +14,8 @@ bij het waardering venster zodat de gebruiker uitleg krijgt.
 - In plaats van dat er null staat bij een gebruiker die geen waarderingen heeft ontvangen op antwoorden kan je
 dit aangeven met een zin als "Er zijn niet genoeg waarderingen".
 
+**Aanpassingen**
+
+- Het waarderings interface bevat speechbubbles die verschijnen zodra een gebruiker over een downvote of upvote 
+knop heen hovered. Daarnaast wordt een status weergeven in deze bubbel die laat zien of deze knop is geselecteerd
+of niet.

@@ -201,3 +201,8 @@
     color: var(--primary-color);
     font-weight: bold;
 }
+
+.statistics-container p .no-rates {
+    color: rgba(211, 211, 211, 0.523);
+    font-weight: normal;
+}

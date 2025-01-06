@@ -24,7 +24,7 @@ questionCreateController.render();
 
 const loadQuestionsView: HTMLElement = document.querySelector("questions-container")!;
 const loadQuestionsController: LoadQuestionsController = new LoadQuestionsController(loadQuestionsView);
-loadQuestionsController.render();
+void loadQuestionsController.render();
 
 const questionFilterView: HTMLElement = document.querySelector("questions-container")!;
 const questionFilterController: QuestionFilterController = new QuestionFilterController(questionFilterView, loadQuestionsController);
