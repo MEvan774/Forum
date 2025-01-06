@@ -19,3 +19,6 @@ dit aangeven met een zin als "Er zijn niet genoeg waarderingen".
 - Het waarderings interface bevat speechbubbles die verschijnen zodra een gebruiker over een downvote of upvote 
 knop heen hovered. Daarnaast wordt een status weergeven in deze bubbel die laat zien of deze knop is geselecteerd
 of niet.
+
+- Als een gebruiker nog geen waarderingen heeft gekregen op zijn antwoorden ziet diegene bij zijn statistieken
+staan dat er nog geen waarderingen zijn gegeven.
