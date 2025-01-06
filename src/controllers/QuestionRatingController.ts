@@ -16,7 +16,6 @@ export class QuestionRatingController extends Controller {
 
     public render(): void {
         void this.retrieveRatings();
-        this.rateQuestion();
     }
 
     /**
@@ -56,11 +55,21 @@ export class QuestionRatingController extends Controller {
         this._totalRating.textContent = `${totalRating}`;
         this._totalRating.classList.add("total-rating");
 
-        this.checkIfUserHasRated(questionRatings, this._upvoteButton, this._downvoteButton);
+        const ratingStatus: string = this.checkIfUserHasRated(questionRatings, this._upvoteButton, this._downvoteButton);
 
-        this.view.appendChild(this._upvoteButton);
+        const upvoteButtonContainer: HTMLDivElement = document.createElement("div");
+        upvoteButtonContainer.classList.add("upvote-button-container");
+        upvoteButtonContainer.appendChild(this._upvoteButton);
+        this.view.appendChild(upvoteButtonContainer);
+
         this.view.appendChild(this._totalRating);
-        this.view.appendChild(this._downvoteButton);
+
+        const downvoteButtonContainer: HTMLDivElement = document.createElement("div");
+        downvoteButtonContainer.classList.add("downvote-button-container");
+        downvoteButtonContainer.appendChild(this._downvoteButton);
+        this.view.appendChild(downvoteButtonContainer);
+
+        this.loadSpeechBubbles(ratingStatus);
     }
 
     /**
@@ -71,17 +80,47 @@ export class QuestionRatingController extends Controller {
      * @param downvoteButton gets active if user has already rated downvote
      */
     private checkIfUserHasRated(questionRatings: QuestionRating[], upvoteButton: HTMLButtonElement,
-        downvoteButton: HTMLButtonElement): void {
+        downvoteButton: HTMLButtonElement): string {
+        const ratingStatus: string = "none";
         for (const rating of questionRatings) {
             if (rating.idUser === this._loggedInUser.userId) {
                 if (rating.rating === 1) {
                     upvoteButton.id = "voted-button";
+                    return "upvoted";
                 }
                 else {
                     downvoteButton.id = "voted-button";
+                    return "downvoted";
                 }
             }
         }
+        return ratingStatus;
+    }
+
+    private loadSpeechBubbles(ratingStatus: string): void {
+        const loadSpeechBubbleUpvoteContainer: HTMLDivElement = document.createElement("div");
+        loadSpeechBubbleUpvoteContainer.classList.add("speech-bubble-container");
+        const speechTextUpvote: HTMLParagraphElement = document.createElement("p");
+        speechTextUpvote.textContent = "Geef een upvote aan deze vraag";
+        const upvoteStatusContainer: HTMLDivElement = document.createElement("div");
+
+        const loadSpeechBubbleDownvoteContainer: HTMLDivElement = document.createElement("div");
+        loadSpeechBubbleDownvoteContainer.classList.add("speech-bubble-container");
+        const speechTextDownvote: HTMLParagraphElement = document.createElement("p");
+        speechTextDownvote.textContent = "Geef een downvote aan deze vraag";
+        const downvoteStatusContainer: HTMLDivElement = document.createElement("div");
+
+        this._upvoteButton.insertAdjacentElement("afterend", loadSpeechBubbleUpvoteContainer);
+        loadSpeechBubbleUpvoteContainer.appendChild(speechTextUpvote);
+        loadSpeechBubbleUpvoteContainer.appendChild(upvoteStatusContainer);
+
+        this._downvoteButton.insertAdjacentElement("afterend", loadSpeechBubbleDownvoteContainer);
+        loadSpeechBubbleDownvoteContainer.appendChild(speechTextDownvote);
+        loadSpeechBubbleDownvoteContainer.appendChild(downvoteStatusContainer);
+
+        this.updateRatingStatus(ratingStatus, upvoteStatusContainer, downvoteStatusContainer);
+        this.showSpeechBubble(loadSpeechBubbleUpvoteContainer, loadSpeechBubbleDownvoteContainer);
+        this.rateQuestion(upvoteStatusContainer, downvoteStatusContainer);
     }
 
     /**
@@ -89,7 +128,7 @@ export class QuestionRatingController extends Controller {
      * inserts if user hasnt rated yet, updates if user has already rated and user clicks the other button
      * and deletes if user has already rated and clicks the same button
      */
-    private rateQuestion(): void {
+    private rateQuestion(upvoteStatusContainer: HTMLDivElement, downvoteStatusContainer: HTMLDivElement): void {
         this._downvoteButton.addEventListener("click", async () => {
             let alreadyGivenRatingMultiplier: number = 1;
             if ((this._downvoteButton.id || this._upvoteButton.id) === "voted-button") {
@@ -101,14 +140,15 @@ export class QuestionRatingController extends Controller {
                     this._upvoteButton.id = "";
                     this._downvoteButton.id = "voted-button";
                     this._totalRating.textContent = `${parseInt(this._totalRating.textContent as string) - alreadyGivenRatingMultiplier}`;
+                    this.updateRatingStatus("downvoted", upvoteStatusContainer, downvoteStatusContainer);
                 }
                 else {
                     await QuestionRating.deleteQuestionRating(this._idQuestion as number, this._loggedInUser.userId);
                     this._downvoteButton.id = "";
                     this._upvoteButton.id = "";
                     this._totalRating.textContent = `${parseInt(this._totalRating.textContent as string) + 1}`;
+                    this.updateRatingStatus("none", upvoteStatusContainer, downvoteStatusContainer);
                 }
-                void this.retrieveRatings();
             }
         });
 
@@ -123,15 +163,53 @@ export class QuestionRatingController extends Controller {
                     this._upvoteButton.id = "voted-button";
                     this._downvoteButton.id = "";
                     this._totalRating.textContent = `${parseInt(this._totalRating.textContent as string) + alreadyGivenRatingMultiplier}`;
+                    this.updateRatingStatus("upvoted", upvoteStatusContainer, downvoteStatusContainer);
                 }
                 else {
                     await QuestionRating.deleteQuestionRating(this._idQuestion as number, this._loggedInUser.userId);
                     this._downvoteButton.id = "";
                     this._upvoteButton.id = "";
                     this._totalRating.textContent = `${parseInt(this._totalRating.textContent as string) - 1}`;
+                    this.updateRatingStatus("none", upvoteStatusContainer, downvoteStatusContainer);
                 }
                 void this.retrieveRatings();
             }
         });
+    }
+
+    private showSpeechBubble(loadSpeechBubbleUpvoteContainer: HTMLDivElement, loadSpeechBubbleDownvoteContainer: HTMLDivElement): void {
+        this._upvoteButton.addEventListener("mouseover", () => {
+            this.fadeInSpeechBubble(loadSpeechBubbleUpvoteContainer);
+        });
+        this._upvoteButton.addEventListener("mouseout", () => {
+            loadSpeechBubbleUpvoteContainer.style.display = "none";
+        });
+
+        this._downvoteButton.addEventListener("mouseover", () => {
+            this.fadeInSpeechBubble(loadSpeechBubbleDownvoteContainer);
+        });
+        this._downvoteButton.addEventListener("mouseout", () => {
+            loadSpeechBubbleDownvoteContainer.style.display = "none";
+        });
+    }
+
+    private fadeInSpeechBubble(speechBubbleContainer: HTMLDivElement): void {
+        speechBubbleContainer.style.display = "flex";
+        speechBubbleContainer.style.animation = "fadeIn 0.5s";
+    }
+
+    private updateRatingStatus(ratingStatus: string, upvoteStatusContainer: HTMLDivElement, downvoteStatusContainer: HTMLDivElement): void {
+        if (ratingStatus === "upvoted") {
+            upvoteStatusContainer.innerHTML = "<p>status: <span style='color: green;'>geselecteerd</span></p>";
+            downvoteStatusContainer.innerHTML = "<p>status: <span style='color: red;'>niet geselecteerd</span></p>";
+        }
+        else if (ratingStatus === "downvoted") {
+            upvoteStatusContainer.innerHTML = "<p>status: <span style='color: red;'>niet geselecteerd</span></p>";
+            downvoteStatusContainer.innerHTML = "<p>status: <span style='color: green;'>geselecteerd</span></p>";
+        }
+        else if (ratingStatus === "none") {
+            upvoteStatusContainer.innerHTML = "<p>status: <span style='color: red;'>niet geselecteerd</span></p>";
+            downvoteStatusContainer.innerHTML = "<p>status: <span style='color: red;'>niet geselecteerd</span></p>";
+        }
     }
 }
