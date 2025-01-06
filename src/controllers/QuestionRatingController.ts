@@ -98,6 +98,7 @@ export class QuestionRatingController extends Controller {
     }
 
     private loadSpeechBubbles(ratingStatus: string): void {
+        console.log("loading");
         const loadSpeechBubbleUpvoteContainer: HTMLDivElement = document.createElement("div");
         loadSpeechBubbleUpvoteContainer.classList.add("speech-bubble-container");
         const speechTextUpvote: HTMLParagraphElement = document.createElement("p");
@@ -172,7 +173,6 @@ export class QuestionRatingController extends Controller {
                     this._totalRating.textContent = `${parseInt(this._totalRating.textContent as string) - 1}`;
                     this.updateRatingStatus("none", upvoteStatusContainer, downvoteStatusContainer);
                 }
-                void this.retrieveRatings();
             }
         });
     }
