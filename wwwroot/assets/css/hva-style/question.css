@@ -23,16 +23,31 @@
     gap: 20px;
 }
 
-.detailed-question-info #user-name::before {
+.detailed-question-info .user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+}
+
+.detailed-question-info .user-profile::before {
     content: "|";
     position: absolute;
-    top: -1px;
-    right: -14px;
+    font-size: 1.6rem;
+    top: 25%;
+    right: -11px;
 }
 
 .detailed-question-info #user-name {
     font-weight: bold;
-    position: relative;
+}
+
+.detailed-question-info #profile-picture {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 5px;
 }
 .main-question-container {
     margin-top: 20px;

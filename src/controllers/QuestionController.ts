@@ -2,6 +2,8 @@ import { Controller } from "./Controller";
 import { Question } from "../models/Question";
 import { CodeTag } from "../models/CodeTag";
 import { QuestionRatingController } from "./QuestionRatingController";
+import { User } from "../models/User";
+import { UserProfileAndPictureResult } from "../models/QueryResultTypes/UserProfileAndPictureResult";
 import { url } from "@hboictcloud/api";
 import hljs from "highlight.js";
 
@@ -91,9 +93,24 @@ export class QuestionController extends Controller {
                 hljs.highlightElement(codeElement);
             }
         }
-        questionInfoContainer.innerHTML += "<div class='detailed-question-info'><p id='user-name'>" +
-        question.userName +
-        "</p><p id='created-at'>" + formattedDate + "</p></div>";
+        const userOfQuestion: UserProfileAndPictureResult | null = await User.getUserProfileAndPictureById(question.idUser);
+        if (userOfQuestion === null) {
+            console.error(`No user found with ID ${question.idUser}`);
+            return;
+        }
+        let userProfilePicture: string = "./assets/img/default-profile-picture.png";
+        if (userOfQuestion.profilePicture !== null) {
+            userProfilePicture = userOfQuestion.profilePicture;
+        }
+        questionInfoContainer.innerHTML += `
+        <div class='detailed-question-info'>
+        <div class='user-profile'>
+        <p id='user-name'>${userOfQuestion.userName}</p>
+        <img id='profile-picture' src='${userProfilePicture}' alt='Profielfoto'>
+        </div>
+        <p id='created-at'>${formattedDate}</p>
+        </div>
+        `;
         this.view.appendChild(questionInfoContainer);
     }
 }
