@@ -56,7 +56,7 @@ export class QuestionController extends Controller {
                 const codeElement: HTMLElement = document.createElement("code");
                 preElement.id = "question-code";
                 codeElement.classList.add(`language-${questionCodeTag.tagType}`);
-                codeElement.innerText = question.code;
+                codeElement.textContent = question.code;
                 preElement.appendChild(codeElement);
             }
         }
@@ -87,7 +87,7 @@ export class QuestionController extends Controller {
                 const codeElement: HTMLElement = document.createElement("code");
                 preElement.id = "question-code";
                 codeElement.classList.add(`language-${questionCodeTag.tagType}`);
-                codeElement.innerText = question.code;
+                codeElement.textContent = question.code;
                 preElement.appendChild(codeElement);
                 questionInfoContainer.appendChild(preElement);
                 hljs.highlightElement(codeElement);
