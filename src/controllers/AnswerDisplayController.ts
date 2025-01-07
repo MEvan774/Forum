@@ -5,6 +5,7 @@ import { CodeTag } from "../models/CodeTag";
 import { url } from "@hboictcloud/api";
 import { LoggedIn } from "../models/LoggedIn";
 import { AnswerRatingController } from "./AnswerRatingController";
+import { UserProfileAndPictureResult } from "../models/QueryResultTypes/UserProfileAndPictureResult";
 import hljs from "highlight.js";
 import { marked } from "marked";
 
@@ -67,8 +68,8 @@ export class AnswersDisplayController extends Controller {
             const answerInfo: HTMLDivElement = document.createElement("div");
             answerInfo.classList.add("answer-info");
 
-            const nameOfAnswerer: string | null = await User.getUserById(answer.idUser);
-            if (nameOfAnswerer === null) {
+            const userOfAnswer: UserProfileAndPictureResult | null = await User.getUserProfileAndPictureById(answer.idUser);
+            if (userOfAnswer === null) {
                 console.error(`No user found with ID ${answer.idUser}`);
                 return;
             }
@@ -97,8 +98,17 @@ export class AnswersDisplayController extends Controller {
 
             const extraAnswerInfoContainer: HTMLDivElement = document.createElement("div");
             extraAnswerInfoContainer.classList.add("detailed-answer-info");
+
+            let userProfilePicture: string = "./assets/img/default-profile-picture.png";
+            if (userOfAnswer.profilePicture !== null) {
+                userProfilePicture = userOfAnswer.profilePicture;
+            }
+
             extraAnswerInfoContainer.innerHTML = `
-                <p id="user-name">${nameOfAnswerer}</p>
+                <div class="user-profile">
+                <p id="user-name">${userOfAnswer.userName}</p>
+                <img id="profile-picture" src="${userProfilePicture}" alt="Profielfoto">
+                </div>
             `;
 
             if (isUpdated) {
@@ -111,7 +121,7 @@ export class AnswersDisplayController extends Controller {
             }
 
             let AnswerButtons: HTMLDivElement = document.createElement("div");
-            if (loggedInUser.userName === nameOfAnswerer) {
+            if (loggedInUser.userName === userOfAnswer.userName) {
                 AnswerButtons = this.setAnswerEditorButtons(answer.id);
             }
 

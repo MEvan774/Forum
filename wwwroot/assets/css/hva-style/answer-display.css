@@ -37,16 +37,32 @@
 }
 
 
-.answer-info .detailed-answer-info #user-name {
+.answer-info .detailed-answer-info .user-profile {
     font-weight: bold;
     position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.answer-info .detailed-answer-info #user-name::before {
+.answer-info .detailed-answer-info #user-name {
+    font-weight: bold;
+}
+
+.answer-info .detailed-answer-info #profile-picture {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 5px;
+}
+
+.answer-info .detailed-answer-info .user-profile::before {
     content: "|";
     position: absolute;
-    top: -1px;
-    right: -14px;
+    right: -11px;
+    top: 25%;
+    font-size: 1.6rem;
 }
 
 .answer-info .answer-buttons {

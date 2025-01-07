@@ -3,6 +3,7 @@ import { session } from "@hboictcloud/api";
 import { LoggedIn } from "./LoggedIn";
 import { UserQueryResult } from "./QueryResultTypes/UserQueryResult";
 import { PasswordQueryResult } from "./QueryResultTypes/PasswordQueryResult";
+import { UserProfileAndPictureResult } from "./QueryResultTypes/UserProfileAndPictureResult";
 
 export class User {
     private _id: number;
@@ -171,6 +172,18 @@ export class User {
             const userNameResult: { userName: string }[] = await api.queryDatabase(`SELECT userName FROM user
                  WHERE idUser = '${id}'`) as { userName: string }[];
             return userNameResult[0].userName;
+        }
+        catch (reason) {
+            console.error(reason);
+        }
+        return null;
+    }
+
+    public static async getUserProfileAndPictureById(id: number): Promise<UserProfileAndPictureResult | null> {
+        try {
+            const userProfileResult: UserProfileAndPictureResult[] = await api.queryDatabase(`
+                SELECT userName, profilePicture FROM user where idUser = ${id}`) as UserProfileAndPictureResult[];
+            return userProfileResult[0];
         }
         catch (reason) {
             console.error(reason);
