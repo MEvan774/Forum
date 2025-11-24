@@ -1,4 +1,18 @@
-# Opdracht blok 2 HBO-ICT SE
+# Opdracht blok 2 HBO-ICT SE (Forum)
+
+---
+
+## Overview
+This is a typescript website die data van een database ophaald via SQL.
+---
+
+**Screenshot:**
+
+![Screenshot](docs/images/CodeExchangeFront.png)
+![Screenshot](docs/images/CodeExchangeQuestion.png)
+
+---
+
 
 ## Hoe is deze repository ingericht
 
