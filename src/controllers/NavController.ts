@@ -11,7 +11,6 @@ export class NavController extends Controller {
         this.createNavigationLogo();
         this.createNavigationLinks();
         this.checkIfLoggedIn();
-        this.createNavigationLine();
     }
 
     /**
@@ -38,13 +37,7 @@ export class NavController extends Controller {
         const navigationLinksContainer: HTMLDivElement = document.createElement("div");
         navigationLinksContainer.classList.add("nav-links");
 
-        const homeLink: HTMLAnchorElement = document.createElement("a");
-        homeLink.href = "/index.html";
-        homeLink.classList.add("page-link");
-        homeLink.innerText = "Home";
-
         this.view.appendChild(navigationLinksContainer);
-        navigationLinksContainer.appendChild(homeLink);
     }
 
     /**
@@ -141,7 +134,7 @@ export class NavController extends Controller {
 
         const registerButton: HTMLAnchorElement = document.createElement("a");
         registerButton.href = "/registration.html";
-        registerButton.classList.add("normal-link");
+        registerButton.classList.add("normal-register-link");
         registerButton.textContent = "Registreren";
 
         navigationContainer.children[1].appendChild(loginButton);
@@ -158,11 +151,5 @@ export class NavController extends Controller {
                 link.classList.add("active");
             }
         });
-    }
-
-    private createNavigationLine(): void {
-        const navigationLine: HTMLHRElement = document.createElement("hr");
-        navigationLine.classList.add("gradient-line");
-        this.view.parentElement?.insertBefore(navigationLine, this.view.nextSibling);
     }
 }

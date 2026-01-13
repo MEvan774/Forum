@@ -4,7 +4,7 @@
 
 .answer-container {
     display: grid;
-    background-color: #393e4c54;  
+    background-color: transparent;  
     grid-template-columns: 100px 1fr;
     align-items: center;
     border-radius: 10px;
@@ -23,9 +23,9 @@
     position: absolute;
     content: "";
     width: 100%;
-    height: 3px;
-    background-color: var(--primary-color);
-    bottom: -20px;
+    height: 1px;
+    background-color: var(--border-color);
+    bottom: -10px;
     left: 0;
     border-radius: 10px;
 }
@@ -34,6 +34,8 @@
     display: flex;
     justify-content: end;
     gap: 20px;
+    width: 50%;
+    float: right;
 }
 
 
@@ -62,7 +64,8 @@
     position: absolute;
     right: -11px;
     top: 25%;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
+    font-weight: lighter;
 }
 
 .answer-info .answer-buttons {
@@ -82,11 +85,20 @@
 }
 
 .answer-info .answer-buttons #edit-answer-button {
-    background-color: var(--secondary-color);
+    background-color: transparent;
+    border: 1px solid var(--secondary-color);
+    bottom: 0;
+    position: absolute;
+    margin-bottom: 32px;
 }
 
 .answer-info .answer-buttons #delete-answer-button {
-    background-color: var(--primary-color);
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    bottom: 0;
+    position: absolute;
+    margin-bottom: 32px;
+    margin-left: 120px;
 }
 
 .answer-info .answer-buttons #edit-answer-button:hover {

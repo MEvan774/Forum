@@ -2,15 +2,26 @@
 /* Form Styling */
 /* Form */
 form {
-    background: linear-gradient(90deg, #171a27 -100%, #1f3278 100%);
+    background: var(--accent-color);
 
-    border: 2px solid var(--secondary-color);
+    border: 1px solid var(--gray);
     border-radius: 0.5rem;
     padding: 1.5rem;
-    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
     margin: auto;
     margin-bottom: 1.5rem;
     max-width: 60%;
+
+    transform-origin: top;
+    animation: openForm 0.2s ease forwards;
+}
+
+@keyframes openForm {
+    from {
+        transform: scaleY(0);
+    }
+    to {
+        transform: scaleY(1);
+    }
 }
 
 form .form-group {
@@ -88,16 +99,15 @@ form .form-error {
 }
 
 .question-title-form{
-    border: 3px solid var(--gray);
+    border: 1px solid var(--border-color);
     border-radius: 5px;
     resize: vertical;
     white-space: nowrap;
 
     padding: 10px 5px;
-    scrollbar-color: var(--primary-color) rgba(215, 215, 215, 0);
     min-height: 20px;
     max-height: 1000px;
-    width: 35%;
+    width: 32%;
     margin-bottom: 20px;
     transition: outline 0.1s, outline-offset 0.1s;
     font-size: 18px;
@@ -105,13 +115,12 @@ form .form-error {
 }
 
 .question-description-form{
-    border: 3px solid var(--gray);
+    border: 1px solid var(--border-color);
     border-radius: 5px;
     float: right;
     resize: vertical;
     white-space: nowrap;
     padding: 10px 5px;
-    scrollbar-color: var(--primary-color) rgba(215, 215, 215, 0);
     min-height: 20px;
     max-height: 1000px;
     width: 65%;
@@ -122,13 +131,12 @@ form .form-error {
 }
 
 .question-code-form{
-    border: 3px solid var(--gray);
+    border: 1px solid var(--border-color);
     border-radius: 5px;
     resize: vertical;
     white-space: nowrap;
 
     padding: 10px 5px;
-    scrollbar-color: var(--primary-color) rgba(215, 215, 215, 0);
     min-height: 200px;
     max-height: 1000px;
     width: 100%;
@@ -139,11 +147,12 @@ form .form-error {
 }
 
 .button-create-question {
+    font-weight: bold;    
     color: white;
     background-color: var(--primary-color);
     border: none;
     padding: 10px 20px;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.2s;
     margin-bottom: 20px;

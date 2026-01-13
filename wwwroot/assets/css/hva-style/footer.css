@@ -11,12 +11,11 @@
     margin: 0;
     padding: 0;
     color: var(--white);
-    font-size: 1.2em;
+    font-size: 0.9rem;
     text-align: center;
     width: 100%;
 }
 
 .footerbar .footer-span {
     color: var(--primary-color);
-    font-weight: bold;
 }

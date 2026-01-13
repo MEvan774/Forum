@@ -5,11 +5,11 @@
 }
 
 .question-container {
-    background-color: var(--gray);
-    margin-bottom: 20px;
+    border-top: var(--border-color) 1px solid;
+    border-bottom: var(--border-color) 1px solid;
+    margin-bottom: -1px;
+    background-color: var(--background-color);
     padding: 5px 10px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     transition: all 0.2s ease;
     height: auto;
 }
@@ -49,8 +49,7 @@
 }
 
 .question-director:hover .question-container {
-    box-shadow: 0 0 10px rgba(31, 65, 187, 0.5);
-    background-color: #484e5f;
+    background-color: var(--accent-color);
 }
 
 #has-answer {

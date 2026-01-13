@@ -30,7 +30,7 @@
 
 .rating-container button {
     display: flex;
-    background: gray;
+    background: transparent;
     border: none;
     border-radius: 50%;
     cursor: pointer;

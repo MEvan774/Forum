@@ -1,16 +1,19 @@
 /* !!Doesn't work without importing the base.css first!! */
 /* User profile */
 .answerForm {
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--secondary-color);
+    background-color: var(--accent-color);
     padding: 1.5rem;
     border-radius: 0.5rem;
     margin-top: 4rem;
     margin-bottom: 20rem;
-    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: flex-start;
+    width: 640px;
 }
 
 .answerForm div {
@@ -36,7 +39,7 @@
 .answerForm button {
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    border-width: 2px;
+    border-width: 1px;
     font-weight: bold;
     color: var(--white);
     background-color: var(--background-color);
@@ -47,4 +50,22 @@
 
 .answerForm button :hover {
     background-color: var(--secondary-color);
+}
+
+.answers-container .answer-form-submit{
+    display: block;
+    margin: 15px auto 20px auto;
+    padding: 10px 25px;
+    border-width: 0px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.0rem;
+    color: var(--white);
+    background-color: var(--primary-color);
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.answers-container .answer-form-submit:hover {
+    background-color: #932539;
 }

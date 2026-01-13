@@ -5,7 +5,10 @@
     grid-template-columns: 100px 1fr;
     background-color: var(--gray);
     align-items: center;
-    border-radius: 10px;
+    border-top: var(--border-color) 1px solid;
+    border-bottom: var(--border-color) 1px solid;
+    margin-bottom: -1px;
+    background-color: var(--background-color);
     padding: 20px;
     margin-bottom: 50px;
 }
@@ -110,20 +113,19 @@
 
 .button-create-form {
     font-weight: bold;
-    font-size: 30px;
+    font-size: 16px;
     float: right;
     margin-top: 46px;
     margin-right: 20px;
-    height: 70px;
+    height: 45px;
     color: var(--white);
-    border-color: var(--white);
-    background-color: #932539;
-    border-width: 3px;
+    background-color: var(--primary-color);
     padding: 10px 20px;
     border-radius: 10px;
+    border-width: 0;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
 }
 .button-create-form:hover {
-    background-color: #183499;
+    background-color: #932539;
 }

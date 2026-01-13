@@ -1,6 +1,5 @@
 import { Controller } from "./Controller";
 import { Question } from "../models/Question";
-import { QuestionFilterController } from "./QuestionFilterController";
 
 export class HomeController extends Controller {
     private static view: HTMLElement;
