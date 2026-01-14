@@ -3,12 +3,14 @@
     flex-direction: column;
     align-items: center;
     margin-bottom: 50px;
+    padding: 0 20px;
 }
 
 .home-intro-container  h1 {
     font-size: 4.5rem;
     width: 800px;
     line-height: 70px;
+    text-align: center;
 }
 
 .home-intro-container .intro-description {
@@ -60,7 +62,7 @@
     max-width: 230px;
     font-weight: bold;
 
-        transition:
+    transition:
         background-color 0.2s ease,
         color 0.2s ease;
   }
@@ -117,7 +119,7 @@
     font-weight: bold;
     border-bottom: 1px solid var(--border-color);
 
-            transition:
+    transition:
         color 0.1s ease;
   }
   
@@ -193,3 +195,101 @@
   #no-pages.show {
     display: block; /* Show when triggered */
   }
+
+/* Mobile responsiveness for home-intro-container */
+@media (max-width: 768px) {
+    .home-intro-container {
+        margin-bottom: 30px;
+        padding: 0 15px;
+    }
+
+    .home-intro-container h1 {
+        font-size: 2.5rem;
+        width: 100%;
+        max-width: 100%;
+        line-height: 1.2;
+        margin-bottom: 20px;
+    }
+
+    .home-intro-container .intro-description {
+        flex-direction: column;
+        height: auto;
+        gap: 20px;
+        width: 100%;
+    }
+
+    .home-intro-container .intro-description p {
+        width: 100%;
+        max-width: 100%;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    .home-intro-container .intro-description .description-1,
+    .home-intro-container .intro-description .description-2 {
+        justify-content: center;
+    }
+
+    .home-intro-container .intro-description hr {
+        width: 80%;
+    }
+
+    /* Dropdown adjustments for mobile */
+    .dropdown {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        width: 45%;
+        max-width: 300px;
+    }
+
+    .dropbtn {
+        width: 100%;
+        min-width: auto;
+        max-width: 100%;
+        font-size: 14px;
+    }
+
+    .dropdown-content {
+        width: 100%;
+        min-width: auto;
+    }
+
+    .dropdown-content button {
+        width: 95%;
+    }
+}
+
+/* Tablet responsiveness */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .home-intro-container h1 {
+        font-size: 3.5rem;
+        width: 90%;
+        line-height: 1.2;
+    }
+
+    .home-intro-container .intro-description {
+        height: auto;
+        min-height: 250px;
+    }
+
+    .home-intro-container .intro-description p {
+        width: 400px;
+        font-size: 0.95rem;
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+    .home-intro-container h1 {
+        font-size: 2rem;
+        line-height: 1.3;
+    }
+
+    .home-intro-container .intro-description p {
+        font-size: 0.9rem;
+    }
+
+    .home-intro-container .intro-description {
+        gap: 15px;
+    }
+}

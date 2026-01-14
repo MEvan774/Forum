@@ -3,7 +3,6 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
-
 }
 
 .rating-container p {
@@ -47,4 +46,96 @@
     width: 20px;
     height: 20px;
     filter: brightness(0) invert(1);
+}
+
+/* Mobile responsiveness for rating container */
+@media (max-width: 768px) {
+    .rating-container {
+        gap: 8px;
+        position: absolute;
+        left: 10px;
+        top: 15px;
+    }
+
+    .rating-container p {
+        font-size: 1.5rem;
+    }
+
+    .rating-container button {
+        width: 35px;
+        height: 35px;
+    }
+
+    .rating-container button img {
+        width: 18px;
+        height: 18px;
+    }
+
+    .rating-container .upvote-button img {
+        margin-bottom: 1px;
+    }
+
+    .rating-container .downvote-button img {
+        margin-top: 1px;
+    }
+
+    /* Add padding to parent containers to make room for the rating */
+    .answer-container {
+        padding-left: 70px;
+        position: relative;
+    }
+
+    .selected-question-container {
+        padding-left: 70px;
+        position: relative;
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+    .rating-container {
+        gap: 6px;
+        left: 8px;
+        top: 12px;
+    }
+
+    .rating-container p {
+        font-size: 1.3rem;
+    }
+
+    .rating-container button {
+        width: 32px;
+        height: 32px;
+    }
+
+    .rating-container button img {
+        width: 16px;
+        height: 16px;
+    }
+
+    /* Adjust padding for smaller screens */
+    .answer-container {
+        padding-left: 60px;
+    }
+
+    .selected-question-container {
+        padding-left: 60px;
+    }
+}
+
+/* Tablet responsiveness */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .rating-container p {
+        font-size: 1.7rem;
+    }
+
+    .rating-container button {
+        width: 38px;
+        height: 38px;
+    }
+
+    .rating-container button img {
+        width: 19px;
+        height: 19px;
+    }
 }

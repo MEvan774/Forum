@@ -55,3 +55,50 @@ h1 {
     margin-left: -165px;
     opacity: 0.3;
 }
+
+/* Mobile responsiveness for background object */
+@media (max-width: 768px) {
+    .background-object {
+        top: 80px;
+        width: 180px;
+        height: 180px;
+    }
+
+    .background-object img {
+        width: 200px;
+        margin-top: -100px;
+        margin-left: -100px;
+        opacity: 0.2;
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+    .background-object {
+        top: 60px;
+        width: 140px;
+        height: 140px;
+    }
+
+    .background-object img {
+        width: 150px;
+        margin-top: -75px;
+        margin-left: -75px;
+        opacity: 0.15;
+    }
+}
+
+/* Tablet responsiveness */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .background-object {
+        width: 220px;
+        height: 220px;
+    }
+
+    .background-object img {
+        width: 250px;
+        margin-top: -125px;
+        margin-left: -125px;
+        opacity: 0.25;
+    }
+}

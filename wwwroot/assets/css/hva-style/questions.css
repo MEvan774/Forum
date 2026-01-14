@@ -113,3 +113,108 @@
     font-family: monospace;
     color: var(--primary-color);
 } 
+
+/* Mobile responsiveness for questions container */
+@media (max-width: 768px) {
+    .questions-container {
+        padding: 10px 10px;
+        margin-bottom: 100px;
+    }
+
+    .question-container {
+        padding: 10px 8px;
+    }
+
+    .question-container h2 {
+        font-size: 1.3rem;
+        margin: 8px 0 12px 0;
+        word-wrap: break-word;
+    }
+
+    .question-container .description {
+        width: 100%;
+        height: auto;
+        min-height: 50px;
+        font-size: 0.9rem;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
+    }
+
+    .extra-info-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    #has-answer,
+    #no-answer {
+        font-size: 0.75em;
+    }
+
+    .question-container #answer-code {
+        padding: 15px 10px;
+        max-height: 300px;
+        font-size: 14px;
+        overflow-x: auto;
+    }
+
+    .question-container #answer-code code::before {
+        right: 10px;
+        top: 8px;
+        font-size: 14px;
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+    .questions-container {
+        padding: 5px 5px;
+        margin-bottom: 80px;
+    }
+
+    .question-container {
+        padding: 8px 6px;
+    }
+
+    .question-container h2 {
+        font-size: 1.1rem;
+        margin: 6px 0 10px 0;
+    }
+
+    .question-container .description {
+        font-size: 0.85rem;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+    }
+
+    .extra-info-container {
+        gap: 6px;
+    }
+
+    .question-container #answer-code {
+        padding: 12px 8px;
+        max-height: 250px;
+        font-size: 13px;
+    }
+
+    .question-container #answer-code code::before {
+        font-size: 12px;
+    }
+}
+
+/* Tablet responsiveness */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .questions-container {
+        padding: 10px 15px;
+        margin-bottom: 150px;
+    }
+
+    .question-container .description {
+        width: 100%;
+        max-width: 700px;
+    }
+
+    .question-container #answer-code {
+        max-height: 400px;
+    }
+}

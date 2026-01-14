@@ -154,19 +154,133 @@
 /* Responsive navbar */
 @media (max-width: 768px) {
     .navbar {
-        flex-direction: column;
-        align-items: flex-start;
+        gap: 0.5rem;
+        padding: 0.5rem 0.3rem;
     }
+
+    .navbar .logo {
+        width: auto;
+        margin-left: 8px;
+        gap: 0.5rem;
+    }
+
+    .logo h1 {
+        font-size: 1.3rem;
+    }
+
+    .logo img {
+        width: 35px;
+    }
+
     .navbar .nav-links {
-        flex-direction: row;
-        width: 80%;
-        margin-top: 1rem;
-        flex-wrap: wrap;
+        width: auto;
+        gap: 0.5rem;
     }
-    .navbar .nav-links a {
-        min-width: 100px;
-        width: 45%;
-        text-align: center;
-        padding: 1rem 0;
+
+    .nav-links .page-link {
+        margin: 0;
+        font-size: 0.9rem;
+        gap: 0.5rem;
+    }
+
+    .nav-links .normal-link {
+        font-size: 0.85rem;
+        padding: 0.4rem 12px;
+        white-space: nowrap;
+    }
+
+    .nav-links .normal-register-link {
+        font-size: 0.85rem;
+        padding: 0.4rem 12px;
+        margin-right: 8px;
+        white-space: nowrap;
+    }
+
+    .nav-links .user-profile-link {
+        margin: 0 8px 0 0;
+        font-size: 1.5rem;
+        gap: 0.5rem;
+    }
+
+    .user-profile-link p {
+        font-size: 0.9rem;
+    }
+
+    .user-profile-link img {
+        width: 30px;
+        height: 30px;
+        margin-right: 0.3rem;
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+    .navbar {
+        gap: 0.3rem;
+        padding: 0.4rem 0.2rem;
+    }
+
+    .navbar .logo {
+        margin-left: 5px;
+        gap: 0.4rem;
+    }
+
+    .logo h1 {
+        font-size: 1.1rem;
+    }
+
+    .logo img {
+        width: 30px;
+    }
+
+    .navbar .nav-links {
+        gap: 0.4rem;
+    }
+
+    .nav-links .normal-link {
+        font-size: 0.75rem;
+        padding: 0.35rem 10px;
+    }
+
+    .nav-links .normal-register-link {
+        font-size: 0.75rem;
+        padding: 0.35rem 10px;
+        margin-right: 5px;
+    }
+
+    .nav-links .user-profile-link {
+        margin: 0 5px 0 0;
+        font-size: 1.3rem;
+        gap: 0.3rem;
+    }
+
+    .user-profile-link p {
+        font-size: 0.8rem;
+    }
+
+    .user-profile-link img {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+/* Tablet responsiveness */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .navbar {
+        gap: 2rem;
+    }
+
+    .logo h1 {
+        font-size: 1.8rem;
+    }
+
+    .logo img {
+        width: 45px;
+    }
+
+    .nav-links .normal-link,
+    .nav-links .normal-register-link {
+        font-size: 0.95rem;
+        padding: 0.45rem 18px;
     }
 }
