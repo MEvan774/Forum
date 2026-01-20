@@ -329,4 +329,8 @@ export class User {
     public get yearOfBirth(): Date | null {
         return this._yearOfBirth;
     }
+
+    public get dateUpdated(): Date | null {
+        return this._dateUpdated;
+    }
 }
