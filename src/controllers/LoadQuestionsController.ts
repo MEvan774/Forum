@@ -4,11 +4,8 @@ import { HomeController } from "./HomeController";
 import { FilterQuestion } from "../models/FilterQuestion";
 
 export class LoadQuestionsController extends Controller {
-    private static view: HTMLElement;
-
     public constructor(view: HTMLElement) {
         super(view);
-        LoadQuestionsController.view = view;
         this.loadingElement = document.getElementById("loading");
         this.noPagesElement = document.getElementById("no-pages");
         this.initScrollListener();
@@ -113,10 +110,10 @@ export class LoadQuestionsController extends Controller {
         this.currentIndex = 0;
     }
 
-/**
- * handles scroll direction when the user scrolls
- * @returns the scroll direction of the scroll wheel as a "up" or "down"
- */
+    /**
+     * handles scroll direction when the user scrolls
+     * @returns the scroll direction of the scroll wheel as a "up" or "down"
+     */
 
     private getScrollDirection(): string {
         const currentScrollPosition: number = window.scrollY;
