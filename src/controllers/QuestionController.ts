@@ -98,7 +98,7 @@ export class QuestionController extends Controller {
             console.error(`No user found with ID ${question.idUser}`);
             return;
         }
-        let userProfilePicture: string = "./assets/img/default-profile-picture.png";
+        let userProfilePicture: string = "/img/default-profile-picture.png";
         if (userOfQuestion.profilePicture !== null) {
             userProfilePicture = userOfQuestion.profilePicture;
         }

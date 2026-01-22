@@ -1,7 +1,7 @@
 # Entity Relationship Diagram (ERD)
 Voor de onder andere de User Stories "Inloggen" en "Registreren" is een database tabel nodig waar de informatie van een gebruiker in opgeslagen kan worden. Hiervoor wordt over het algemeen een Entity Relationship Diagram (ERD) opgesteld, waarin je kunt lezen hoe de verschillende database tabellen eruit zouden moeten zien.
 
-![ERD](./assets/erd.svg)
+![ERD](/erd.svg)
 
 Korte uitleg van wat je hierboven ziet:
 

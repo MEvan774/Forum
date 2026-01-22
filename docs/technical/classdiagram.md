@@ -1,7 +1,7 @@
 # Class Diagram
 Voor de User Stories "Inloggen" en "Registreren" is een Class Diagram opgesteld hoe je deze functionaliteit in een MVC-structuur kunt opzetten.
 
-![Class Diagram](./assets/classdiagram.svg)
+![Class Diagram](/classdiagram.svg)
 
 > **Tip!** Klik met de rechter muisknop op de afbeelding en open deze in een apart tabblad!
 

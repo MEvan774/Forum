@@ -99,7 +99,7 @@ export class AnswersDisplayController extends Controller {
             const extraAnswerInfoContainer: HTMLDivElement = document.createElement("div");
             extraAnswerInfoContainer.classList.add("detailed-answer-info");
 
-            let userProfilePicture: string = "./assets/img/default-profile-picture.png";
+            let userProfilePicture: string = "/img/default-profile-picture.png";
             if (userOfAnswer.profilePicture !== null) {
                 userProfilePicture = userOfAnswer.profilePicture;
             }

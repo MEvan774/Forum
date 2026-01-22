@@ -21,7 +21,7 @@ export class NavController extends Controller {
         navLogoContainer.classList.add("logo");
         navLogoContainer.innerHTML = `
         <h1>Code Exchange</h1>
-        <img src="./assets/img/code-exchange-logo.png" alt="Code Exchange Logo">
+        <img src="/img/code-exchange-logo.png" alt="Code Exchange Logo">
         `;
         this.view.appendChild(navLogoContainer);
 
@@ -112,7 +112,7 @@ export class NavController extends Controller {
 
         const loggedInObject: LoggedIn = session.get("LoggedIn") as LoggedIn;
 
-        let userProfileImage: string = "./assets/img/default-profile-picture.png";
+        let userProfileImage: string = "/img/default-profile-picture.png";
         if (loggedInObject.userImage) {
             userProfileImage = loggedInObject.userImage;
         }

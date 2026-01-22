@@ -43,12 +43,12 @@ export class QuestionRatingController extends Controller {
         }
 
         this._upvoteButton.innerHTML = `
-        <img src="assets/img/rating-arrow.png" alt="up-rating-arrow">
+        <img src="/img/rating-arrow.png" alt="up-rating-arrow">
         `;
         this._upvoteButton.classList.add("upvote-button");
 
         this._downvoteButton.innerHTML = `
-        <img src="assets/img/rating-arrow.png" alt="down-rating-arrow">
+        <img src="/img/rating-arrow.png" alt="down-rating-arrow">
         `;
         this._downvoteButton.classList.add("downvote-button");
 
