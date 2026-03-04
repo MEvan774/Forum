@@ -1,59 +1,83 @@
-# Opdracht blok 2 HBO-ICT SE (Forum)
+# Code Exchange
 
----
+A full-stack Q&A forum web application built entirely in TypeScript, inspired by platforms like Stack Overflow.
 
-## Overview
-This is a typescript website die data van een database ophaald via SQL.
----
+![Code Exchange Landing Page](docs/images/ForumLanding.png)
+![Code Exchange Question Page](docs/images/ForumChat.png)
 
-**Screenshot:**
+## About
 
-![Screenshot](docs/images/CodeExchangeFront.png)
-![Screenshot](docs/images/CodeExchangeQuestion.png)
+Code Exchange was developed collaboratively with a classmate as part of our HBO-ICT Software Engineering program (Block 2). The app lets users register accounts, post coding questions with embedded code snippets, answer each other's questions, and rate both questions and answers with an upvote/downvote system.
 
----
+Questions can be tagged with a programming language and filtered by date, expertise level, or whether they have answers. The frontend uses Vite as a build tool with libraries like Marked and EasyMDE for markdown support and Highlight.js for syntax highlighting. All data is persisted through a relational SQL database accessed via the HBO-ICT Cloud API.
 
+**Live demo:** [forum-sigma-one.vercel.app](https://forum-sigma-one.vercel.app)
 
-## Hoe is deze repository ingericht
+## Features
 
-- Story-board. Via het menu links (Plan > Issues) vind je alle user stories.
-- Broncode in de map `src` (Repository). Dit is een kale webapplicatie. Deze moet jij aanpassen.
-- Documentatie in de map `docs` (Repository). In de docs vind je alle informatie en hou je jullie gezamenlijke documentatie bij voor dit project.
+- User registration and session-based authentication
+- Post coding questions with embedded code snippets
+- Answer questions and rate both questions and answers (upvote/downvote)
+- Tag questions with a programming language
+- Filter by date, expertise level, or answer status
+- Markdown support with syntax highlighting
+- MVC architecture pattern
 
-## Project setup
+## Tech Stack
 
-1. Installeer Visual Studio Code, deze kun je downloaden via https://code.visualstudio.com/.
+| Layer | Technology |
+|-------|-----------|
+| Language | TypeScript |
+| Build Tool | Vite |
+| Markdown | Marked, EasyMDE |
+| Syntax Highlighting | Highlight.js |
+| Database | SQL (HBO-ICT Cloud API) |
+| Styling | CSS |
 
-2. Installeer de volgende plugins voor Visual Studio Code. Dit kan via de browser, of vanuit Visual Studio Code zelf in de `Extensions` sectie van de linker menubalk:
-    - ESLint: https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
-    - EditorConfig: https://marketplace.visualstudio.com/items?itemName=editorconfig.editorconfig
+## Getting Started
 
-3. Installeer NodeJS, deze kun je voor jouw systeem downloaden via https://nodejs.org/en/download/prebuilt-installer. 
-   - **Let op!** Installeer versie `20.x.x`!
+### Prerequisites
 
-4. Installeer Git, voor uitleg zie de [knowledgebase](https://knowledgebase.hbo-ict-hva.nl/1_beroepstaken/software/manage_and_control/git/installeren/git_installeren/#git-installeren).
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [Node.js](https://nodejs.org/) (version `20.x.x`)
+- [Git](https://git-scm.com/)
 
-5. Configureer Git, voor uitleg zie de [knowledgebase](https://knowledgebase.hbo-ict-hva.nl/1_beroepstaken/software/manage_and_control/git/installeren/git_installeren/#git-configureren).
+### Recommended VS Code Extensions
 
-6. Maak een SSH key aan en koppel deze aan GitLab, voor uitleg zie de [knowledgebase](https://knowledgebase.hbo-ict-hva.nl/1_beroepstaken/software/manage_and_control/git/installeren/git_installeren/#git-koppelen-aan-gitlab).
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [EditorConfig](https://marketplace.visualstudio.com/items?itemName=editorconfig.editorconfig)
 
-7. Clone dit project met Git naar je computer, dit kan je via de terminal doen met een `git clone` commando, vanuit Visual Studio Code zelf of met een visueel programma als Fork (https://git-fork.com/).
+### Installation
 
-8. Open na het clonen de map in Visual Studio Code met `File > Open Folder...`.
+```bash
+git clone https://github.com/MEvan774/Forum.git
+cd Forum
+npm install
+npm run dev
+```
 
-9. Ga in de menubalk naar `View > Open View...` en zoek naar "NPM". Als je nu in de `Explorer` sectie van de linker menubalk op de `package.json` klikt, krijg je een extra paneel erbij met de naam "NPM Scripts". 
+The app will be available at `http://127.0.0.1:3000`. Changes are hot-reloaded via Vite.
 
-10. In het "NPM Scripts"-paneel, klik met rechts op `package.json` en klik op `Run Install`, of voer handmatig `npm install` in een terminal uit.
+## Project Structure
 
-11. Klik nu op de pijl achter `dev`, of voer handmatig `npm run dev` in een termimal uit.
-    - Via de build tool [Vite](https://vitejs.dev/) wordt er een lokale server opgestart. Als je de URL uit de terminal (als het goed is: http://127.0.0.1:3000) in de browser opent, zie je de webapplicatie. Wijzigingen die je maakt in de code worden nu realtime (direct) herladen!
+```
+Forum/
+├── src/           # Application source code
+├── wwwroot/       # Static files and index.html
+├── docs/          # Project documentation
+├── vite.config.ts # Vite build configuration
+├── tsconfig.json  # TypeScript configuration
+└── package.json
+```
 
-12. Bekijk de map `wwwroot` en ga op zoek naar de index.html bestand.
+## What I Learned
 
-## Technical and process documentation
+- MVC pattern implementation in a web application
+- Session-based authentication and user management
+- Collaborative Git workflows and code reviews
+- Iterating on UI through guerrilla user testing
+- Working with relational databases via API layers
 
-1 [Documentation index](/docs/index.md)
+## Documentation
 
-## Studiehandleiding
-
-In de Studiehandleiding op de DLO staat beschreven welke competenties je gaat ontwikkelen en wat de leeruitkomsten zijn voor dit blok.
+See the [docs folder](docs/index.md) for technical and process documentation.
