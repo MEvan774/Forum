@@ -97,6 +97,6 @@ export class EditProfileController extends Controller {
         await User.updateUserData(this._currentUser.id, this._nameInput.value, imageLink,
             this._professionInput.value, Number(this._yearsExpertiseInput.value), birthDateValue);
         User.setCurrentlyLoggedInUser(this._nameInput.value, this._currentUser.id, imageLink);
-        window.location.href = "http://localhost:3000/index.html";
+        window.location.href = "/index.html";
     }
 }
